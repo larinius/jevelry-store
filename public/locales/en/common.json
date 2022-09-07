@@ -1,0 +1,9 @@
+{
+  "h1": "A simple example",
+  "change-locale": "Change locale to \"{{changeTo}}\"",
+  "to-second-page": "To second page",
+  "error-with-status": "A {{statusCode}} error occurred on server",
+  "error-without-status": "An error occurred on the server",
+  "title": "Home",
+  "loremIpsum": "Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content."
+}
