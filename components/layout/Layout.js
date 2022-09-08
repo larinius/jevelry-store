@@ -1,4 +1,3 @@
-import Nav from '../ui/Nav'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'

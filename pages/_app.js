@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
-import Layout from '../components/layout/Layout'
+import SSRProvider from "react-bootstrap/SSRProvider";
+import Layout from "../components/layout/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
 
@@ -13,14 +14,18 @@ function MyApp({ Component, pageProps }) {
     document.documentElement.dir = dir;
   }, [dir]);
 
+  useEffect(() => {
+    import("bootstrap/dist/css/bootstrap.min.css");
+  }, []);
   // return <Component {...pageProps} />;
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  )
-
+    <SSRProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SSRProvider>
+  );
 }
 
 export default appWithTranslation(MyApp);
