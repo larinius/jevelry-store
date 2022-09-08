@@ -11,5 +11,8 @@
   "home": "Home",
   "about": "About us",
   "store": "Store",
-  "contacts": "Contacts"
+  "contacts": "Contacts",
+  "contactsHeader": "Contacts",
+  "aboutusHeader": "About us",
+  "storeHeader": "Jewelry Catalog"
 }

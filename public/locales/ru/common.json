@@ -11,6 +11,9 @@
   "home": "Главная",
   "about": "О нас",
   "store": "Каталог",
-  "contacts": "Контакты"
+  "contacts": "Контакты",
+  "contactsHeader": "Наши контакты",
+  "aboutusHeader": "О нас",
+  "storeHeader": "Каталог изделий"
 
 }

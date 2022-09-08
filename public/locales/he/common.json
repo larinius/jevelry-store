@@ -11,5 +11,8 @@
   "home": "דף הבית",
   "about": "אודותינו",
   "store": "חֲנוּת",
-  "contacts": "אנשי קשר"
+  "contacts": "אנשי קשר",
+  "contactsHeader": "אנשי קשר",
+  "aboutusHeader": "אודותינו",
+  "storeHeader": "חֲנוּת"
 }
