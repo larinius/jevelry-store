@@ -1,6 +1,6 @@
-.header {
+/* .header {
   display: flex;
-  /* flex: 1; */
+
   flex-grow:inherit;
   flex-direction: row;
   padding: 1rem 0 1rem 0;
@@ -27,4 +27,4 @@
   align-items: center;
   flex-grow: 1;
 }
-
+ */

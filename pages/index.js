@@ -4,8 +4,6 @@ import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import styles from "../styles/Home.module.css";
-import { Header } from "../components/layout/Header";
-import { Footer } from "../components/layout/Footer";
 
 import LanguageSwitcher from "../components/ui/LanguageSwitcher";
 
@@ -22,22 +20,7 @@ export default function Home() {
   const changeTo = router.locale === "en" ? "he" : "en";
 
   return (
-    // <div className={styles.container}>
-    //   <main className={styles.main}>
-    //     <LanguageSwitcher />
-    //     <br></br>
-    //     <h1>{t("title")}</h1>
-
-    //     <p>
-    //     {t("loremIpsum")}
-    //     </p>
-
-    //   </main>
-
-    //   <footer className={styles.footer}>FOOTER</footer>
-    // </div>
     <>
-      {/* <LanguageSwitcher /> */}
       <br></br>
       <h1>{t("title")}</h1>
       <p>{t("loremIpsum")}</p>

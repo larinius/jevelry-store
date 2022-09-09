@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import SSRProvider from "react-bootstrap/SSRProvider";
+import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Layout from "../components/layout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <SSRProvider>
       <Layout>
-        <Component {...pageProps} />
+        <ThemeProvider dir={dir}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Layout>
     </SSRProvider>
   );

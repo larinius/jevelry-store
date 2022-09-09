@@ -14,7 +14,7 @@ const Navigation = () => {
   let home = t("home");
 
   return (
-    <Fragment>
+    <div className="col-lg-6 position-static">
       <Navbar>
         <Container>
           <Link href="/" passHref>
@@ -46,7 +46,7 @@ const Navigation = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </Fragment>
+    </div>
   );
 };
 

@@ -7,13 +7,13 @@ const Layout = ({ children }) => {
   return (
     <>
       <Meta />
-      <div className={styles.container}>
+      <>
         <Header/>
-        <main className={styles.main}>
+        <main>
           {children}
         </main>
         <Footer/>
-      </div>
+      </>
     </>
   )
 }
