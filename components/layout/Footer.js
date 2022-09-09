@@ -9,9 +9,8 @@ const Footer = () => {
   const { t } = useTranslation("common");
 
   return (
-    <footer className="footer-widget-area">
-      {/* <p>{t("footerContent")}</p> */}
-
+    <footer className={styles.footer}>
+      
       <div className="footer-top section-padding">
             <div className="container">
                 <div className="row">
