@@ -4,6 +4,7 @@ import SSRProvider from "react-bootstrap/SSRProvider";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Layout from "../components/layout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "../styles/globals.css";
 import "../styles/Theme.css";
 import { appWithTranslation } from "next-i18next";

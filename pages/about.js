@@ -7,13 +7,13 @@ function about(props) {
 
   return (
     <>
-      <section class="about-us section-padding">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-7">
-              <div class="about-content">
-                <h2 class="about-title">{t("aboutusHeader")}</h2>
-                <h5 class="about-sub-title">{t("aboutUsP1")}</h5>
+      <section className="about-us section-padding">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-7">
+              <div className="about-content">
+                <h2 className="about-title">{t("aboutusHeader")}</h2>
+                <h5 className="about-sub-title">{t("aboutUsP1")}</h5>
                 <p>{t("aboutUsP2")}</p>
                 <p>{t("aboutUsP3")}</p>
               </div>
