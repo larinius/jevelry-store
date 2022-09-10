@@ -18,7 +18,7 @@ const Footer = () => {
                 <div className="widget-title">
                   <div className="widget-logo">
                     <a href="index.html">
-                      <Image src="./img/logo/logo.png" alt="brand logo" />
+                      <Image src="/static/img/logo/logo.png" alt="brand logo" />
                     </a>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ const Footer = () => {
             </div>
             <div className="col-md-6">
               <div className="footer-payment">
-                <Image src="./img/payment.png" alt="payment method" />
+                <Image src="/static/img/payment.png" alt="payment method" />
               </div>
             </div>
           </div>

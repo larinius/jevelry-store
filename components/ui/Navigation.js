@@ -20,7 +20,7 @@ const Navigation = () => {
           <Link href="/" passHref>
             <Navbar.Brand href="/">
               <Image
-                src="/../public/logo.png"
+                src="/static/img/logo/logo.png"
                 alt="Site logo"
                 width={200}
                 height={44}
