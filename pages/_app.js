@@ -25,11 +25,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <SSRProvider>
-      <Layout>
-        <ThemeProvider dir={dir}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Layout>
+        <Layout>
+          <ThemeProvider dir={dir}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </Layout>
     </SSRProvider>
   );
 }

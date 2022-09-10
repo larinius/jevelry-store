@@ -1,9 +1,13 @@
 import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
+import BreadcrumbArea from "../components/ui/BreadcrumbArea";
+
 
 function about(props) {
   const { t } = useTranslation("common");
+
+
 
   return (
     <>
