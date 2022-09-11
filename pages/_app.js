@@ -7,7 +7,6 @@ import Layout from "../components/layout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import "../styles/font-face.css";
-
 import "../styles/Theme.css";
 import { appWithTranslation } from "next-i18next";
 
@@ -25,11 +24,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <SSRProvider>
-        <Layout>
-          <ThemeProvider dir={dir}>
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </Layout>
+      <Layout>
+        <ThemeProvider dir={dir}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Layout>
     </SSRProvider>
   );
 }
