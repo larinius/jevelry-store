@@ -15,37 +15,31 @@ const Navigation = () => {
 
   return (
     <div className="col-lg-6 position-static">
-      <Navbar>
-        <Container>
-          <Link href="/" passHref>
-            <Navbar.Brand href="/">
-              <Image
-                src="/static/img/logo/logo.png"
-                alt="Site logo"
-                width={200}
-                height={44}
-              />
-            </Navbar.Brand>
-          </Link>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Link href="/" passHref>
-                <Nav.Link>{home}</Nav.Link>
-              </Link>
-              <Link href="/store" passHref>
-                <Nav.Link>{t("store")}</Nav.Link>
-              </Link>
-              <Link href="/about" passHref>
-                <Nav.Link>{t("about")}</Nav.Link>
-              </Link>
-              <Link href="/contacts" passHref>
-                <Nav.Link>{t("contacts")}</Nav.Link>
-              </Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <div className="main-menu-area">
+        <div className="main-menu">
+          <Navbar>
+            <Container>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="desktop-menu">
+                  <Link href="/" passHref>
+                    <Nav.Link>{home}</Nav.Link>
+                  </Link>
+                  <Link href="/store" passHref>
+                    <Nav.Link>{t("store")}</Nav.Link>
+                  </Link>
+                  <Link href="/about" passHref>
+                    <Nav.Link>{t("about")}</Nav.Link>
+                  </Link>
+                  <Link href="/contacts" passHref>
+                    <Nav.Link>{t("contacts")}</Nav.Link>
+                  </Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </div>
+      </div>
     </div>
   );
 };
