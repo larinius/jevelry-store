@@ -12,8 +12,8 @@ const HeaderMain = () => {
     <div className="header-main-area sticky">
       <Container>
         <Row className="align-items-center position-relative">
-          <div class="col-lg-2">
-            <div class="logo">
+          <div className="col-lg-2">
+            <div className="logo">
               <a href="/">
                 <Image
                   src="/static/img/logo/logo.png"

@@ -1,26 +1,24 @@
-import React from 'react';
+import React from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import ProductCatalog from '../components/ui/Catalog';
+import ProductCatalog from "../components/ui/ProductCatalog";
 
 function store(props) {
   const { t } = useTranslation("common");
 
-    return (
-        <div>
-          <h1>{t("storeHeader")}</h1>
-          <ProductCatalog/>
-        </div>
-    );
+  return (
+    <>
+      <ProductCatalog />
+    </>
+  );
 }
 
 export default store;
 
 export async function getStaticProps({ locale }) {
-    return {
-      props: {
-        ...(await serverSideTranslations(locale, ["common"])),
-      },
-    };
-  }
-  
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}

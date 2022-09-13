@@ -8,23 +8,16 @@ export const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     getProducts();
-    
   }, []);
 
-  const BASE_URL =
-    "https://LDGYjcpIMDmRAnWFTsPrqygUP1hlOVmXQwh4lywX:x@dimenshteyn.salesbinder.com/api/2.0";
-  const USERNAME = "LDGYjcpIMDmRAnWFTsPrqygUP1hlOVmXQwh4lywX";
-  const PASSWORD = "x";
-
   const client = axios.create({
-    baseURL: { BASE_URL } + "/items.json",
-    auth: {
-      username: USERNAME,
-      password: PASSWORD,
+    baseURL: "/api/product",
+    headers: {
+      "Content-type": "application/json",
     },
   });
 
-  const getProducts = async () => {
+  function getProducts (){
     client.get().then((response) => {
       setProducts(response.data);
     });
@@ -41,4 +34,4 @@ export const ProductProvider = ({ children }) => {
   );
 };
 
-export default ProductProvider;
+export default ProductContext;

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import SSRProvider from "react-bootstrap/SSRProvider";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Layout from "../components/layout/Layout";
-
+import ProductContext, { ProductProvider } from "../components/context/ProductContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import "../styles/font-face.css";
@@ -26,7 +26,9 @@ function MyApp({ Component, pageProps }) {
     <SSRProvider>
       <Layout>
         <ThemeProvider dir={dir}>
-          <Component {...pageProps} />
+          <ProductProvider>
+            <Component {...pageProps} />
+          </ProductProvider>
         </ThemeProvider>
       </Layout>
     </SSRProvider>
