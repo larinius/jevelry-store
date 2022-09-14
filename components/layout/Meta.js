@@ -10,7 +10,7 @@ function Meta({ title, keywords, description }) {
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <meta name='description' content={description} />
       <meta charSet='utf-8' />
-      <link rel='icon' href='/favicon.ico' type="image/png" />
+      <link rel='icon' href='/static/favicon.ico' type="image/png" />
       <title>{title}</title>
     </Head>
   </Fragment>

@@ -11,14 +11,12 @@ const OpenStreetMapArea = () => {
     height: "100vh",
   });
 
-  // const MAPBOX_KEY=process.env.MAPBOX_KEY;
-
   return (
     <>
       <Container className="pb-5">
         <ReactMapGL
           {...viewport}
-          mapboxAccessToken="pk.eyJ1IjoiZG1pdHJ5Z3J1bnQiLCJhIjoiY2w3d2pqa3RtMG05cjN4bWd6Z280MmZwdiJ9.RMnd54iZC7H8Jnmb1_jAAQ"
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_KEY}
           style={{ width: "100%", height: 400 }}
           mapStyle="mapbox://styles/mapbox/streets-v9"
         />

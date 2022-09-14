@@ -1,62 +1,61 @@
-const products = [
-  { id: 1, name: "one", img: "/static/img/product/product-1.jpg" },
-  { id: 2, name: "two", img: "/static/img/product/product-1.jpg" },
-  { id: 3, name: "three", img: "/static/img/product/product-1.jpg" },
-  { id: 4, name: "four", img: "/static/img/product/product-1.jpg" },
-  { id: 5, name: "five", img: "/static/img/product/product-1.jpg" },
-  { id: 6, name: "six", img: "/static/img/product/product-1.jpg" },
-  { id: 7, name: "seven", img: "/static/img/product/product-1.jpg" },
-  { id: 8, name: "eight", img: "/static/img/product/product-1.jpg" },
-  { id: 9, name: "nine", img: "/static/img/product/product-1.jpg" },
-];
+import axios from "axios";
+import cache from "memory-cache";
 
 export default async function handler(req, res) {
-  const p = await fetchProducts();
+  const url = "/items.json";
+  const p = await cachedFetch(url);
 
+  console.log(p);
   res.status(200).json(p);
 }
 
-async function fetchProducts() {
-  //   products = [];
-
-  const BASE_URL =
-    "https://LDGYjcpIMDmRAnWFTsPrqygUP1hlOVmXQwh4lywX:x@dimenshteyn.salesbinder.com/api/2.0";
-  const USERNAME = "LDGYjcpIMDmRAnWFTsPrqygUP1hlOVmXQwh4lywX";
-  const PASSWORD = "x";
-
-  const encodedBase64Token = Buffer.from(`${USERNAME}:${PASSWORD}`).toString(
+const fetchProducts = async (url) => {
+  const BASE_URL = process.env.API_BASE_URL;
+  const USERNAME = process.env.API_USERNAME;
+  const PASSWORD = process.env.API_PASSWORD;
+  const encodedToken = Buffer.from(`${USERNAME}:${PASSWORD}`).toString(
     "base64"
   );
 
-  const authorization = `Basic ${encodedBase64Token}`;
-
-  const response = await axios({
-    url: { BASE_URL } + "/items.json",
-    method: "get",
-    headers: {
-      Authorization: authorization,
+  const r = await axios.get(BASE_URL + url, {
+    auth: {
+      username: USERNAME,
+      password: PASSWORD,
     },
-    data: {}, // Request Body if you have
   });
 
-  // console.log("Fetching data")
-  // const client = axios.create({
-  //   baseURL: { BASE_URL } + "/items.json",
-  //   auth: {
-  //     username: USERNAME,
-  //     password: PASSWORD,
-  //   },
-  // });
+  // return r.data.items[0];
 
-  //   const r = client.get();
-  //   console.log(r);
-  //   const result = {
-  //     status: r.status + "-" + res.statusText,
-  //     headers: r.headers,
-  //     data: r.data,
-  //   };
+  let items = r.data.items[0];
 
-  //   console.log(result.data);
+  for (
+    let page = parseInt(r.data.page);
+    page < parseInt(r.data.pages);
+    page++
+  ) {
+    const r = await axios.get(BASE_URL + url + `?page=${page + 1}`, {
+      auth: {
+        username: USERNAME,
+        password: PASSWORD,
+      },
+    });
 
-  return products;
-}
+    const chunk = r.data.items[0];
+
+    items.push(...chunk);
+  }
+
+  return items;
+};
+
+const cachedFetch = async (url) => {
+  const cachedResponse = cache.get(url);
+  if (cachedResponse) {
+    return cachedResponse;
+  } else {
+    const minutes = 5;
+    const data = await fetchProducts(url);
+    cache.put(url, data, minutes * 60000);
+    return data;
+  }
+};

@@ -1,19 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import ProductContext from "../context/ProductContext";
 import Image from "next/image";
+import ImageGallery from "react-image-gallery";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 function ProductCard({ product }) {
-  console.log(product);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  let images = [];
+
+  product.images.forEach((element) => {
+    images.push({
+      original: element.url_original,
+      thumbnail: element.url_small,
+    });
+  });
+
   return (
     <>
       <div className="col-md-4 col-sm-6">
         <div className="product-item">
           <figure className="product-thumb">
-            <a href="#">
+            <a onClick={handleShow}>
               <Image
                 className="pri-img"
-                src={product.img}
+                src={product.images[0].url_medium}
                 alt={product.name}
                 width={350}
                 height={350}
@@ -23,16 +39,29 @@ function ProductCard({ product }) {
           <div className="product-caption text-center">
             <div className="product-identity">
               <p className="manufacturer-name">
-                <a href="product-details.html">{product.name}</a>
+                <a>Gold Jewelry</a>
               </p>
             </div>
 
             <h6 className="product-name">
-              <a href="product-details.html">Perfect Diamond Jewelry</a>
+              <a>{product.name}</a>
             </h6>
           </div>
         </div>
       </div>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        animation={true}
+        size="lg"
+        centered
+        className={show ? "show" : ""}
+      >
+        <Modal.Header closeButton>{product.name}</Modal.Header>
+        <Modal.Body>
+          <ImageGallery items={images} lazyLoad={false} showPlayButton={false} isRTL={false} showIndex={false}/>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

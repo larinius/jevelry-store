@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import "../styles/font-face.css";
 import "../styles/Theme.css";
+import "react-image-gallery/styles/scss/image-gallery.scss";
+import "../styles/custom.css"
 import { appWithTranslation } from "next-i18next";
 
 function MyApp({ Component, pageProps }) {
