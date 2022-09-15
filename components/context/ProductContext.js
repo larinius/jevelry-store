@@ -5,21 +5,29 @@ const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [productsPage, setProductsPage] = useState([]);
-  const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(13);
+  const [currentProducts, setCurrentProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
+  const pageCount = Math.ceil(products.length / productsLimit);
 
   useEffect(() => {
     getProducts();
-
-    const items = products.slice(start, end);
-    setProductsPage(items);
   }, []);
 
   useEffect(() => {
-    const items = products.slice(start, end);
-    setProductsPage(items);
-  }, [start, end]);
+    if (products != null && products.length > 0) {
+      const pp = splitByPages(products, productsLimit, 1);
+      setCurrentProducts(pp);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    const limit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
+
+    const items = splitByPages(products, limit, currentPage);
+
+    setCurrentProducts(items);
+  }, [currentPage]);
 
   const client = axios.create({
     baseURL: "/api/product",
@@ -27,6 +35,18 @@ export const ProductProvider = ({ children }) => {
       "Content-type": "application/json",
     },
   });
+
+  const splitByPages = (arr, limit, page) => {
+    let pProducts = [];
+
+    for (let i = 0; i < arr.length; i += limit) {
+      let tempArray;
+      tempArray = arr.slice(i, i + limit);
+      pProducts.push(tempArray);
+    }
+
+    return pProducts[page - 1];
+  };
 
   function getProducts() {
     client.get().then((response) => {
@@ -38,9 +58,9 @@ export const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         products,
-        productsPage,
-        setStart,
-        setEnd,
+        currentProducts,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

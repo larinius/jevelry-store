@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   const url = "/items.json";
   const p = await cachedFetch(url);
 
-  console.log(p);
   res.status(200).json(p);
 }
 
