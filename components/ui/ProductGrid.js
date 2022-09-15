@@ -4,16 +4,16 @@ import Image from "next/image";
 import ProductCard from "./ProductCard";
 
 const ProductGrid = () => {
-  const { products } = useContext(ProductContext);
-  console.log(products);
+  const { productsPage } = useContext(ProductContext);
+  console.log(productsPage);
   return (
     <>
       <div className="col-lg-12">
         <div className="shop-product-wrapper">
           <div className="shop-product-wrap grid-view row mbn-30">
             
-            {Array.isArray(products)?
-            products.map((item) => (
+            {Array.isArray(productsPage)?
+            productsPage.map((item) => (
               <ProductCard key={item.id} product={item} />
             )):null}
           </div>
