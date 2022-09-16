@@ -18,7 +18,7 @@ const send = async (data) => {
     port: 587,
     auth: {
       user: process.env.GMAIL_USER,
-      pass: GMAIL_APP_PASS,
+      pass: process.env.GMAIL_APP_PASS,
     },
     debug: false, // show debug output
     logger: false, // log information in console
