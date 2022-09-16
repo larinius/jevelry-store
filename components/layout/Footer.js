@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useTranslation, Trans } from "next-i18next";
 import styles from "../../styles/Footer.module.css";
 import * as Icon from "react-bootstrap-icons";
+import Subscribe from "../Subscribe";
 
 const Footer = () => {
   const { t } = useTranslation("common");
@@ -89,13 +90,13 @@ const Footer = () => {
                 <h6 className="widget-title">Follow Us</h6>
                 <div className="widget-body social-link">
                   <a href="#">
-                    <Icon.Facebook size={25}/>
+                    <Icon.Facebook size={25} />
                   </a>
                   <a href="#">
-                  <Icon.Instagram size={25}/>
+                    <Icon.Instagram size={25} />
                   </a>
                   <a href="#">
-                  <Icon.Youtube size={25}/>
+                    <Icon.Youtube size={25} />
                   </a>
                 </div>
               </div>
@@ -103,19 +104,7 @@ const Footer = () => {
           </div>
           <div className="row align-items-center mt-20">
             <div className="col-md-6">
-              <div className="newsletter-wrapper">
-                <h6 className="widget-title-text">Signup for newsletter</h6>
-                {/* <form className="newsletter-inner" id="mc-form">
-                                <Form type="email" className="news-field" id="mc-email" autocomplete="off" placeholder="Enter your email address">
-                                <button className="news-btn" id="mc-submit">Subscribe</button>
-                            </form> */}
-
-                <div className="mailchimp-alerts">
-                  <div className="mailchimp-submitting"></div>
-                  <div className="mailchimp-success"></div>
-                  <div className="mailchimp-error"></div>
-                </div>
-              </div>
+              <Subscribe />
             </div>
             <div className="col-md-6">
               <div className="footer-payment">
