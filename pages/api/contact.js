@@ -1,13 +1,10 @@
 const nodemailer = require("nodemailer");
 
 export default async function handler(req, res) {
-
   const data = req.body;
 
-  console.log("body: ", data);
-
   if (!data.email || !data.message) {
-    return res.status(400).json({ error: "Email and text are required."});
+    return res.status(400).json({ error: "Email and text are required." });
   }
 
   await send(data);
@@ -16,29 +13,36 @@ export default async function handler(req, res) {
 }
 
 const send = async (data) => {
-
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    service: "gmail",
     port: 587,
     auth: {
-      user: "herbert.hilll40@ethereal.email",
-      pass: "YSeuDRdJYE3K3Q2cNr",
+      user: process.env.GMAIL_USER,
+      pass: GMAIL_APP_PASS,
     },
+    debug: false, // show debug output
+    logger: false, // log information in console
   });
+
+  const msg = `Message from contact form on "dimenshteyn.co.il"
+
+  From: ${data.name} ${data.email}
+  Tel: ${data.phone}
+
+  ${data.message}`;
 
   const mailOptions = {
     from: data.email,
-    to: 'herbert.hilll40@ethereal.email',
+    to: process.env.GMAIL_USER,
     subject: data.subject,
-    text: data.message
+    text: msg,
   };
 
-
-transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error);
+      // console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      // console.log("Email sent: " + info.response);
     }
   });
-}
+};
