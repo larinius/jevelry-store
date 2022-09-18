@@ -12,27 +12,27 @@ const CategoryFilter = () => {
         <ul className="shop-categories">
           <li>
             <a href="/store/rings">
-            {t("rings")} <span>(10)</span>
+            {t("rings")} 
             </a>
           </li>
           <li>
             <a href="/store/earrings">
-            {t("earrings")} <span>(5)</span>
+            {t("earrings")} 
             </a>
           </li>
           <li>
             <a href="/store/pendants">
-            {t("pendants")} <span>(8)</span>
+            {t("pendants")} 
             </a>
           </li>
           <li>
             <a href="/store/chains">
-            {t("chains")} <span>(4)</span>
+            {t("chains")} 
             </a>
           </li>
           <li>
-            <a href="/store/braselets">
-            {t("braselets")} <span>(5)</span>
+            <a href="/store/bracelets">
+            {t("bracelets")} 
             </a>
           </li>
         </ul>

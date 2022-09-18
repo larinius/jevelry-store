@@ -5,6 +5,7 @@ const localePath = path.resolve("./public/locales");
 module.exports = {
   debug: process.env.NODE_ENV === "development",
   i18n: {
+    debug: false,
     locales: ["en", "he", "ru"],
     defaultLocale: "en",
     localeDetection: false,

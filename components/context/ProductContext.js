@@ -9,27 +9,18 @@ export const ProductProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
   const pageCount = Math.ceil(products.length / productsLimit);
-  const [category, setCategory] = useState('all');
+  const [category, setCategory] = useState('gold');
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
 
   useEffect(() => {
-    getProducts();
+    getProducts(category);
     getCategories();
   }, []);
 
-  useEffect(() => {
-    
+  useEffect(() => {    
 
-console.log("SEARCHING", category);
-    const cat = categories.find(c => c.name.toLowerCase() === category);
-    setCurrentCategory(cat);
-    // console.log(cat);
-
-    const p = products.filter(p => p.category.id === cat.id);
-    console.log("FOUND", p.length);
-    setProducts(p);
-    console.log(p);
+    getProducts(category);
 
   }, [category]);
 
@@ -68,8 +59,8 @@ console.log("SEARCHING", category);
     return pProducts[page - 1];
   };
 
-  function getProducts() {
-    client.get("/product").then((response) => {
+  function getProducts(category) {
+    client.get(`/product?category=${category}`).then((response) => {
       setProducts(response.data);
     });
   }

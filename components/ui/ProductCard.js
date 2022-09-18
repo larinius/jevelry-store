@@ -20,16 +20,16 @@ function ProductCard({ product }) {
     });
   });
 
-  const [thumb, setThumb] = useState(product.images[0].url_medium);
+  const [thumb, setThumb] = useState(product.images[0].url_small);
   const [thumbClass, setClass] = useState("pri-img");
 
   const showSecThumb = () => {
-    setThumb(product.images[1].url_medium);
+    setThumb(product.images[1].url_small);
     setClass("sec-img");
   };
 
   const showPriThumb = () => {
-    setThumb(product.images[0].url_medium);
+    setThumb(product.images[0].url_small);
     setClass("pri-img");
   };
 
