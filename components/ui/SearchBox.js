@@ -1,10 +1,4 @@
 import React from "react";
-// import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-// import InputGroup from "react-bootstrap/InputGroup";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
 import * as Icon from "react-bootstrap-icons";
 
 import { useTranslation, Trans } from "next-i18next";

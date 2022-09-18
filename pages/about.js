@@ -1,13 +1,11 @@
 import React from "react";
+import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
 import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
-
 function about(props) {
   const { t } = useTranslation("common");
-
-
 
   return (
     <>
@@ -31,10 +29,23 @@ function about(props) {
 
 export default about;
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale, req, res }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      ...setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 }),
+      ...getCookie("test", { req, res }),
+      ...getCookies({ req, res }),
+      ...deleteCookie("test", { req, res }),
     },
   };
 }
+
+// export const getServerSideProps = ({ req, res }) => {
+//   setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 });
+//   getCookie("test", { req, res });
+//   getCookies({ req, res });
+//   deleteCookie("test", { req, res });
+
+//   return { props: {} };
+// };

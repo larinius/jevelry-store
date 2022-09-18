@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
-import ReactMapGL from "react-map-gl";
+import Map, { Marker } from "react-map-gl";
+import * as Icon from "react-bootstrap-icons";
 
 const OpenStreetMapArea = () => {
   const [viewport, setViewport] = useState({
@@ -13,14 +14,20 @@ const OpenStreetMapArea = () => {
 
   return (
     <>
-      <Container className="pb-5">
-        <ReactMapGL
-          {...viewport}
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_KEY}
-          style={{ width: "100%", height: 400 }}
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-        />
-      </Container>
+      <div id="google-map">
+        <Container className="pb-5">
+          <Map
+            {...viewport}
+            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_KEY}
+            style={{ width: "100%", height: 400 }}
+            mapStyle="mapbox://styles/mapbox/streets-v9"
+          >
+            <Marker longitude={34.888} latitude={32.325} anchor="bottom">
+              <Icon.GeoAltFill size={42} />
+            </Marker>
+          </Map>
+        </Container>
+      </div>
     </>
   );
 };

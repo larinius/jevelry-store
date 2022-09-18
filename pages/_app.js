@@ -12,6 +12,7 @@ import "react-image-gallery/styles/scss/image-gallery.scss";
 import "../styles/custom.css"
 import { appWithTranslation } from "next-i18next";
 
+
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
   const dir = locale === "he" ? "rtl" : "ltr";

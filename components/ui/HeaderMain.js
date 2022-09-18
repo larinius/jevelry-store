@@ -17,10 +17,10 @@ const HeaderMain = () => {
           <div className="col-lg-2">
             <Logo />
           </div>
-          <div className="col-lg-6 position-static">
+          <div className="col-lg-5 position-static">
             <Navigation />
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-5">
             <div className="header-right d-flex align-items-center justify-content-xl-between justify-content-lg-end">
               <SearchBox />
               <HeaderConfigureArea />
