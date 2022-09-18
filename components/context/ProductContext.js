@@ -9,7 +9,7 @@ export const ProductProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
   const pageCount = Math.ceil(products.length / productsLimit);
-  const [category, setCategory] = useState('gold');
+  const [category, setCategory] = useState("gold");
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
 
@@ -18,10 +18,8 @@ export const ProductProvider = ({ children }) => {
     getCategories();
   }, []);
 
-  useEffect(() => {    
-
+  useEffect(() => {
     getProducts(category);
-
   }, [category]);
 
   useEffect(() => {
@@ -79,7 +77,7 @@ export const ProductProvider = ({ children }) => {
         currentPage,
         currentCategory,
         setCurrentPage,
-        setCategory
+        setCategory,
       }}
     >
       {children}
