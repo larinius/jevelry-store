@@ -1,31 +1,46 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation, Trans } from "next-i18next";
-import Form from "react-bootstrap/Form";
-import styles from "../../styles/LanguageSwitcher.module.css";
+import { Form } from "react-bootstrap";
+import { useRouter } from "next/router";
 
 function LanguageSwitcher() {
   const router = useRouter();
   const { t } = useTranslation("common");
-
+  
+  const options = [
+    { value: "", text: t("language") },
+    { value: "en", text: "En" },
+    { value: "he", text: "עברית" },
+    { value: "ru", text: "Рус" },
+  ];
+  
+  const [language, setlanguage] = useState(options[0].value);
+  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onToggleLanguageClick = (newLocale) => {
+  const switchLang = (e) => {
+    e.preventDefault();
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
+    setlanguage(e.target.value);
+    console.log(e.target.value);
+    router.push({ pathname, query }, asPath, { locale: e.target.value });
   };
 
   return (
-    <div className="langSelector">
-      <Form.Select
-        size="sm"
-        onChange={(e) => onToggleLanguageClick(e.target.value)}
-      >
-        <option>Language</option>
-        <option value="he">עברית</option>
-        <option value="en">En</option>
-        <option value="ru">Рус</option>
-      </Form.Select>
-    </div>
+    <>
+      <li className="language">
+        <div className="langSelector">
+          <Form>
+            <Form.Select value={language} size="sm" onChange={switchLang}>
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </Form.Select>
+          </Form>
+        </div>
+      </li>
+    </>
   );
 }
 

@@ -2,3 +2,25 @@
 #contact-form .form-control {
   border-radius: 0 !important;
 }
+
+img, svg {
+  vertical-align: text-bottom;
+}
+
+.breadcrumb-wrap .breadcrumb .breadcrumb-item:before {
+  padding-top: 3px;
+}
+
+.language .form-select {
+  border: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.language .form-select:focus {
+
+  box-shadow: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+

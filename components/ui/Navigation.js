@@ -14,33 +14,36 @@ const Navigation = () => {
   let home = t("home");
 
   return (
-    <div className="col-lg-6 position-static">
+    <>
       <div className="main-menu-area">
         <div className="main-menu">
-          <Navbar>
-            <Container>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="desktop-menu">
-                  <Link href="/" passHref>
-                    <Nav.Link>{home}</Nav.Link>
-                  </Link>
-                  <Link href="/store" passHref>
-                    <Nav.Link>{t("store")}</Nav.Link>
-                  </Link>
-                  <Link href="/about" passHref>
-                    <Nav.Link>{t("about")}</Nav.Link>
-                  </Link>
-                  <Link href="/contacts" passHref>
-                    <Nav.Link>{t("contacts")}</Nav.Link>
-                  </Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
+          <nav className="desktop-menu">
+            <ul>
+              <li>
+                <Link href="/" passHref>
+                  {home}
+                </Link>
+              </li>
+              <li>
+                <Link href="/store" passHref>
+                  {t("store")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" passHref>
+                  {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contacts" passHref>
+                  {t("contacts")}
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

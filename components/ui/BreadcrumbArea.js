@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import * as Icon from "react-bootstrap-icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -49,12 +45,12 @@ const BreadcrumbArea = () => {
                     </li>
                     {breadcrumbs.map((breadcrumb, i) => {
                       return (
-                        <li key={breadcrumb.href}>
-                          <Link
-                            href={breadcrumb.href}
-                            className="breadcrumb-item active"
-                            aria-current="page"
-                          >
+                        <li
+                          key={breadcrumb.href}
+                          className="breadcrumb-item active"
+                          aria-current={t(breadcrumb.breadcrumb)}
+                        >
+                          <Link href={breadcrumb.href}>
                             <a>{t(breadcrumb.breadcrumb)}</a>
                           </Link>
                         </li>
