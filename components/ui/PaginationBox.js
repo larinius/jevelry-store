@@ -38,7 +38,6 @@ const PaginationBox = () => {
 
   return (
     <div className="paginatoin-area text-center">
-      <div className="paginatoin-area text-center">
         <ul className="pagination-box">
           <li
             onClick={() => {
@@ -64,7 +63,6 @@ const PaginationBox = () => {
             </a>
           </li>
         </ul>
-      </div>
     </div>
   );
 };

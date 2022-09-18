@@ -40,14 +40,14 @@ function ProductCard({ product }) {
           className={thumbClass}
           src={thumb}
           alt={product.name}
-          width={350}
-          height={350}
+          width={255}
+          height={255}
           onMouseOver={showSecThumb}
           onMouseLeave={showPriThumb}
         />
       );
     } else {
-      return <Image src={thumb} alt={product.name} width={350} height={350} />;
+      return <Image src={thumb} alt={product.name} width={255} height={255} />;
     }
   };
 

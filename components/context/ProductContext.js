@@ -9,15 +9,35 @@ export const ProductProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
   const pageCount = Math.ceil(products.length / productsLimit);
+  const [category, setCategory] = useState('all');
+  const [categories, setCategories] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState({});
 
   useEffect(() => {
     getProducts();
+    getCategories();
   }, []);
+
+  useEffect(() => {
+    
+
+console.log("SEARCHING", category);
+    const cat = categories.find(c => c.name.toLowerCase() === category);
+    setCurrentCategory(cat);
+    // console.log(cat);
+
+    const p = products.filter(p => p.category.id === cat.id);
+    console.log("FOUND", p.length);
+    setProducts(p);
+    console.log(p);
+
+  }, [category]);
 
   useEffect(() => {
     if (products != null && products.length > 0) {
       const pp = splitByPages(products, productsLimit, 1);
       setCurrentProducts(pp);
+      console.log(pp);
     }
   }, [products]);
 
@@ -30,7 +50,7 @@ export const ProductProvider = ({ children }) => {
   }, [currentPage]);
 
   const client = axios.create({
-    baseURL: "/api/product",
+    baseURL: "/api",
     headers: {
       "Content-type": "application/json",
     },
@@ -49,8 +69,14 @@ export const ProductProvider = ({ children }) => {
   };
 
   function getProducts() {
-    client.get().then((response) => {
+    client.get("/product").then((response) => {
       setProducts(response.data);
+    });
+  }
+
+  function getCategories() {
+    client.get("/category").then((response) => {
+      setCategories(response.data);
     });
   }
 
@@ -60,7 +86,9 @@ export const ProductProvider = ({ children }) => {
         products,
         currentProducts,
         currentPage,
+        currentCategory,
         setCurrentPage,
+        setCategory
       }}
     >
       {children}
