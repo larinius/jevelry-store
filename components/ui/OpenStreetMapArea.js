@@ -22,8 +22,8 @@ const OpenStreetMapArea = () => {
             style={{ width: "100%", height: 400 }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
           >
-            <Marker longitude={34.888} latitude={32.325} anchor="bottom">
-              <Icon.GeoAltFill size={42} />
+            <Marker longitude={34.888} latitude={32.3250} anchor="bottom">
+              <Icon.GeoAltFill size={42}/>
             </Marker>
           </Map>
         </Container>

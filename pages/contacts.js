@@ -11,7 +11,7 @@ const contacts = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div>
+    <div id="map-section">
       <div className="map-area section-padding">
         <OSMapNoSSR />
       </div>
