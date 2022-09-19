@@ -6,11 +6,14 @@ const OSMapNoSSR = dynamic(() => import("../components/ui/OpenStreetMapArea"), {
   ssr: false,
 });
 import ContactForm from "../components/ui/ContactForm";
+import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
 const contacts = () => {
   const { t } = useTranslation("common");
 
   return (
+    <>
+    <BreadcrumbArea/>
     <div id="map-section">
       <div className="map-area section-padding">
         <OSMapNoSSR />
@@ -19,6 +22,7 @@ const contacts = () => {
         <ContactForm />
       </div>
     </div>
+    </>
   );
 };
 

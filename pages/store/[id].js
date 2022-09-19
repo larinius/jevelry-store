@@ -9,7 +9,7 @@ import ProductGrid from "../../components/ui/ProductGrid";
 import Container from "react-bootstrap/Container";
 import PaginationBox from "../../components/ui/PaginationBox";
 import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
-
+import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
 
 const Category = ({ category }) => {
   const { currentProducts } = useContext(ProductContext);
@@ -21,6 +21,7 @@ const Category = ({ category }) => {
 
   return (
     <div>
+      <BreadcrumbArea />
       <div className="shop-main-wrapper section-padding">
         <Container>
           <Row>
@@ -43,7 +44,6 @@ export default Category;
 export async function getServerSideProps(context) {
   const { locale, req, res } = context;
   const category = context.params.id;
-  // console.log(context);
 
   return {
     props: {

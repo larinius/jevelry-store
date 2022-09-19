@@ -2,10 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
+import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import styles from "../styles/Home.module.css";
-
-import LanguageSwitcher from "../components/ui/LanguageSwitcher";
+import ServicePolicy from "../components/ui/ServicePolicy";
+import HomePageText from "../components/ui/HomePageText";
+import HomeMediumBanners from "../components/ui/HomeMediumBanners";
+import HomeSlider from "../components/ui/HomeSlider";
 
 export default function Home() {
   const router = useRouter();
@@ -21,17 +23,22 @@ export default function Home() {
 
   return (
     <>
-      <br></br>
-      <h1>{t("title")}</h1>
-      <p>{t("loremIpsum")}</p>
+      <HomeSlider/>
+      <ServicePolicy />
+      <HomeMediumBanners/>
+      <HomePageText/>
     </>
   );
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps({ locale, req, res }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      ...setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 }),
+      ...getCookie("test", { req, res }),
+      ...getCookies({ req, res }),
+      ...deleteCookie("test", { req, res }),
     },
   };
 }

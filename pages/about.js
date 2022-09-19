@@ -9,6 +9,7 @@ function about(props) {
 
   return (
     <>
+    <BreadcrumbArea/>
       <section className="about-us section-padding">
         <div className="container">
           <div className="row align-items-center">
@@ -40,12 +41,3 @@ export async function getServerSideProps({ locale, req, res }) {
     },
   };
 }
-
-// export const getServerSideProps = ({ req, res }) => {
-//   setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 });
-//   getCookie("test", { req, res });
-//   getCookies({ req, res });
-//   deleteCookie("test", { req, res });
-
-//   return { props: {} };
-// };
