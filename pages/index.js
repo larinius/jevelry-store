@@ -8,6 +8,7 @@ import ServicePolicy from "../components/ui/ServicePolicy";
 import HomePageText from "../components/ui/HomePageText";
 import HomeMediumBanners from "../components/ui/HomeMediumBanners";
 import HomeSlider from "../components/ui/HomeSlider";
+import ProductCarousel from "../components/ui/ProductCarousel";
 
 export default function Home() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function Home() {
       <HomeSlider/>
       <ServicePolicy />
       <HomeMediumBanners/>
+      <ProductCarousel/>
       <HomePageText/>
     </>
   );

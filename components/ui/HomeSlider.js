@@ -16,7 +16,7 @@ const HomeSlider = (props) => {
       <section className="slider-area">
         <Carousel activeIndex={index} onSelect={handleSelect}>
           <Carousel.Item>
-            <Image classNeme="d-block w-100"
+            <Image className="d-block w-100"
               src="/static/img/slider/home1-slide1.jpg"
               alt="Slide Image 1"
               width={1920}
@@ -30,7 +30,7 @@ const HomeSlider = (props) => {
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
-            <Image classNeme="d-block w-100"
+            <Image className="d-block w-100"
               src="/static/img/slider/home1-slide2.jpg"
               alt="Slide Image 1"
               width={1920}
@@ -44,7 +44,7 @@ const HomeSlider = (props) => {
             </Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
-            <Image classNeme="d-block w-100"
+            <Image className="d-block w-100"
               src="/static/img/slider/home1-slide3.jpg"
               alt="Slide Image 1"
               width={1920}

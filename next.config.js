@@ -4,5 +4,7 @@ module.exports = {
   i18n,
   images: {
     domains: ["cdn-v2.salesbinder.com"],
+    minimumCacheTTL: 3600
   },
 };
+

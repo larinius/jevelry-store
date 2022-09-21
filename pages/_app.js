@@ -5,10 +5,12 @@ import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Layout from "../components/layout/Layout";
 import ProductContext, { ProductProvider } from "../components/context/ProductContext";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "react-image-gallery/styles/scss/image-gallery.scss";
 import "../styles/globals.css";
 import "../styles/font-face.css";
 import "../styles/Theme.css";
-import "react-image-gallery/styles/scss/image-gallery.scss";
 import "../styles/custom.css"
 import { appWithTranslation } from "next-i18next";
 

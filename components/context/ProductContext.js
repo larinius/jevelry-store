@@ -9,24 +9,27 @@ export const ProductProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
   const pageCount = Math.ceil(products.length / productsLimit);
-  const [category, setCategory] = useState("gold");
+  const [category, setCategory] = useState("all");
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
 
   useEffect(() => {
-    getProducts(category);
+    getProductsAll();
     getCategories();
   }, []);
 
   useEffect(() => {
-    getProducts(category);
+    if (category === "all") {
+      getProductsAll();
+    } else {
+      getProducts(category);
+    }
   }, [category]);
 
   useEffect(() => {
     if (products != null && products.length > 0) {
       const pp = splitByPages(products, productsLimit, 1);
       setCurrentProducts(pp);
-      console.log(pp);
     }
   }, [products]);
 
@@ -59,6 +62,12 @@ export const ProductProvider = ({ children }) => {
 
   function getProducts(category) {
     client.get(`/product?category=${category}`).then((response) => {
+      setProducts(response.data);
+    });
+  }
+
+  function getProductsAll() {
+    client.get(`/product`).then((response) => {
       setProducts(response.data);
     });
   }
