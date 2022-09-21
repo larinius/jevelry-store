@@ -69,6 +69,7 @@ export const ProductProvider = ({ children }) => {
   function getProductsAll() {
     client.get(`/product`).then((response) => {
       setProducts(response.data);
+      setCurrentProducts(response.data);
     });
   }
 

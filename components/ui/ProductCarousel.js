@@ -12,8 +12,7 @@ const ProductCarousel = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // setProducts(currentProducts.slice(0,5));
-
+    
     const getData = async () => {
       try {
         const response = await axios.get(`/api/product`);
