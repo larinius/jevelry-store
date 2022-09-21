@@ -14,7 +14,7 @@ const HomeSlider = (props) => {
     <>
 
       <section className="slider-area">
-        <Carousel activeIndex={index} onSelect={handleSelect}>
+        <Carousel className="carousel-fade" activeIndex={index} onSelect={handleSelect}>
           <Carousel.Item>
             <Image className="d-block w-100"
               src="/static/img/slider/home1-slide1.jpg"

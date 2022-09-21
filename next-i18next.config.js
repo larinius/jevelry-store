@@ -3,14 +3,13 @@ const path = require("path");
 const localePath = path.resolve("./public/locales");
 
 module.exports = {
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === "production",
   i18n: {
-    debug: false,
     locales: ["en", "he", "ru"],
     defaultLocale: "en",
     localeDetection: false,
-    localePath: path.resolve("./public/locales"),
   },
-  localePath,
-  reloadOnPrerender: process.env.NODE_ENV === "development",
+  localePath: path.resolve("./public/locales"),
+  debug: false,
+  reloadOnPrerender: process.env.NODE_ENV === "production",
 };

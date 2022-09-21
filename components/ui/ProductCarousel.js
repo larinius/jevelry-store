@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import ProductContext from "../context/ProductContext";
 import axios from "axios";
-import Slider from "react-slick";
+// import Slider from "react-slick";
+import AliceCarousel from "react-alice-carousel";
+import * as Icon from "react-bootstrap-icons";
 
 import CarouselItem from "./CarouselItem";
 
@@ -11,15 +13,15 @@ const ProductCarousel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const handleDragStart = (e) => e.preventDefault();
 
+  useEffect(() => {
     // setProducts(currentProducts.slice(0,5));
 
     const getData = async () => {
       try {
-        const response = await axios.get(`/api/product`);
-        console.log(response.data.slice(0, 5));
-        setProducts(response.data.slice(0, 5));
+        const response = await axios.get(`/api/product`);        
+        setProducts(response.data.slice(0, 12));
       } catch (err) {
         console.log("Error fetching api");
       } finally {
@@ -29,15 +31,39 @@ const ProductCarousel = () => {
     getData();
   }, []);
 
-  const config = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+  const responsive = {
+    0: { items: 3 },
+    568: { items: 4 },
+    1024: { items: 5 },
   };
 
-  const [settings, setSettings] = useState(config);
+  const items = products.map((x, i) => {
+    return (
+      <div key={i} className="item">
+        <CarouselItem product={x} />
+      </div>
+    );
+  });
+
+  const Gallery = () => {
+    return (
+      <AliceCarousel        
+        items={items}
+        responsive={responsive}
+        controlsStrategy="default"
+        autoHeight={true}
+        infinite={true}
+        disableDotsControls={true}
+        mouseTracking={true}        
+        renderPrevButton={() => {
+          return <div className="arrow-left position-absolute start"><Icon.ArrowLeftCircle/></div>
+        }}
+        renderNextButton={() => {
+          return <div className="arrow-right position-absolute end"><Icon.ArrowRightCircle/></div>
+        }}
+      />
+    );
+  };
 
   return (
     <>
@@ -81,15 +107,7 @@ const ProductCarousel = () => {
                 <div className="tab-content">
                   <div className="tab-pane fade show active" id="tab1">
                     <div className="product-carousel-4 slick-row-10 slick-arrow-style">
-                      <Slider {...settings}>
-                        {products.map((x, i) => {
-                          return (
-                            <div key={i} className="img-card">
-                              <CarouselItem product={x} />
-                            </div>
-                          );
-                        })}
-                      </Slider>
+                      {Gallery()}
                     </div>
                   </div>
                   <div className="tab-pane fade" id="tab2">
