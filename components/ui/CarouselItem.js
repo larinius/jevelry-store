@@ -6,7 +6,7 @@ import ImageGallery from "react-image-gallery";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const CarouselItem = ({ product }) => {
+const CarouselItem = ( {product} ) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
