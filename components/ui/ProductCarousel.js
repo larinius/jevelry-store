@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import ProductContext from "../context/ProductContext";
 import axios from "axios";
-import Slider from "react-slick";
-
+import Slider from "@ant-design/react-slick";
+import { FaChevronLeft, FaChevronRight } from "react-icons";
 import CarouselItem from "./CarouselItem";
 
 const ProductCarousel = () => {
@@ -12,14 +12,13 @@ const ProductCarousel = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     // setProducts(currentProducts.slice(0,5));
 
     const getData = async () => {
       try {
         const response = await axios.get(`/api/product`);
-        console.log(response.data.slice(0, 5));
-        setProducts(response.data.slice(0, 5));
+
+        setProducts(response.data.slice(0, 12));
       } catch (err) {
         console.log("Error fetching api");
       } finally {
@@ -30,14 +29,37 @@ const ProductCarousel = () => {
   }, []);
 
   const config = {
-    dots: true,
     infinite: true,
-    speed: 500,
+    prevArrow: <PrevArrow/>,
+    nextArrow: <NextArrow/>,    
     slidesToShow: 4,
     slidesToScroll: 1,
   };
 
   const [settings, setSettings] = useState(config);
+
+  function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+      className={className}
+      style={{ ...style, display: "block"}}
+      onClick={onClick}
+    />
+    );
+  }
+
+  function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+      className={className}
+      style={{ ...style, display: "block"}}
+      onClick={onClick}
+    />
+
+    );
+  }
 
   return (
     <>

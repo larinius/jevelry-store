@@ -40,8 +40,8 @@ const CarouselItem = ( {product} ) => {
           className={thumbClass}
           src={thumb}
           alt={product.name}
-          width={255}
-          height={255}
+          width={250}
+          height={250}
           onMouseOver={showSecThumb}
           onMouseLeave={showPriThumb}
         />

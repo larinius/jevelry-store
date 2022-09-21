@@ -13,6 +13,7 @@
     "eslint-config-next": "12.2.5"
   },
   "dependencies": {
+    "@ant-design/react-slick": "^0.29.2",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "cookies-next": "^2.1.1",
@@ -26,9 +27,9 @@
     "react-bootstrap": "^2.5.0",
     "react-bootstrap-icons": "^1.8.4",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
     "react-image-gallery": "^1.2.9",
     "react-map-gl": "^7.0.19",
-    "react-slick": "^0.29.0",
     "sass": "^1.54.9",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
