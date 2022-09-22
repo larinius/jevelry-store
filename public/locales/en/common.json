@@ -23,10 +23,12 @@
   "language": "English",
   "categories": "Categories",
   "rings": "Rings",
-  "earrings": "earrings",
+  "earrings": "Earrings",
   "pendants": "Pendants",
   "chains": "Chains",
   "bracelets": "Bracelets",
-  "homeHeader": "Gold jewelry store"
+  "homeHeader": "Gold jewelry store",
+  "our products": "Our products",
+  "new products": "New collection of gold jewelry in our catalog."
 
 }

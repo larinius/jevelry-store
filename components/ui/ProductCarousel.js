@@ -7,15 +7,16 @@ import Carousel from "react-multi-carousel";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { Container, Row } from "react-bootstrap";
+import { useTranslation, Trans } from "next-i18next";
 
 const ProductCarousel = () => {
-  const { currentProducts } = useContext(ProductContext);
-  const { setCategory } = useContext(ProductContext);
   const [products, setProducts] = useState([]);
   const [productsRings, setProductsRings] = useState([]);
   const [productsEarrings, setProductsEarrings] = useState([]);
   const [productsChains, setProductsChains] = useState([]);
   const [productsPendants, setProductsPendants] = useState([]);
+
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     const getData = async () => {
@@ -76,8 +77,8 @@ const ProductCarousel = () => {
           <Row>
             <div className="col-12">
               <div className="section-title text-center">
-                <h2 className="title">our products</h2>
-                <p className="sub-title">Add our products to weekly lineup</p>
+                <h2 className="title">{t("our products")}</h2>
+                <p className="sub-title">{t("new products")}</p>
               </div>
             </div>
           </Row>
@@ -89,7 +90,7 @@ const ProductCarousel = () => {
                     className="justify-content-center pb-5"
                     defaultActiveKey="rings"
                   >
-                    <Tab eventKey="rings" title="Rings">
+                    <Tab eventKey="rings" title={t("rings")}>
                       <Carousel
                         ssr
                         partialVisibile
@@ -106,7 +107,7 @@ const ProductCarousel = () => {
                         })}
                       </Carousel>
                     </Tab>
-                    <Tab eventKey="earrings" title="Earrings">
+                    <Tab eventKey="earrings" title={t("earrings")}>
                       <Carousel
                         ssr
                         partialVisibile
@@ -123,7 +124,7 @@ const ProductCarousel = () => {
                         })}
                       </Carousel>
                     </Tab>
-                    <Tab eventKey="pendants" title="Pendants">
+                    <Tab eventKey="pendants" title={t("pendants")}>
                       <Carousel
                         ssr
                         partialVisibile
@@ -140,7 +141,7 @@ const ProductCarousel = () => {
                         })}
                       </Carousel>
                     </Tab>
-                    <Tab eventKey="chains" title="Chains">
+                    <Tab eventKey="chains" title={t("chains")}>
                       <Carousel
                         ssr
                         partialVisibile
