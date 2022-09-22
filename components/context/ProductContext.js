@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
 
 const ProductContext = createContext();
 
@@ -41,13 +40,6 @@ export const ProductProvider = ({ children }) => {
     setCurrentProducts(items);
   }, [currentPage]);
 
-  const client = axios.create({
-    baseURL: "/api",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-
   const splitByPages = (arr, limit, page) => {
     let pProducts = [];
 
@@ -60,23 +52,23 @@ export const ProductProvider = ({ children }) => {
     return pProducts[page - 1];
   };
 
-  function getProducts(category) {
-    client.get(`/product?category=${category}`).then((response) => {
-      setProducts(response.data);
-    });
+  const  getProducts = async (category) => {
+    const response = await fetch(`/api/product?category=${category}`);
+    const data = await response.json();
+    setProducts(data);
   }
 
-  function getProductsAll() {
-    client.get(`/product`).then((response) => {
-      setProducts(response.data);
-      setCurrentProducts(response.data);
-    });
+  const getProductsAll = async () => {
+    const response = await fetch("/api/product");
+    const data = await response.json();
+    setCurrentProducts(data);
   }
 
-  function getCategories() {
-    client.get("/category").then((response) => {
-      setCategories(response.data);
-    });
+  const getCategories = async () => {
+
+    const response = await fetch("/api/category");
+    const data = await response.json();
+    setCategories(data);
   }
 
   return (

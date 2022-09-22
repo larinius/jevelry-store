@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 
@@ -23,7 +22,15 @@ function Subscribe() {
     setState("Loading");
 
     try {
-      const response = await axios.post("/api/subscribe", { email });
+      // const response = await axios.post("/api/subscribe", { email });
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email}),
+      });
+      console.log(response);
       setState("Success");
       setEmail("");
     } catch (e) {
