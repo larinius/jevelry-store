@@ -3,11 +3,19 @@ import ProductContext from "../context/ProductContext";
 import Slider from "@ant-design/react-slick";
 import { FaChevronLeft, FaChevronRight } from "react-icons";
 import CarouselItem from "./CarouselItem";
+import Carousel from "react-multi-carousel";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import { Container, Row } from "react-bootstrap";
 
 const ProductCarousel = () => {
   const { currentProducts } = useContext(ProductContext);
   const { setCategory } = useContext(ProductContext);
   const [products, setProducts] = useState([]);
+  const [productsRings, setProductsRings] = useState([]);
+  const [productsEarrings, setProductsEarrings] = useState([]);
+  const [productsChains, setProductsChains] = useState([]);
+  const [productsPendants, setProductsPendants] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -19,105 +27,142 @@ const ProductCarousel = () => {
     getData();
   }, []);
 
-  const config = {
-    infinite: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+  useEffect(() => {
+    const rings = products
+      .filter((item) => item.category.name.toLowerCase() === "rings")
+      .slice(0, 12);
+    const earrings = products
+      .filter((item) => item.category.name.toLowerCase() === "earrings")
+      .slice(0, 12);
+    const chains = products
+      .filter((item) => item.category.name.toLowerCase() === "chains")
+      .slice(0, 12);
+    const pendants = products
+      .filter((item) => item.category.name.toLowerCase() === "pendants")
+      .slice(0, 12);
+
+    setProductsRings(rings);
+    setProductsEarrings(earrings);
+    setProductsChains(chains);
+    setProductsPendants(pendants);
+  }, [products]);
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 4,
+      paritialVisibilityGutter: 60,
+      partialVisible: true,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 3,
+      paritialVisibilityGutter: 50,
+      partialVisible: true,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      paritialVisibilityGutter: 0,
+      partialVisible: false,
+      centerMode: true,
+    },
   };
-
-  const [settings, setSettings] = useState(config);
-
-  function NextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block" }}
-        onClick={onClick}
-      />
-    );
-  }
-
-  function PrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block" }}
-        onClick={onClick}
-      />
-    );
-  }
 
   return (
     <>
       <section className="product-area section-padding">
-        <div className="container">
-          <div className="row">
+        <Container>
+          <Row>
             <div className="col-12">
               <div className="section-title text-center">
                 <h2 className="title">our products</h2>
                 <p className="sub-title">Add our products to weekly lineup</p>
               </div>
             </div>
-          </div>
-          <div className="row">
+          </Row>
+          <Row>
             <div className="col-12">
               <div className="product-container">
                 <div className="product-tab-menu">
-                  <ul className="nav justify-content-center">
-                    <li>
-                      <a href="#tab1" className="active" data-bs-toggle="tab">
-                        Entertainment
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#tab2" data-bs-toggle="tab">
-                        Storage
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#tab3" data-bs-toggle="tab">
-                        Lying
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#tab4" data-bs-toggle="tab">
-                        Tables
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="tab-content">
-                  <div className="tab-pane fade show active" id="tab1">
-                    <div className="product-carousel-4 slick-row-10 slick-arrow-style">
-                      <Slider {...settings}>
-                        {products.map((x, i) => {
+                  <Tabs
+                    className="justify-content-center pb-5"
+                    defaultActiveKey="rings"
+                  >
+                    <Tab eventKey="rings" title="Rings">
+                      <Carousel
+                        ssr
+                        partialVisibile
+                        itemClass="image-item"
+                        responsive={responsive}
+                        className="product-carousel-4 slick-row-10 slick-arrow-style"
+                      >
+                        {productsRings.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
                             </div>
                           );
                         })}
-                      </Slider>
-                    </div>
-                  </div>
-                  <div className="tab-pane fade" id="tab2">
-                    <div className="product-carousel-4 slick-row-10 slick-arrow-style"></div>
-                  </div>
-                  <div className="tab-pane fade" id="tab3">
-                    <div className="product-carousel-4 slick-row-10 slick-arrow-style"></div>
-                  </div>
-                  <div className="tab-pane fade" id="tab4">
-                    <div className="product-carousel-4 slick-row-10 slick-arrow-style"></div>
-                  </div>
+                      </Carousel>
+                    </Tab>
+                    <Tab eventKey="earrings" title="Earrings">
+                      <Carousel
+                        ssr
+                        partialVisibile
+                        itemClass="image-item"
+                        responsive={responsive}
+                        className="product-carousel-4 slick-row-10 slick-arrow-style"
+                      >
+                        {productsEarrings.map((x, i) => {
+                          return (
+                            <div key={i} className="img-card">
+                              <CarouselItem product={x} />
+                            </div>
+                          );
+                        })}
+                      </Carousel>
+                    </Tab>
+                    <Tab eventKey="pendants" title="Pendants">
+                      <Carousel
+                        ssr
+                        partialVisibile
+                        itemClass="image-item"
+                        responsive={responsive}
+                        className="product-carousel-4 slick-row-10 slick-arrow-style"
+                      >
+                        {productsPendants.map((x, i) => {
+                          return (
+                            <div key={i} className="img-card">
+                              <CarouselItem product={x} />
+                            </div>
+                          );
+                        })}
+                      </Carousel>
+                    </Tab>
+                    <Tab eventKey="chains" title="Chains">
+                      <Carousel
+                        ssr
+                        partialVisibile
+                        itemClass="image-item"
+                        responsive={responsive}
+                        className="product-carousel-4 slick-row-10 slick-arrow-style"
+                      >
+                        {productsChains.map((x, i) => {
+                          return (
+                            <div key={i} className="img-card">
+                              <CarouselItem product={x} />
+                            </div>
+                          );
+                        })}
+                      </Carousel>
+                    </Tab>
+                  </Tabs>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Row>
+        </Container>
       </section>
     </>
   );

@@ -11,7 +11,7 @@ const CarouselItem = ( {product} ) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [thumb, setThumb] = useState(product.images[0].url_small);
+  const [thumb, setThumb] = useState(product.images[0].url_medium);
   const [thumbClass, setClass] = useState("pri-img");
 
   let images = [];
@@ -19,17 +19,17 @@ const CarouselItem = ( {product} ) => {
   product.images.forEach((element) => {
     images.push({
       original: element.url_original,
-      thumbnail: element.url_small,
+      thumbnail: element.url_medium,
     });
   });
 
   const showSecThumb = () => {
-    setThumb(product.images[1].url_small);
+    setThumb(product.images[1].url_medium);
     setClass("sec-img");
   };
 
   const showPriThumb = () => {
-    setThumb(product.images[0].url_small);
+    setThumb(product.images[0].url_medium);
     setClass("pri-img");
   };
 
@@ -37,17 +37,18 @@ const CarouselItem = ( {product} ) => {
     if (product.images.length > 1) {
       return (
         <Image
+          draggable={false}
           className={thumbClass}
           src={thumb}
           alt={product.name}
-          width={250}
-          height={250}
+          width={350}
+          height={350}
           onMouseOver={showSecThumb}
           onMouseLeave={showPriThumb}
         />
       );
     } else {
-      return <Image src={thumb} alt={product.name} width={255} height={255} />;
+      return <Image src={thumb} alt={product.name} width={350} height={350} />;
     }
   };
 
