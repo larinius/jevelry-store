@@ -640,8 +640,8 @@ body {
   
   /*------- short classes start -------*/
   .section-padding {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
   @media only screen and (max-width: 767.98px) {
     .section-padding {
@@ -2379,7 +2379,7 @@ body {
   /*------ section title start ------*/
   .section-title {
     margin-top: -7px;
-    margin-bottom: 37px;
+    margin-bottom: 20px;
   }
   .section-title .title {
     text-transform: capitalize;
