@@ -1,51 +1,46 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useTranslation, Trans } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslation, Trans } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import styles from "../styles/Home.module.css";
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
-
-import LanguageSwitcher from '../components/ui/LanguageSwitcher';
+import ServicePolicy from "../components/ui/ServicePolicy";
+import HomePageText from "../components/ui/HomePageText";
+import HomeMediumBanners from "../components/ui/HomeMediumBanners";
+import HomeSlider from "../components/ui/HomeSlider";
+import ProductCarousel from "../components/ui/ProductCarousel";
 
 export default function Home() {
-
-  const router = useRouter()
-  const { t } = useTranslation('common')
+  const router = useRouter();
+  const { t } = useTranslation("common");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onToggleLanguageClick = (newLocale) => {
-    const { pathname, asPath, query } = router
-    router.push({ pathname, query }, asPath, { locale: newLocale })
-  }
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
 
-  const changeTo = router.locale === 'en' ? 'he' : 'en'
-
+  const changeTo = router.locale === "en" ? "he" : "en";
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <LanguageSwitcher />
-        <br></br>
-        <h1>{t("title")}</h1>
-
-        <p>
-        {t("loremIpsum")}
-        </p>
-        
-
-      </main>
-
-      <footer className={styles.footer}>FOOTER</footer>
-    </div>
+    <>
+      <HomeSlider/>
+      <ServicePolicy />
+      <HomeMediumBanners/>
+      <ProductCarousel/>
+      <HomePageText/>
+    </>
   );
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale, req, res }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      ...setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 }),
+      ...getCookie("test", { req, res }),
+      ...getCookies({ req, res }),
+      ...deleteCookie("test", { req, res }),
     },
   };
 }

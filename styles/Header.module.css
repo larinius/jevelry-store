@@ -1,15 +1,30 @@
+/* .header {
+  display: flex;
+
+  flex-grow:inherit;
+  flex-direction: row;
+  padding: 1rem 0 1rem 0;
+  border-bottom: 1px solid #eaeaea;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+
 .nav {
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
+  border-bottom: 1px solid #eaeaea;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .nav a {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
 }
+ */
