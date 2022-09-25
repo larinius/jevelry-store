@@ -11,8 +11,6 @@ import styles from "../../styles/Nav.module.css";
 const Navigation = () => {
   const { t } = useTranslation("common");
 
-  let home = t("home");
-
   return (
     <>
       <div className="main-menu-area">
@@ -21,7 +19,7 @@ const Navigation = () => {
             <ul>
               <li>
                 <Link href="/" passHref>
-                  {home}
+                  {t("home")}
                 </Link>
               </li>
               <li>
