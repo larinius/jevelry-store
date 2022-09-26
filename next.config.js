@@ -6,5 +6,11 @@ module.exports = {
     domains: ["cdn-v2.salesbinder.com"],
     minimumCacheTTL: 3600
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  distDir: 'build',
 };
 

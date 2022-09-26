@@ -1,14 +1,11 @@
 FROM node:16-alpine as build
 WORKDIR /
 
-COPY /package.json /package.json
-COPY /components /components
-COPY /pages /pages
-COPY /public /public
-COPY /styles /styles
-COPY /.env.local /.env.local
+COPY ./package*.json ./
+RUN npm install --omit=dev
 
-RUN npm install --only=prod --omit=dev
+COPY ./ ./
+
 RUN npm run build
 
 FROM nginx:1.16.0-alpine

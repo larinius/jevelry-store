@@ -5,12 +5,12 @@ const localePath = path.resolve("./public/locales");
 module.exports = {
   debug: process.env.NODE_ENV === "development",
   i18n: {
-    debug: false,
     locales: ["en", "he", "ru"],
     defaultLocale: "en",
     localeDetection: false,
-    localePath: path.resolve("./public/locales"),
   },
+  localePath: path.resolve("./public/locales"),
+  debug: false,
   localePath,
   reloadOnPrerender: process.env.NODE_ENV === "development",
 };

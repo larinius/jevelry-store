@@ -9,7 +9,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./app:/app
+      - ./build:/build
     container_name: nextapp
     networks:
       - front-tier
