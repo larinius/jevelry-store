@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+
+  nextapp:
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/app
+    container_name: nextapp
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
