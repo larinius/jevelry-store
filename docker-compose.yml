@@ -1,7 +1,7 @@
 version: '3.8'
 services:
 
-  nextapp:
+  nextjs:
     build:
         context: ./
         dockerfile: Dockerfile
@@ -10,7 +10,7 @@ services:
       - "80:80"
     volumes:
       - ./build:/build
-    container_name: nextapp
+    container_name: nextjs
     networks:
       - front-tier
 
