@@ -6,7 +6,7 @@
 - Product category filter, pagination
 - Product full image preview (catalog page)
 - Prodcut carousel (home page)
-- Multiple languajes - English, Hebrew, Russian, selected language stored in client cookies.
+- Multiple languages - English, Hebrew, Russian, selected language stored in client cookies.
 - Subscribe form (Mailchimp)
 - Contacts form (using Google SMTP and nodemailer)
 - Location map (OpenStreetMap)
