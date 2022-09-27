@@ -2,7 +2,7 @@
 (Work in progress)
 
 ## Features
-- Listing products from remote API (SalesBined inventory management)
+- Listing products from remote API (SalesBinder inventory management)
 - Multiple languajes - English, Hebrew, Russian, selected language stored in client cookies.
 - Subscribe form (Mailchimp)
 - Contacts form (using Google SMTP and nodemailer)
