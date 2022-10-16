@@ -1,4 +1,4 @@
-import {fetchProducts, fetchCategories, cached} from "./utils"
+import {fetchProducts, fetchCategories, cached} from "/lib/utils"
 
 export default async function handler(req, res) {
   const category = req.query.category;

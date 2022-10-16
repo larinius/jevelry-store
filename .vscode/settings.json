@@ -11,5 +11,7 @@
         "**/.git/objects/**": true,
         "**/.next": true,
         "**/node_modules": false
-    }
+    },
+    "WillLuke.nextjs.addTypesOnSave": true,
+    "WillLuke.nextjs.hasPrompted": true
 }

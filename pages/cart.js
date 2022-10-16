@@ -4,18 +4,17 @@ import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 
-import LoginForm from "../components/ui/LoginForm";
 import BreadcrumbArea from "../components/ui/BreadcrumbArea";
+import CartArea from "../components/ui/CartArea";
 
-/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-export default function Login(props) {
+export default function Cart() {
   const router = useRouter();
   const { t } = useTranslation("common");
 
   return (
     <>
     <BreadcrumbArea/>
-    <LoginForm/>
+    <CartArea/>
     </>
   );
 }

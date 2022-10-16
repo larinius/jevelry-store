@@ -1,4 +1,4 @@
-import { fetchCategories, cached } from "./utils";
+import { fetchCategories, cached } from "/lib/utils";
 
 export default async function handler(req, res) {
   const url = "/categories.json";
