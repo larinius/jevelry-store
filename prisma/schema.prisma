@@ -16,7 +16,7 @@ model User {
   password String  
   name     String?
   created  DateTime?
-  isActive Boolean
+  isActive Boolean @default(true)
 }
 
 model Session {
@@ -28,6 +28,9 @@ model Session {
 }
 
 model UserStorage {
-  id      Int       @id @default(autoincrement())
-  data    Json?
+  id          Int   @id @default(autoincrement())
+  user_id     Int
+  wishlist    Json?
+  cart        Json?
+  prefs       Json?
 }

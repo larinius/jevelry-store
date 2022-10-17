@@ -46,7 +46,6 @@ function Subscribe() {
         <Form.Control
           type="email"
           className="news-field"
-          id="mc-form"
           placeholder="Enter your email address"
           required
           name="email"
