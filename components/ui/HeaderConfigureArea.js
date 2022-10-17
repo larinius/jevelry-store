@@ -54,7 +54,7 @@ const HeaderConfigureArea = () => {
               <Icon.Person size={22} />
             </a>
             <ul className="dropdown-list">
-              {user.isLoggedIn ? <LogoutLink /> : <LoginLink />}
+              {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
             </ul>
           </li>
           <li>

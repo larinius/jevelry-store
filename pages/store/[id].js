@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation, Trans } from "next-i18next";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-import { useRouter } from "next/router";
 import { Row } from "react-bootstrap";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
+import { useTranslation, Trans } from "next-i18next";
+import Container from "react-bootstrap/Container";
+import React, { useState, useEffect, useContext } from "react";
+
+import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
+import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
+import PaginationBox from "../../components/ui/PaginationBox";
 import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
-import Container from "react-bootstrap/Container";
-import PaginationBox from "../../components/ui/PaginationBox";
-import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
-import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
 
 const Category = ({ category }) => {
   const { currentProducts } = useContext(ProductContext);
@@ -48,8 +49,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      ...setCookie("test", "value", { req, res, maxAge: 60 * 6 * 24 }),
-      ...getCookie("test", { req, res }),
       ...getCookies({ req, res }),
       ...deleteCookie("test", { req, res }),
       category,
