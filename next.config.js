@@ -15,7 +15,7 @@ module.exports = {
     return [
         {
             source: '/sku-:id',
-            destination: ':id'
+            destination: '/:id'
         }
     ];
 }
