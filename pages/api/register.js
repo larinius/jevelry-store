@@ -11,8 +11,6 @@ async function userRegister(req, res) {
   const r = await req.body;
 
 
-  console.log("REQUEST", r);
-
   // const result = await prisma.user.create({
   //   data: {
   //     ...req.body,
@@ -40,11 +38,9 @@ async function userRegister(req, res) {
 
       const data = await prisma.user.create({
         data: {
-          ...{ name: r.name, email: r.email, password: hashPassword },
+          ...{ name: r.name, email: r.email, password: hashPassword, },
         },
       });
-
-      console.log(data);
 
       // req.session.set("user", { id: user.id, email: user.email });
       // await req.session.save();

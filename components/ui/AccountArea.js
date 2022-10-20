@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import useUser from "/lib/useUser";
 
+const AccountArea = () => {
 
-const AccountArea = ({user}) => {
-
-  console.log("USER", user);
+  const { user } = useUser();
 
   return (
     <>

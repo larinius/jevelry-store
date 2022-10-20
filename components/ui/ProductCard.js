@@ -1,10 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import ProductContext from "../context/ProductContext";
+import Link from "next/link";
 import Image from "next/image";
+import {Modal, Button} from "react-bootstrap";
 import ImageGallery from "react-image-gallery";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+import React, { useContext, useState, useEffect } from "react";
+
+import ProductContext from "../context/ProductContext";
 
 function ProductCard({ product }) {
   const [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ function ProductCard({ product }) {
     setClass("pri-img");
   };
 
-  const prodThumb = () => {
+  const ProdThumb = () => {
     if (product.images.length > 1) {
       return (
         <Image
@@ -56,7 +57,9 @@ function ProductCard({ product }) {
       <div className="col-md-4 col-sm-6">
         <div className="product-item">
           <figure className="product-thumb">
-            <a onClick={handleShow}>{prodThumb()}</a>
+            <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`} >
+            <a><ProdThumb/></a>
+            </Link>
           </figure>
           <div className="product-caption text-center">
             <div className="product-identity">

@@ -6,8 +6,6 @@ import bcrypt from 'bcryptjs';
 
 export default withIronSessionApiRoute(async (req, res) => {
 
-  console.log(req.body);
-
   try {
     // const {
     //   data: { login, avatar_url },
@@ -19,12 +17,9 @@ export default withIronSessionApiRoute(async (req, res) => {
       }
     });
 
-    console.log("data", data);
-
     const valid = await bcrypt.compare(req.body.password, data.password);
 
     if(valid){
-      console.log("LOGED IN");
 
       const user = { isLoggedIn: true, name: data.name, email: data.email};
       req.session.user = user;

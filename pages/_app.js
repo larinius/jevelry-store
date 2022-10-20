@@ -8,8 +8,8 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
 import Layout from "../components/layout/Layout";
+import LayoutAdmin from "../components/layout/LayoutAdmin";
 
 import ProductContext, {
   ProductProvider,
@@ -23,10 +23,18 @@ import "../styles/globals.css";
 import "../styles/font-face.css";
 import "../styles/Theme.css";
 import "../styles/custom.css";
+import dynamic from "next/dynamic";
+
+const FingerprintNoSSR = dynamic(() => import("../components/ui/Fingerprint"), {
+  ssr: false,
+});
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const adminPanel = router.route.startsWith("/admin") ? true : false;
+
   const { locale } = useRouter();
   const dir = locale === "he" ? "rtl" : "ltr";
 
@@ -41,15 +49,22 @@ function MyApp({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
       <SSRProvider>
-        <Layout>
-          <ThemeProvider dir={dir}>
-            <ProductProvider>
-              <Component {...pageProps} />
-            </ProductProvider>
-          </ThemeProvider>
-        </Layout>
+        <ThemeProvider dir={dir}>
+          <ProductProvider>
+            {!adminPanel ? (
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            ) : (
+              <LayoutAdmin>
+                <Component {...pageProps} />
+              </LayoutAdmin>
+            )}
+          </ProductProvider>
+        </ThemeProvider>
       </SSRProvider>
       <ReactQueryDevtools initialIsOpen={false} />
+      <FingerprintNoSSR />
     </QueryClientProvider>
   );
 }

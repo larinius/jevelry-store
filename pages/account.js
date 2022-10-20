@@ -6,19 +6,20 @@ import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import { withIronSessionSsr } from "iron-session/next";
 import Link from "next/link";
+import useUser from "/lib/useUser";
 
 import AccountArea from "../components/ui/AccountArea";
 import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-export default function Account(props) {
+export default function Account() {
   const router = useRouter();
   const { t } = useTranslation("common");
+  const { user } = useUser();
 
   useEffect(() => {
     
-    if( !props.user?.isLoggedIn){
-      console.log("NOT LOGGED IN!");
+    if( !user?.isLoggedIn){
       router.push("/login");
     }
 
@@ -28,7 +29,7 @@ export default function Account(props) {
   return (
     <>
       <BreadcrumbArea />
-      {props.user?.isLoggedIn && <AccountArea user={props.user} />}
+      {user?.isLoggedIn && <AccountArea />}
     </>
   );
 }
@@ -49,21 +50,25 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 }) {
   const user = req.session.user;
 
-  if (user === undefined) {
-    res.setHeader("location", "/login");
-    res.statusCode = 302;
-    res.end();
-    return {
-      props: {
-        ...{ user: { isLoggedIn: false } },
-        ...(await serverSideTranslations(locale, ["common"])),
-        ...getCookies({ req, res }),
-      },
-    };
-  }
+  // if (user === undefined) {
+  //   res.setHeader("location", "/login");
+  //   res.statusCode = 302;
+  //   res.end();
+  //   return {
+  //     props: {
+  //       ...{ user: { isLoggedIn: false } },
+  //       ...(await serverSideTranslations(locale, ["common"])),
+  //       ...getCookies({ req, res }),
+  //     },
+  //   };
+  // }
 
   return {
-    props: { user: req.session.user },
+    props: {      
+       ...(await serverSideTranslations(locale, ["common"])),
+        ...getCookies({ req, res }),
+    },
+    
   };
 },
 sessionOptions);

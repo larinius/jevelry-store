@@ -16,7 +16,7 @@ export default withIronSessionApiRoute(async (req, res) => {
 
     const valid = await bcrypt.compare(req.body.password, data.password);
 
-    if (valid) {
+    if (valid && data.userGroupId === 2 && data.isActive) {
 
       const user = { isLoggedIn: true, name: data.name, email: data.email, group: data.userGroupId, isActive: data.isActive};
       console.log(data);
@@ -25,6 +25,7 @@ export default withIronSessionApiRoute(async (req, res) => {
       res.status(201).json(user);
     } else {
       console.log("Login failed");
+      res.status(500).json({ message: error.message });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

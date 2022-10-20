@@ -1,16 +1,28 @@
 import Link from "next/link";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 
+import useUser from "/lib/useUser";
 import LoginForm from "../components/ui/LoginForm";
 import BreadcrumbArea from "../components/ui/BreadcrumbArea";
+
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Login(props) {
   const router = useRouter();
   const { t } = useTranslation("common");
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log(user);
+    if(user?.isLoggedIn){
+
+      router.push("/account");
+    }
+  }, [user]);
 
   return (
     <>

@@ -11,26 +11,46 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String  
-  name     String?
-  created  DateTime?
-  isActive Boolean @default(true)
+  id          Int        @id @default(autoincrement())
+  email       String     @unique
+  password    String
+  name        String?
+  created     DateTime?  @default(now())
+  isActive    Boolean    @default(true)
+  lastActive  DateTime   @updatedAt
+  userPrefs   UserPrefs? @relation(fields: [prefsId], references: [id])
+  prefsId     Int?
+  cart        Cart?      @relation(fields: [cartId], references: [id])
+  cartId      Int?
+  wishlist    Wishlist?  @relation(fields: [wishlistId], references: [id])
+  wishlistId  Int?
+  userGroup   UserGroup  @relation(fields: [userGroupId], references: [id])
+  userGroupId Int        @default(1)
 }
 
-model Session {
-  id          Int   @id @default(autoincrement())
-  user_id     Int
-  active      Boolean?  
-  date        DateTime?
-  fingerprint String?
+model UserGroup {
+  id    Int    @id @default(autoincrement())
+  title String
+  user  User[]
 }
 
-model UserStorage {
-  id          Int   @id @default(autoincrement())
-  user_id     Int
-  wishlist    Json?
-  cart        Json?
-  prefs       Json?
+model UserPrefs {
+  id     Int    @id @default(autoincrement())
+  userId Int    @unique
+  prefs  Json?
+  User   User[]
+}
+
+model Cart {
+  id     Int    @id @default(autoincrement())
+  userId Int    @unique
+  items  Json?
+  User   User[]
+}
+
+model Wishlist {
+  id     Int    @id @default(autoincrement())
+  userId Int    @unique
+  items  Json?
+  User   User[]
 }

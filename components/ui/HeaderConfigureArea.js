@@ -8,7 +8,6 @@ import axios from "axios";
 const HeaderConfigureArea = () => {
   const router = useRouter();
   const { user } = useUser();
-  console.log(user);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -37,7 +36,7 @@ const HeaderConfigureArea = () => {
           </Link>
         </li>
         <li>
-          <Link href="/login" passHref>
+          <Link href="/logout" passHref>
             <a onClick={handleLogout}>Logout</a>
           </Link>
         </li>
