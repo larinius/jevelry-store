@@ -6,6 +6,7 @@ const authProvider = {
     return axios
       .post("/api/adminlogin", { email: username, password: password })
       .then((response) => {
+        console.log("Response", response);
         if (response.status !== 201) {
           throw new Error(response.statusText);
         }

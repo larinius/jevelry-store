@@ -7,6 +7,7 @@ Table User {
   email String [unique, not null]
   password String [not null]
   name String
+  phone String
   created DateTime [default: `now()`]
   isActive Boolean [not null, default: true]
   lastActive DateTime [not null]
@@ -64,7 +65,7 @@ Table WishlistDetails {
 
 Table Product {
   id Int [pk, increment]
-  sku String [not null]
+  sku String [unique, not null]
   price Int [not null, default: 0]
   priceBefore Int
   discount Int

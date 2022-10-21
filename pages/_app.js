@@ -47,7 +47,8 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
+     <QueryClientProvider client={queryClient}>
       <SSRProvider>
         <ThemeProvider dir={dir}>
           <ProductProvider>
@@ -65,7 +66,8 @@ function MyApp({ Component, pageProps }) {
       </SSRProvider>
       <ReactQueryDevtools initialIsOpen={false} />
       <FingerprintNoSSR />
-    </QueryClientProvider>
+     </QueryClientProvider>
+    </>
   );
 }
 

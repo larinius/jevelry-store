@@ -1,12 +1,9 @@
-import SidebarAdmin from "./SidebarAdmin";
+import { Layout } from "react-admin";
 
 const LayoutAdmin = ({ children }) => {
   return (
     <>
-      <>
-        <SidebarAdmin />
-        <main>{children}</main>
-      </>
+      <main>{children}</main>
     </>
   );
 };

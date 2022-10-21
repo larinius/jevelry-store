@@ -1,8 +1,7 @@
 import { Admin, Resource, ListGuesser } from "react-admin";
 import Dashboard from "/components/admin/Dashboard";
 import authProvider from "/components/admin/authProvider";
-import jsonServerProvider from "ra-data-json-server";
-const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
+import simpleRestProvider from 'ra-data-simple-rest';
 
 const AdminPanel = () => {
   return (
@@ -10,10 +9,10 @@ const AdminPanel = () => {
       <Admin
         dashboard={Dashboard}
         authProvider={authProvider}
-        dataProvider={dataProvider}
+        dataProvider={simpleRestProvider('/api/a/')}
         requireAuth
       >
-        <Resource name="users" list={ListGuesser} />
+        <Resource name="product" list={ListGuesser} />
       </Admin>
     </>
   );

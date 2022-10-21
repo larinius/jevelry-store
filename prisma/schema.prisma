@@ -19,6 +19,7 @@ model User {
   email       String     @unique
   password    String
   name        String?
+  phone       String?
   created     DateTime?  @default(now())
   isActive    Boolean    @default(true)
   lastActive  DateTime   @updatedAt
@@ -76,7 +77,7 @@ model WishlistDetails {
 
 model Product {
   id              Int               @id @default(autoincrement())
-  sku             String
+  sku             String            @unique
   price           Int               @default(0)
   priceBefore     Int?
   discount        Int?
