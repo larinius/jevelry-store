@@ -48,25 +48,19 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-     <QueryClientProvider client={queryClient}>
-      <SSRProvider>
-        <ThemeProvider dir={dir}>
-          <ProductProvider>
-            {!adminPanel ? (
+      <QueryClientProvider client={queryClient}>
+        <SSRProvider>
+          <ThemeProvider dir={dir}>
+            <ProductProvider>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            ) : (
-              <LayoutAdmin>
-                <Component {...pageProps} />
-              </LayoutAdmin>
-            )}
-          </ProductProvider>
-        </ThemeProvider>
-      </SSRProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <FingerprintNoSSR />
-     </QueryClientProvider>
+            </ProductProvider>
+          </ThemeProvider>
+        </SSRProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <FingerprintNoSSR />
+      </QueryClientProvider>
     </>
   );
 }
