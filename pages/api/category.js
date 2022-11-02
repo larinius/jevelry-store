@@ -1,18 +1,8 @@
-import { fetchCategories, cached } from "./utils";
+import prisma from "/lib/prisma";
 
 export default async function handler(req, res) {
-  const url = "/categories.json";
-  const cc = await cached(fetchCategories, url);
 
-  const names = cc
-    .filter((c) => {
-      return parseInt(c.item_count) > 0;
-    })
-    .map((c) => {
-      return c.name.toLowerCase();
-    });
+  const data = await prisma.category.findMany();
+  res.json(data);
 
-  cc.names = names;
-
-  res.status(200).json(cc);
 }

@@ -105,3 +105,9 @@ img, svg {
   border:none;
 }
 /*----- product tab menu start -----*/
+
+
+.form-check-input:checked {
+  background-color: #dee2e6;
+  border-color: #999;
+}

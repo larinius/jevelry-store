@@ -5,9 +5,10 @@ import ProductCatalog from "../components/ui/ProductCatalog";
 import ProductContext from "../components/context/ProductContext";
 import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
+
+/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 function store(props) {
   const { t } = useTranslation("common");
-
   const { setCategory } = useContext(ProductContext);
 
   useEffect(() => {

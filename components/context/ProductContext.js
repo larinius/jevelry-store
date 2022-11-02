@@ -12,18 +12,6 @@ export const ProductProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState({});
 
-  useEffect(() => {
-    getProductsAll();
-    getCategories();
-  }, []);
-
-  useEffect(() => {
-    if (category === "all") {
-      getProductsAll();
-    } else {
-      getProducts(category);
-    }
-  }, [category]);
 
   useEffect(() => {
     if (products != null && products.length > 0) {
@@ -52,24 +40,6 @@ export const ProductProvider = ({ children }) => {
     return pProducts[page - 1];
   };
 
-  const  getProducts = async (category) => {
-    const response = await fetch(`/api/product?category=${category}`);
-    const data = await response.json();
-    setProducts(data);
-  }
-
-  const getProductsAll = async () => {
-    const response = await fetch("/api/product");
-    const data = await response.json();
-    setCurrentProducts(data);
-  }
-
-  const getCategories = async () => {
-
-    const response = await fetch("/api/category");
-    const data = await response.json();
-    setCategories(data);
-  }
 
   return (
     <ProductContext.Provider
@@ -79,6 +49,7 @@ export const ProductProvider = ({ children }) => {
         currentPage,
         currentCategory,
         setCurrentPage,
+        category,
         setCategory,
       }}
     >

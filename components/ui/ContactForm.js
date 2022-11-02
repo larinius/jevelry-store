@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
+import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
+
 import axios from "axios";
 import styled from "styled-components";
 import ContactInfo from "./ContactInfo";

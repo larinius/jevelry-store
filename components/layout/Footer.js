@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useTranslation, Trans } from "next-i18next";
 import styles from "../../styles/Footer.module.css";
 import * as Icon from "react-bootstrap-icons";
-import Subscribe from "../Subscribe";
+import Subscribe from "../ui/Subscribe";
 
 const Footer = () => {
   const { t } = useTranslation("common");
