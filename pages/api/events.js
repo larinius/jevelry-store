@@ -1,8 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "/lib/session";
 
-const octokit = new Octokit();
-
 export default withIronSessionApiRoute(eventsRoute, sessionOptions);
 
 async function eventsRoute(req, res) {
@@ -14,11 +12,6 @@ async function eventsRoute(req, res) {
   }
 
   try {
-    //fetch events for user
-    // const { data: events } =
-    //   await octokit.rest.activity.listPublicEventsForUser({
-    //     username: user.login,
-    //   });
 
     // res.json(events);
   } catch (error) {
