@@ -13,17 +13,13 @@ import ProductArea from "../../components/ui/ProductArea";
 import ProductContext from "../../components/context/ProductContext";
 
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const Product = ({ sku }) => {
-  //   const { currentProducts } = useContext(ProductContext);
-  //   const { setCategory } = useContext(ProductContext);
 
-  const apiUrl = `/api/product/${sku}`;
+  const query = `/api/product/${sku}`;
 
-  const { isLoading, error, data: product } = useQuery(
-    [apiUrl],
-    () => fetch(apiUrl).then((res) => res.json())
-  );
+  const { isLoading, error, data: product } = useQuery([query], () => axios.get(query));
 
 
   useEffect(() => {
@@ -34,7 +30,7 @@ const Product = ({ sku }) => {
     <>
       <BreadcrumbArea />
       <div className="shop-main-wrapper section-padding">
-        {!isLoading?<ProductArea product={product} />: "LOADING"}
+        <ProductArea product={product?.data} />
       </div>
     </>
   );

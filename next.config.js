@@ -3,7 +3,7 @@ const { i18n } = require("./next-i18next.config");
 module.exports = {
   i18n,
   images: {
-    domains: ["cdn-v2.salesbinder.com"],
+    domains: ["cdn-v2.salesbinder.com", "dimenshteyn.fra1.digitaloceanspaces.com"],
     minimumCacheTTL: 3600
   },
   eslint: {

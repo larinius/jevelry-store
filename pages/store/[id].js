@@ -13,7 +13,6 @@ import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
 
 const Category = ({ category }) => {
-  const { currentProducts } = useContext(ProductContext);
   const { setCategory } = useContext(ProductContext);
 
   useEffect(() => {

@@ -8,6 +8,8 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { Container, Row } from "react-bootstrap";
 import { useTranslation, Trans } from "next-i18next";
+import { useQuery, useQueries } from "@tanstack/react-query";
+import axios from "axios";
 
 const ProductCarousel = () => {
   const [products, setProducts] = useState([]);
@@ -18,35 +20,56 @@ const ProductCarousel = () => {
 
   const { t } = useTranslation("common");
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(`/api/product`);
-      const data = await response.json();
-      setProducts(data);
-    };
+  const categories = ["rings", "earrings", "chains", "bracelets", "necklaces"];
+  const toApiUrl = (key) => {
+    return(`/api/product?category=${key}&limit=12`);
+  };
 
-    getData();
-  }, []);
+    const productQueries = useQueries({
+      queries: categories.map((cat) => {
+        return {
+          queryKey: [toApiUrl(cat)],
+          queryFn: () => axios.get(toApiUrl(cat)),
+        };
+      }),
+    });
 
-  useEffect(() => {
-    const rings = products
-      .filter((item) => item.category.name.toLowerCase() === "rings")
-      .slice(0, 12);
-    const earrings = products
-      .filter((item) => item.category.name.toLowerCase() === "earrings")
-      .slice(0, 12);
-    const chains = products
-      .filter((item) => item.category.name.toLowerCase() === "chains")
-      .slice(0, 12);
-    const pendants = products
-      .filter((item) => item.category.name.toLowerCase() === "pendants")
-      .slice(0, 12);
 
-    setProductsRings(rings);
-    setProductsEarrings(earrings);
-    setProductsChains(chains);
-    setProductsPendants(pendants);
-  }, [products]);
+  const rings = productQueries[0].data?.data || [];
+  const earrings = productQueries[1].data?.data || [];
+  const chains = productQueries[2].data?.data || [];
+  const bracelets = productQueries[3].data?.data || [];
+  const necklaces = productQueries[4].data?.data || [];
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const response = await fetch(`/api/product`);
+  //     const data = await response.json();
+  //     setProducts(data);
+  //   };
+
+  //   getData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const rings = products
+  //     .filter((item) => item.category.name.toLowerCase() === "rings")
+  //     .slice(0, 12);
+  //   const earrings = products
+  //     .filter((item) => item.category.name.toLowerCase() === "earrings")
+  //     .slice(0, 12);
+  //   const chains = products
+  //     .filter((item) => item.category.name.toLowerCase() === "chains")
+  //     .slice(0, 12);
+  //   const pendants = products
+  //     .filter((item) => item.category.name.toLowerCase() === "pendants")
+  //     .slice(0, 12);
+
+  //   setProductsRings(rings);
+  //   setProductsEarrings(earrings);
+  //   setProductsChains(chains);
+  //   setProductsPendants(pendants);
+  // }, [products]);
 
   const responsive = {
     desktop: {
@@ -98,7 +121,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {productsRings.map((x, i) => {
+                        {rings?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -115,7 +138,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {productsEarrings.map((x, i) => {
+                        {earrings?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -132,7 +155,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {productsPendants.map((x, i) => {
+                        {bracelets?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -149,7 +172,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {productsChains.map((x, i) => {
+                        {chains?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />

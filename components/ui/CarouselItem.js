@@ -11,36 +11,36 @@ const CarouselItem = ( {product} ) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [thumb, setThumb] = useState(product.images[0].url_medium);
+  const [thumb, setThumb] = useState(product.image[0].path);
   const [thumbClass, setClass] = useState("pri-img");
 
   let images = [];
 
-  product.images.forEach((element) => {
+  product.image.forEach((item) => {
     images.push({
-      original: element.url_original,
-      thumbnail: element.url_medium,
+      original: item.path,
+      thumbnail: item.path.replace("/product/", "/thumb/"),
     });
   });
 
   const showSecThumb = () => {
-    setThumb(product.images[1].url_medium);
+    setThumb(product.image[1].path);
     setClass("sec-img");
   };
 
   const showPriThumb = () => {
-    setThumb(product.images[0].url_medium);
+    setThumb(product.image[0].path);
     setClass("pri-img");
   };
 
   const prodThumb = () => {
-    if (product.images.length > 1) {
+    if (product.image.length > 1) {
       return (
         <Image
           draggable={false}
           className={thumbClass}
           src={thumb}
-          alt={product.name}
+          alt={product.title}
           width={350}
           height={350}
           onMouseOver={showSecThumb}
@@ -48,7 +48,7 @@ const CarouselItem = ( {product} ) => {
         />
       );
     } else {
-      return <Image src={thumb} alt={product.name} width={350} height={350} />;
+      return <Image src={thumb} alt={product.title} width={350} height={350} />;
     }
   };
 
@@ -63,7 +63,7 @@ const CarouselItem = ( {product} ) => {
         <div className="product-caption text-center">
           <div className="product-identity"></div>
           <h6 className="product-name">
-            <a href="#">{product.name}</a>
+            <a href="#">{product.title}</a>
           </h6>
         </div>
       </div>
