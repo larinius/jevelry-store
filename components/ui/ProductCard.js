@@ -22,7 +22,7 @@ function ProductCard({ product }) {
     });
   });
 
-  const [thumb, setThumb] = useState();
+  const [thumb, setThumb] = useState(product.image[0].path);
   const [thumbClass, setClass] = useState("pri-img");
 
   const showSecThumb = () => {
