@@ -11,7 +11,7 @@ import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
 import PaginationBox from "../../components/ui/PaginationBox";
 import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
-import Dummy from "../../public/static/product/1070-100Y.jpg"
+import Dummy from "../../public/static/img/dummy.jpg"
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 
@@ -39,8 +39,7 @@ const ProductArea = ({ product }) => {
                   <div className="product-large-slider">
                     <div className="pro-large-img img-zoom">
                       <Image
-                        // src={product?.image[0].path || Dummy}
-                        src={ "/static/product/1070-100Y.jpg"}
+                        src={product?.image[0].path || Dummy}
                         alt="product-details"
                         width={660}
                         height={660}

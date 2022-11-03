@@ -4,7 +4,7 @@ import {Modal, Button} from "react-bootstrap";
 import ImageGallery from "react-image-gallery";
 import PropTypes from "prop-types";
 import React, { useContext, useState, useEffect } from "react";
-import Dummy from "../../public/static/product/1070-100Y.jpg"
+import Dummy from "../../public/static/img/dummy.jpg"
 
 import ProductContext from "../context/ProductContext";
 
@@ -17,10 +17,8 @@ function ProductCard({ product }) {
 
   product.image.forEach((item) => {
     images.push({
-      // original: item.path,
-      // thumbnail: item.path.replace("/product/", "/thumb/"),
-      original: Dummy,
-      thumbnail: Dummy,
+      original: item.path,
+      thumbnail: item.path.replace("/product/", "/thumb/"),      
     });
   });
 
@@ -28,35 +26,31 @@ function ProductCard({ product }) {
   const [thumbClass, setClass] = useState("pri-img");
 
   const showSecThumb = () => {
-    // setThumb(product.image[1].path);
-    setThumb(Dummy);
+    setThumb(product.image[1].path);    
     setClass("sec-img");
   };
 
   const showPriThumb = () => {
-    // setThumb(product.image[0].path);
-    setThumb(Dummy);
+    setThumb(product.image[0].path);    
     setClass("pri-img");
   };
 
   const ProdThumb = () => {
-    // if (product.image.length > 1) {
-    //   return (
-    //     <Image
-    //       className={thumbClass}
-    //       src={thumb}
-    //       alt={product.title}
-    //       width={255}
-    //       height={255}
-    //       onMouseOver={showSecThumb}
-    //       onMouseLeave={showPriThumb}
-    //     />
-    //   );
-    // } else {
-    //   return <Image src={thumb} alt={product.title} width={255} height={255} />;
-    // }
-
-    return (<Image src={Dummy} alt={product.title} width={255} height={255} />);
+    if (product.image.length > 1) {
+      return (
+        <Image
+          className={thumbClass}
+          src={thumb}
+          alt={product.title}
+          width={255}
+          height={255}
+          onMouseOver={showSecThumb}
+          onMouseLeave={showPriThumb}
+        />
+      );
+    } else {
+      return <Image src={thumb} alt={product.title} width={255} height={255} />;
+    }
   };
 
   return (
