@@ -7,10 +7,10 @@ const Logo = () => {
       <div className="logo">
         <a href="/">
           <Image
-            src="/static/img/logo/logo.png"
+            src="/static/img/logo/logo.svg"
             alt="Site logo"
-            width={120}
-            height={35}
+            width={205}
+            height={78}
           />
         </a>
       </div>
