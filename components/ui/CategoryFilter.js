@@ -16,9 +16,9 @@ const CategoryFilter = () => {
           <li>
             <a href="/store/earrings">{t("earrings")}</a>
           </li>
-          <li>
+          {/* <li>
             <a href="/store/pendants">{t("pendants")}</a>
-          </li>
+          </li> */}
           <li>
             <a href="/store/chains">{t("chains")}</a>
           </li>

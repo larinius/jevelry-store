@@ -19,7 +19,7 @@ const Footer = () => {
                 <div className="widget-title">
                   <div className="widget-logo">
                     <a href="index.html">
-                      <Image src="/static/img/logo/logo.png" alt="brand logo" />
+                      <Image src="/static/img/logo/logo.svg" width={200} height={76} alt="brand logo" />
                     </a>
                   </div>
                 </div>
