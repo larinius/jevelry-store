@@ -4292,6 +4292,7 @@ body {
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
     padding: 0;
+    padding-bottom: 1rem;
 
     border-style: solid;
     border-width: thin;

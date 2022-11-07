@@ -54,9 +54,9 @@ const ProductArea = ({ product }) => {
                     </div>
                     <h3 className="product-name">{product?.title}</h3>
                     <div className="price-box">
-                      <span className="price-regular">{product?.price}</span>
+                      <span className="price-regular">${product?.price}</span>
                       <span className="price-old">
-                        <del>{product?.priceBefore}</del>
+                        <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
                       </span>
                     </div>
 
