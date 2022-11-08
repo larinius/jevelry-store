@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const skip = parseInt(req.query.skip) || 0;
 
   if (category === "all") {
-    const data = await prisma.product.findMany({
+    let data = await prisma.product.findMany({
       skip: skip,
       take: limit,
       distinct: ["sku"],
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
     res.json(data);
   } else {
-    const data = await prisma.product.findMany({
+    let data = await prisma.product.findMany({
       skip: skip,
       take: limit,
       distinct: ["sku"],
