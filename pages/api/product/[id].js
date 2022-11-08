@@ -14,11 +14,8 @@ export default async function handler(req, res) {
     },
   });
 
-  data = data.map((item) => {
-    item.imageCount = item.image.length;
-    item.price = (item.weight * 30.841 * 1.3).toFixed(2);
-    return item;
-  });
+  data.imageCount = data.image?.length;
+  data.price = (data.weight * 30.841 * 1.3).toFixed(2);
 
   res.json(data);
 }
