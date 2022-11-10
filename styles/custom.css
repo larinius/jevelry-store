@@ -116,13 +116,12 @@ img, svg {
   min-height: 1000px;
 }
 
-.header-main-area .logo img {
-  width: 226px;
-  height: 58px;
-  min-width: inherit;
-  min-height: inherit;
-  /* min-width: 100%; */
-  max-width: 100%;
-  /* min-height: 100%; */
-  max-height: 100%;
+.logo {
+  width: 143px;
+  height: 60px;
+}
+
+.widget-logo {
+  width: 143px;
+  height: 60px;
 }
