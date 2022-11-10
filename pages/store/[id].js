@@ -6,7 +6,6 @@ import { useTranslation, Trans } from "next-i18next";
 import Container from "react-bootstrap/Container";
 import React, { useState, useEffect, useContext } from "react";
 
-import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
 import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
 import PaginationBox from "../../components/ui/PaginationBox";
 import ProductContext from "../../components/context/ProductContext";
@@ -21,7 +20,6 @@ const Category = ({ category }) => {
 
   return (
     <div>
-      <BreadcrumbArea />
       <div className="shop-main-wrapper section-padding">
         <Container>
           <Row>
