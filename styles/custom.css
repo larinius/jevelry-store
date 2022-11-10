@@ -115,3 +115,14 @@ img, svg {
 .shop-product-wrapper{
   min-height: 1000px;
 }
+
+.header-main-area .logo img {
+  width: 226px;
+  height: 58px;
+  min-width: inherit;
+  min-height: inherit;
+  /* min-width: 100%; */
+  max-width: 100%;
+  /* min-height: 100%; */
+  max-height: 100%;
+}
