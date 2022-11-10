@@ -8,7 +8,6 @@ import { withIronSessionSsr } from "iron-session/next";
 import Container from "react-bootstrap/Container";
 import React, { useState, useEffect, useContext } from "react";
 
-import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
 import ProductArea from "../../components/ui/ProductArea";
 import ProductContext from "../../components/context/ProductContext";
 
@@ -28,7 +27,6 @@ const Product = ({ sku }) => {
 
   return (
     <>
-      <BreadcrumbArea />
       <div className="shop-main-wrapper section-padding">
         <ProductArea product={product?.data} />
       </div>
