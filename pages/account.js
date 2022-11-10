@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { sessionOptions } from "/lib/session";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import useUser from "/lib/useUser";
 
 import AccountArea from "../components/ui/AccountArea";
-import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Account() {
@@ -18,20 +17,12 @@ export default function Account() {
   const { user } = useUser();
 
   useEffect(() => {
-    
-    if( !user?.isLoggedIn){
+    if (!user?.isLoggedIn) {
       router.push("/login");
     }
-
   }, []);
 
-
-  return (
-    <>
-      <BreadcrumbArea />
-      {user?.isLoggedIn && <AccountArea />}
-    </>
-  );
+  return <>{user?.isLoggedIn && <AccountArea />}</>;
 }
 
 // export async function getServerSideProps({ locale, req, res }) {
@@ -64,11 +55,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // }
 
   return {
-    props: {      
-       ...(await serverSideTranslations(locale, ["common"])),
-        ...getCookies({ req, res }),
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+      ...getCookies({ req, res }),
     },
-    
   };
 },
 sessionOptions);

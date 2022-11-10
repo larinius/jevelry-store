@@ -4,7 +4,6 @@ import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 
-import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 import CartArea from "../components/ui/CartArea";
 
 export default function Cart() {
@@ -13,7 +12,6 @@ export default function Cart() {
 
   return (
     <>
-    <BreadcrumbArea/>
     <CartArea/>
     </>
   );

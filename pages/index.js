@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
@@ -13,6 +14,10 @@ import ProductCarousel from "../components/ui/ProductCarousel";
 export default function Home() {
   const router = useRouter();
   const { t } = useTranslation("common");
+
+useEffect(() => {
+  console.log(router);
+}, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onToggleLanguageClick = (newLocale) => {
