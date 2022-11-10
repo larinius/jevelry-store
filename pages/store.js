@@ -3,8 +3,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
 import ProductCatalog from "../components/ui/ProductCatalog";
 import ProductContext from "../components/context/ProductContext";
-import BreadcrumbArea from "../components/ui/BreadcrumbArea";
-
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 function store(props) {
@@ -17,7 +15,6 @@ function store(props) {
 
   return (
     <>
-      <BreadcrumbArea />
       <ProductCatalog />
     </>
   );

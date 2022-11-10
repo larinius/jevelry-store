@@ -1,22 +1,23 @@
-import Meta from './Meta'
-import Header from './Header'
-import Footer from './Footer'
-import styles from '../../styles/Layout.module.css'
-
+import Meta from "./Meta";
+import Header from "./Header";
+import Footer from "./Footer";
+import BreadcrumbArea from "../ui/BreadcrumbArea";
+import styles from "../../styles/Layout.module.css";
 
 const Layout = ({ children }) => {
   return (
     <>
       <Meta />
       <>
-        <Header/>
+        <Header />
         <main>
+          <BreadcrumbArea />
           {children}
         </main>
-        <Footer/>
+        <Footer />
       </>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

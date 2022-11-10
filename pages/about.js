@@ -2,14 +2,12 @@ import React from "react";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import BreadcrumbArea from "../components/ui/BreadcrumbArea";
 
 function about(props) {
   const { t } = useTranslation("common");
 
   return (
     <>
-    <BreadcrumbArea/>
       <section className="about-us section-padding">
         <div className="container">
           <div className="row align-items-center">
