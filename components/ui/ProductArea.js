@@ -11,22 +11,18 @@ import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
 import PaginationBox from "../../components/ui/PaginationBox";
 import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
-import Dummy from "../../public/static/img/dummy.jpg"
+import Dummy from "../../public/static/img/dummy.jpg";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 
-
 const ProductArea = ({ product }) => {
+  const { t } = useTranslation("common");
+  const [quantity, setQuantity] = useState(1);
 
-    const [quantity, setQuantity] = useState(1);
-
-
-    const handleOnChange = (e) => {
-
-        setQuantity(e.target.value);
-        console.log(e.target.value);
-    }
-
+  const handleOnChange = (e) => {
+    setQuantity(e.target.value);
+    console.log(e.target.value);
+  };
 
   return (
     <>
@@ -50,27 +46,36 @@ const ProductArea = ({ product }) => {
                 <div className="col-lg-7">
                   <div className="product-details-des">
                     <div className="manufacturer-name">
-                      <a href="product-details.html">{product?.brand.title}</a>
+                      <a href="product-details.html">{product?.brand?.title}</a>
                     </div>
                     <h3 className="product-name">{product?.title}</h3>
                     <div className="price-box">
                       <span className="price-regular">${product?.price}</span>
                       <span className="price-old">
-                        <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
+                        <del>
+                          {product?.priceBefore
+                            ? `$${product?.priceBefore}`
+                            : null}
+                        </del>
                       </span>
+                    </div>
+                    <div className="characteristics-box">
+                      <span className="weight">{t("weight")}: {product?.weight}{t("g")}</span>
                     </div>
 
                     <div className="availability">
                       <i className="fa fa-check-circle"></i>
                     </div>
-                    <p className="pro-desc">
-                        {product?.description}
-                    </p>
+                    <p className="pro-desc">{product?.description}</p>
                     <div className="quantity-cart-box d-flex align-items-center">
                       <h6 className="option-title">qty:</h6>
                       <div className="quantity">
                         <div className="pro-qty">
-                          <input type="text" value={quantity} onChange={handleOnChange}/>
+                          <input
+                            type="text"
+                            value={quantity}
+                            onChange={handleOnChange}
+                          />
                         </div>
                       </div>
                       <div className="action_link">
@@ -82,7 +87,7 @@ const ProductArea = ({ product }) => {
 
                     <div className="useful-links">
                       <a href="#" data-bs-toggle="tooltip" title="Compare">
-                        <FaBalanceScaleLeft size={22}/> compare
+                        <FaBalanceScaleLeft size={22} /> compare
                       </a>
                       <a href="#" data-bs-toggle="tooltip" title="Wishlist">
                         <MdFavoriteBorder size={22} /> wishlist
@@ -95,9 +100,7 @@ const ProductArea = ({ product }) => {
 
             <div className="product-details-reviews section-padding pb-0">
               <div className="row">
-                <div className="col-lg-12">
-
-                </div>
+                <div className="col-lg-12"></div>
               </div>
             </div>
           </div>

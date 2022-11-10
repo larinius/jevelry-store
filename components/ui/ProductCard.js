@@ -81,9 +81,9 @@ function ProductCard({ product }) {
             <h6 className="product-name">
               <a>{product.title}</a>
             </h6>
-            <div class="price-box">
-              <span class="price-regular">${product.price}</span>
-              <span class="price-old">
+            <div className="price-box">
+              <span className="price-regular">${product.price}</span>
+              <span className="price-old">
               <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
               </span>
             </div>
