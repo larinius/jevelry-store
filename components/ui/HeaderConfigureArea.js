@@ -4,10 +4,24 @@ import Link from "next/link";
 import React from "react";
 import useUser from "/lib/useUser";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import {
+  incrementQuantity,
+  decrementQuantity,
+  removeItem,
+  setShowCart,
+} from "../../redux/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const HeaderConfigureArea = () => {
   const router = useRouter();
   const { user } = useUser();
+
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleClose = () => dispatch(setShowCart(false));
+  const handleShow = () => dispatch(setShowCart(true));
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -44,6 +58,20 @@ const HeaderConfigureArea = () => {
     );
   };
 
+  const getTotal = () => {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    let totalWeight = 0;
+    cart.forEach((item) => {
+      totalQuantity += item.quantity;
+      totalPrice += item.price * item.quantity;
+      totalWeight += item.weight * item.quantity;
+    });
+    return { totalPrice, totalQuantity, totalWeight };
+  };
+
+  const quantity = getTotal().totalQuantity;
+
   return (
     <>
       <div className="header-configure-area">
@@ -64,11 +92,10 @@ const HeaderConfigureArea = () => {
             </Link>
           </li>
           <li>
-            <Link href={"/cart"} passHref>
-              <a>
-                <Icon.Bag size={22} />
-              </a>
-            </Link>
+            <a onClick={handleShow} href="#" className="minicart-btn">
+              <Icon.Bag size={22} />
+              {quantity?<div className="notification">{quantity}</div>:null}
+            </a>
           </li>
         </ul>
       </div>

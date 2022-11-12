@@ -806,8 +806,8 @@ body {
     position: relative;
   }
   .header-configure-area ul li a .notification {
-    top: -8px;
-    right: -6px;
+    top: 3px;
+    right: -12px;
     position: absolute;
     width: 18px;
     height: 18px;
@@ -4401,7 +4401,7 @@ body {
     margin-right: 15px;
   }
   .product-details-des .quantity .pro-qty {
-    width: 90px;
+    width: 110px;
     height: 40px;
     border: 1px solid #ddd;
     padding: 0 15px;
@@ -4419,7 +4419,7 @@ body {
     color: #555555;
   }
   .product-details-des .quantity .pro-qty input {
-    width: 28px;
+    width: 40px;
     float: left;
     border: none;
     height: 40px;
