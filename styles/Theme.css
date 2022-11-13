@@ -5024,7 +5024,7 @@ body {
   .order-summary-table .table tr th strong,
   .order-summary-table table tr td strong,
   .order-summary-table table tr th strong {
-    font-weight: 400;
+    font-weight: 700;
   }
   .order-summary-table .shipping-type {
     text-align: left;

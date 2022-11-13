@@ -1,9 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import useUser from "/lib/useUser";
-
+import { useSelector, useDispatch } from "react-redux";
 const CheckoutArea = () => {
   const { user } = useUser();
+  const cart = useSelector((state) => state.cart);
+
+  const getTotal = () => {
+    let quantity = 0;
+    let price = 0;
+    let weight = 0;
+
+    cart.forEach((item) => {
+      quantity += parseInt(item.quantity);
+      price += item.price * item.quantity;
+      weight += item.weight * item.quantity;
+    });
+
+    return { price, quantity, weight };
+  };
+
+  const total = getTotal();
+
+  const ProductList = () => {
+    return (
+      <>
+        {cart.map((item) => {
+          return (
+            <tr key={item.id}>
+              <td>
+              <strong>{item.title} - {item.sku}</strong> x  {item.quantity}
+              </td>
+              <td>${(item.price * item.quantity).toFixed(2)}</td>
+            </tr>
+          );
+        })}
+      </>
+    );
+  };
 
   return (
     <>
@@ -91,37 +125,6 @@ const CheckoutArea = () => {
                             </form>
                           </Col>
                         </Row>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card">
-                  <h6>
-                    Have A Coupon?{" "}
-                    <span data-bs-toggle="collapse">
-                      Click Here To Enter Your Code
-                    </span>
-                  </h6>
-                  <div id="couponaccordion" className="collapse">
-                    <div className="card-body">
-                      <div className="cart-update-option">
-                        <div className="apply-coupon-wrapper">
-                          <form
-                            action="#"
-                            method="post"
-                            className=" d-block d-md-flex"
-                          >
-                            <input
-                              type="text"
-                              placeholder="Enter Your Coupon Code"
-                              required
-                            />
-                            <button className="btn btn-sqr">
-                              Apply Coupon
-                            </button>
-                          </form>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -248,49 +251,26 @@ const CheckoutArea = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
-                            <a href="product-details.html">
-                              Suscipit Vestibulum <strong> × 1</strong>
-                            </a>
-                          </td>
-                          <td>$165.00</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <a href="product-details.html">
-                              Ami Vestibulum suscipit <strong> × 4</strong>
-                            </a>
-                          </td>
-                          <td>$165.00</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <a href="product-details.html">
-                              Vestibulum suscipit <strong> × 2</strong>
-                            </a>
-                          </td>
-                          <td>$165.00</td>
-                        </tr>
+                        <ProductList />
                       </tbody>
+
                       <tfoot>
                         <tr>
                           <td>Sub Total</td>
                           <td>
-                            <strong>$400</strong>
+                            <strong>${total.price.toFixed(2)}</strong>
                           </td>
                         </tr>
                         <tr>
                           <td>Total Amount</td>
                           <td>
-                            <strong>$470</strong>
+                            <strong>${total.price.toFixed(2)}</strong>
                           </td>
                         </tr>
                       </tfoot>
                     </table>
                   </div>
                   <div className="order-payment-method">
-
                     <div className="summary-footer-area">
                       <div className="custom-control custom-checkbox mb-20">
                         <input
