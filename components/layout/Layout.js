@@ -4,7 +4,15 @@ import Footer from "./Footer";
 import BreadcrumbArea from "../ui/BreadcrumbArea";
 import styles from "../../styles/Layout.module.css";
 
+import dynamic from "next/dynamic";
+const OffcanvasCartNoSSR = dynamic(() => import("../ui/OffcanvasCart"), {
+  ssr: false,
+});
+
 const Layout = ({ children }) => {
+
+
+
   return (
     <>
       <Meta />
@@ -13,8 +21,10 @@ const Layout = ({ children }) => {
         <main>
           <BreadcrumbArea />
           {children}
+
         </main>
         <Footer />
+        <OffcanvasCartNoSSR/>
       </>
     </>
   );

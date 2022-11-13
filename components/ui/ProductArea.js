@@ -4,7 +4,7 @@ import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import { withIronSessionSsr } from "iron-session/next";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
 import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
@@ -14,14 +14,41 @@ import ProductGrid from "../../components/ui/ProductGrid";
 import Dummy from "../../public/static/img/dummy.jpg";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaBalanceScaleLeft } from "react-icons/fa";
+import { addToCart } from "../../redux/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const ProductArea = ({ product }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
 
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state);
+  const qntRef = useRef(null);
+
+  const handleAddToCart = (product, quantity) => {
+    let prod = product;
+    prod.quantity = quantity;
+    dispatch(addToCart(product));
+  };
+
   const handleOnChange = (e) => {
-    setQuantity(e.target.value);
-    console.log(e.target.value);
+    // setQuantity(e.target.value);
+    // console.log(e.target.value);
+  };
+
+  const handlePlus = (e) => {
+    qntRef.current.value = (+qntRef.current.value+1);
+    // setQuantity(quantity++);
+  };
+
+  const handleMinus = (e) => {
+    if (qntRef.current.value > 1) {
+      qntRef.current.value = (+qntRef.current.value-1);
+    }
   };
 
   return (
@@ -60,6 +87,12 @@ const ProductArea = ({ product }) => {
                       </span>
                     </div>
                     <div className="characteristics-box">
+                      <span className="weight">
+                        {t("weight")}: {product?.weight}
+                        {t("g")}
+                      </span>
+                    </div>
+                    <div className="characteristics-box">
                       <span className="weight">{t("weight")}: {product?.weight}{t("g")}</span>
                     </div>
 
@@ -70,16 +103,29 @@ const ProductArea = ({ product }) => {
                     <div className="quantity-cart-box d-flex align-items-center">
                       <h6 className="option-title">qty:</h6>
                       <div className="quantity">
-                        <div className="pro-qty">
+                        <InputGroup className="pro-qty">
+                          <button onClick={handleMinus}>
+                            <FaMinus size={18} color={"#adb5bd"} />
+                          </button>
                           <input
+                            ref={qntRef}
                             type="text"
-                            value={quantity}
-                            onChange={handleOnChange}
+                            // value={quantity}
+                            defaultValue={1}
+                            onBlur={handleOnChange}
                           />
-                        </div>
+
+                          <button onClick={handlePlus}>
+                            <FaPlus size={18} color={"#adb5bd"} />
+                          </button>
+                        </InputGroup>
                       </div>
                       <div className="action_link">
-                        <a className="btn btn-cart2" href="#">
+                        <a
+                          onClick={() => handleAddToCart(product, qntRef.current.value)}
+                          className="btn btn-cart2"
+                          href="#"
+                        >
                           Add to cart
                         </a>
                       </div>

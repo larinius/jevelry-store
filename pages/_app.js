@@ -24,6 +24,9 @@ import "../styles/Theme.css";
 import "../styles/custom.css";
 import dynamic from "next/dynamic";
 
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
+
 const FingerprintNoSSR = dynamic(() => import("../components/ui/Fingerprint"), {
   ssr: false,
 });
@@ -49,13 +52,15 @@ function MyApp({ Component, pageProps }) {
     <>
       <QueryClientProvider client={queryClient}>
         <SSRProvider>
-          <ThemeProvider dir={dir}>
-            <ProductProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ProductProvider>
-          </ThemeProvider>
+          <Provider store={store}>
+            <ThemeProvider dir={dir}>
+              <ProductProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ProductProvider>
+            </ThemeProvider>
+          </Provider>
         </SSRProvider>
         <ReactQueryDevtools initialIsOpen={false} />
         <FingerprintNoSSR />
