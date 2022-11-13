@@ -59,18 +59,42 @@ const HeaderConfigureArea = () => {
   };
 
   const getTotal = () => {
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    let totalWeight = 0;
+    let quantity = 0;
+    let price = 0;
+    let weight = 0;
+
     cart.forEach((item) => {
-      totalQuantity += item.quantity;
-      totalPrice += item.price * item.quantity;
-      totalWeight += item.weight * item.quantity;
+      quantity += parseInt(item.quantity);
+      price += item.price * item.quantity;
+      weight += item.weight * item.quantity;
     });
-    return { totalPrice, totalQuantity, totalWeight };
+
+    return { price, quantity, weight };
   };
 
-  const quantity = getTotal().totalQuantity;
+  const total = getTotal();
+
+  const CartButton = () => {
+    if (total.quantity > 0) {
+      return (
+        <>
+          <a onClick={handleShow} className="minicart-btn">
+            <Icon.Bag size={22} />
+            <div className="notification">{total.quantity}</div>
+          </a>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <a onClick={handleShow} className="minicart-btn">
+            <Icon.Bag size={22} />
+          </a>
+        </>
+      );
+    }
+  };
+
 
   return (
     <>
@@ -92,10 +116,7 @@ const HeaderConfigureArea = () => {
             </Link>
           </li>
           <li>
-            <a onClick={handleShow} href="#" className="minicart-btn">
-              <Icon.Bag size={22} />
-              {quantity?<div className="notification">{quantity}</div>:null}
-            </a>
+            <CartButton />
           </li>
         </ul>
       </div>

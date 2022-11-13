@@ -5213,14 +5213,15 @@ body {
     color: #555555;
   }
   .cart-table .table tr .pro-qty input {
-    width: 28px;
-    float: left;
+    width: 70px;
+    /* float: left; */
     border: none;
     height: 40px;
     line-height: 34px;
     padding: 0;
     text-align: center;
     background-color: transparent;
+    font-size: 1.2em;
   }
   
   .cart-update-option {

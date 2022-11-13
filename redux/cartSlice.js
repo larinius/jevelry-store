@@ -18,23 +18,31 @@ const cartSlice = createSlice({
       if (itemInCart) {
         itemInCart.quantity += +action.payload.quantity;
       } else {
-        state.cart.push({ ...action.payload, quantity: +action.payload.quantity });
+        state.cart.push({
+          ...action.payload,
+          quantity: +action.payload.quantity,
+        });
       }
     },
     incrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload);
+      const item = state.cart.find((item) => item.id === action.payload.id);
       item.quantity++;
     },
     decrementQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload);
+      const item = state.cart.find((item) => item.id === action.payload.id);
       if (item.quantity === 1) {
         item.quantity = 1;
       } else {
         item.quantity--;
       }
     },
+    updateQuantity: (state, action) => {
+      const item = state.cart.find((item) => item.id === action.payload.id);
+      if (action.payload.quantity >= 1) {
+        item.quantity = action.payload.quantity;
+      }
+    },
     removeItem: (state, action) => {
-      console.log("Remove", action.payload);
       const removeItem = state.cart.filter(
         (item) => item.id !== action.payload.id
       );
@@ -47,7 +55,6 @@ const cartSlice = createSlice({
       state.showCart = action.payload;
       // return(newstate);
       // state.cart={...state.cart, showCart}
-      console.log(current(state));
     },
   },
 });
@@ -57,6 +64,7 @@ export const {
   addToCart,
   incrementQuantity,
   decrementQuantity,
+  updateQuantity,
   removeItem,
   setShowCart,
 } = cartSlice.actions;

@@ -6,8 +6,12 @@ import Image from "next/image";
 
 import Navigation from "../ui/Navigation";
 import SearchBox from "../ui/SearchBox";
-import HeaderConfigureArea from "./HeaderConfigureArea";
+// import HeaderConfigureArea from "HeaderConfigureArea";
 import Logo from "./Logo";
+import dynamic from "next/dynamic";
+const HeaderConfigureAreaNoSSR = dynamic(() => import("./HeaderConfigureArea"), {
+  ssr: false,
+});
 
 const HeaderMain = () => {
   return (
@@ -23,7 +27,7 @@ const HeaderMain = () => {
           <div className="col-lg-5">
             <div className="header-right d-flex align-items-center justify-content-xl-between justify-content-lg-end">
               <SearchBox />
-              <HeaderConfigureArea />
+              <HeaderConfigureAreaNoSSR />
             </div>
           </div>
         </Row>

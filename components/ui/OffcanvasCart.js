@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import Button from "react-bootstrap/Button";
-import { GrClose } from "react-icons/gr";
-import { FaShoppingCart, FaShare } from "react-icons/fa";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
+import { FaShoppingCart, FaShare } from "react-icons/fa";
+import { GrClose } from "react-icons/gr";
+import { Container, Button, Offcanvas } from "react-bootstrap";
 import Image from "next/image";
-import Container from "react-bootstrap/Container";
+import React, { useState, useEffect } from "react";
 
 import {
   incrementQuantity,
@@ -27,6 +25,22 @@ const OffcanvasCart = () => {
   const handleClose = () => dispatch(setShowCart(false));
   const handleShow = () => dispatch(setShowCart(true));
   const handleRemove = (product) => dispatch(removeItem(product));
+
+  const getTotal = () => {
+    let quantity = 0;
+    let price = 0;
+    let weight = 0;
+
+    cart.forEach((item) => {
+      quantity += parseInt(item.quantity);
+      price += item.price * item.quantity;
+      weight += item.weight * item.quantity;
+    });
+
+    return { price, quantity, weight };
+  };
+
+  const total = getTotal();
 
   const MinicartItem = ({ product }) => {
     return (
@@ -65,11 +79,9 @@ const OffcanvasCart = () => {
         <ul>
           {cart.map((item) => {
             return (
-              <>
-                <li className="minicart-item" key={item.id}>
+                <li key={item.id} className="minicart-item" >
                   <MinicartItem product={item} />
                 </li>
-              </>
             );
           })}
         </ul>
@@ -78,18 +90,6 @@ const OffcanvasCart = () => {
   };
 
   const MinicartPriceBox = ({ cart }) => {
-    const getTotal = () => {
-      let totalQuantity = 0;
-      let totalPrice = 0;
-      let totalWeight = 0;
-      cart.forEach((item) => {
-        totalQuantity += item.quantity;
-        totalPrice += item.price * item.quantity;
-        totalWeight += item.weight * item.quantity;
-      });
-      return { totalPrice, totalQuantity, totalWeight };
-    };
-
     return (
       <>
         <div className="minicart-pricing-box">
@@ -97,26 +97,26 @@ const OffcanvasCart = () => {
             <li>
               <span>sub-total</span>
               <span>
-                <strong>${getTotal().totalPrice.toFixed(2)}</strong>
+                <strong>${total.price.toFixed(2)}</strong>
               </span>
             </li>
             <li>
               <span>quantity</span>
               <span>
-                <strong>{getTotal().totalQuantity}</strong>
+                <strong>{total.quantity}</strong>
               </span>
             </li>
             <li>
               <span>weight</span>
               <span>
-                <strong>{getTotal().totalWeight.toFixed(2)}g</strong>
+                <strong>{total.weight.toFixed(2)}g</strong>
               </span>
             </li>
 
             <li className="total">
               <span>total</span>
               <span>
-                <strong>${getTotal().totalPrice.toFixed(2)}</strong>
+                <strong>{total.price.toFixed(2)}</strong>
               </span>
             </li>
           </ul>
