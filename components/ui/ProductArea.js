@@ -70,8 +70,11 @@ const ProductArea = ({ product }) => {
   };
 
   const isWishlisted = () => {
-    const itemInWishlist = wishlist.find((item) => item.id === product.id);
-    return itemInWishlist;
+    if (wishlist !== null) {
+      const itemInWishlist = wishlist.find((item) => item.id === product?.id);
+      return itemInWishlist;
+    }
+    return null;
   };
 
   return (
