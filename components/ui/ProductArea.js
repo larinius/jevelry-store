@@ -14,7 +14,7 @@ import ProductGrid from "../../components/ui/ProductGrid";
 import Dummy from "../../public/static/img/dummy2.jpg";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaBalanceScaleLeft } from "react-icons/fa";
-import { addToCart } from "../../redux/cartSlice";
+import { addToCart, addToWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -28,7 +28,8 @@ const ProductArea = ({ product }) => {
   const [photo, setPhoto] = useState(Dummy);
 
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state);
+  const cart = useSelector((state) => state.cart);
+  const wishlist = useSelector((state) => state.wishlist);
   const qntRef = useRef(null);
 
   useEffect(() => {
@@ -47,6 +48,11 @@ const ProductArea = ({ product }) => {
     dispatch(addToCart(product));
   };
 
+  const handleAddToWishlist = (product) => {
+    let prod = product;
+    dispatch(addToWishlist(product));
+  };
+
   const handleOnChange = (e) => {
     // setQuantity(e.target.value);
     // console.log(e.target.value);
@@ -61,6 +67,11 @@ const ProductArea = ({ product }) => {
     if (qntRef.current.value > 1) {
       qntRef.current.value = +qntRef.current.value - 1;
     }
+  };
+
+  const isWishlisted = () => {
+    const itemInWishlist = wishlist.find((item) => item.id === product.id);
+    return itemInWishlist;
   };
 
   return (
@@ -153,8 +164,18 @@ const ProductArea = ({ product }) => {
                       <a href="#" data-bs-toggle="tooltip" title="Compare">
                         <FaBalanceScaleLeft size={22} /> compare
                       </a>
-                      <a href="#" data-bs-toggle="tooltip" title="Wishlist">
-                        <MdFavoriteBorder size={22} /> wishlist
+                      <a
+                        href="#"
+                        data-bs-toggle="tooltip"
+                        title="Wishlist"
+                        onClick={() => handleAddToWishlist(product)}
+                      >
+                        {isWishlisted() ? (
+                          <MdFavorite size={22} color={"#f71f34"} />
+                        ) : (
+                          <MdFavoriteBorder size={22} />
+                        )}{" "}
+                        Wishlist
                       </a>
                     </div>
                   </div>

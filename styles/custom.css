@@ -125,3 +125,7 @@ img, svg {
   width: 143px;
   height: 60px;
 }
+
+.wishlist-item a:hover {
+  color: #c29958;
+}

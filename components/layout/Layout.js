@@ -8,11 +8,14 @@ import dynamic from "next/dynamic";
 const OffcanvasCartNoSSR = dynamic(() => import("../ui/OffcanvasCart"), {
   ssr: false,
 });
+const OffcanvasWishlistNoSSR = dynamic(
+  () => import("../ui/OffcanvasWishlist"),
+  {
+    ssr: false,
+  }
+);
 
 const Layout = ({ children }) => {
-
-
-
   return (
     <>
       <Meta />
@@ -21,10 +24,10 @@ const Layout = ({ children }) => {
         <main>
           <BreadcrumbArea />
           {children}
-
         </main>
         <Footer />
-        <OffcanvasCartNoSSR/>
+        <OffcanvasCartNoSSR />
+        <OffcanvasWishlistNoSSR />
       </>
     </>
   );
