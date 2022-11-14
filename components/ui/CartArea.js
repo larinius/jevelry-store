@@ -81,82 +81,80 @@ const CartArea = () => {
     );
   };
 
-  return (
-    <>
-      <div className="cart-main-wrapper section-padding">
-        <div className="container">
-          <div className="section-bg-color">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="cart-table table-responsive">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th className="pro-thumbnail">Photo</th>
-                        <th className="pro-title">Product</th>
-                        <th className="pro-price">Price</th>
-                        <th className="pro-quantity">Quantity</th>
-                        <th className="pro-quantity">Weight</th>
-                        <th className="pro-subtotal">Total</th>
-                        <th className="pro-remove">Remove</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cart.map((item) => {
-                        return <ProductRowItem key={item.id} product={item} />;
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+  return <>
+    <div className="cart-main-wrapper section-padding">
+      <div className="container">
+        <div className="section-bg-color">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="cart-table table-responsive">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th className="pro-thumbnail">Photo</th>
+                      <th className="pro-title">Product</th>
+                      <th className="pro-price">Price</th>
+                      <th className="pro-quantity">Quantity</th>
+                      <th className="pro-quantity">Weight</th>
+                      <th className="pro-subtotal">Total</th>
+                      <th className="pro-remove">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cart.map((item) => {
+                      return <ProductRowItem key={item.id} product={item} />;
+                    })}
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div className="row">
-              <div className="col-lg-5 ml-auto">
-                <div className="p-2 cart-calculator-wrapper">
-                  <div className="cart-calculate-items">
-                    <h6>Cart Totals</h6>
-                    <div className="table-responsive">
-                      <table className="table">
-                        <tbody>
-                          <tr>
-                            <td>Sub Total</td>
-                            <td>
-                              <span>${total.price.toFixed(2)}</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Weight</td>
-                            <td>
-                              <span>{total.weight.toFixed(2)}g</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Shipping</td>
-                            <td>$0</td>
-                          </tr>
-                          <tr className="total">
-                            <td>Total</td>
-                            <td className="total-amount">${total.price.toFixed(2)}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-5 ml-auto">
+              <div className="p-2 cart-calculator-wrapper">
+                <div className="cart-calculate-items">
+                  <h6>Cart Totals</h6>
+                  <div className="table-responsive">
+                    <table className="table">
+                      <tbody>
+                        <tr>
+                          <td>Sub Total</td>
+                          <td>
+                            <span>${total.price.toFixed(2)}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Weight</td>
+                          <td>
+                            <span>{total.weight.toFixed(2)}g</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Shipping</td>
+                          <td>$0</td>
+                        </tr>
+                        <tr className="total">
+                          <td>Total</td>
+                          <td className="total-amount">${total.price.toFixed(2)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div className="m-3">
-                    <Link href="/checkout" passHref>
-                      <a href="checkout.html" className="btn btn-sqr d-block">
-                        Proceed Checkout
-                      </a>
-                    </Link>
-                  </div>
+                </div>
+                <div className="m-3">
+                  <Link href="/checkout" passHref className="btn btn-sqr d-block">
+                    
+                      Proceed Checkout
+                    
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>;
 };
 
 export default CartArea;

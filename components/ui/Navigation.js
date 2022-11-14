@@ -11,38 +11,36 @@ import styles from "../../styles/Nav.module.css";
 const Navigation = () => {
   const { t } = useTranslation("common");
 
-  return (
-    <>
-      <div className="main-menu-area">
-        <div className="main-menu">
-          <nav className="desktop-menu">
-            <ul>
-              <li>
-                <Link href="/" passHref>
-                  {t("home")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/store" passHref>
-                  {t("store")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" passHref>
-                  {t("about")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacts" passHref>
-                  {t("contacts")}
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+  return <>
+    <div className="main-menu-area">
+      <div className="main-menu">
+        <nav className="desktop-menu">
+          <ul>
+            <li>
+              <Link href="/" passHref legacyBehavior>
+                {t("home")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/store" passHref legacyBehavior>
+                {t("store")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" passHref legacyBehavior>
+                {t("about")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/contacts" passHref legacyBehavior>
+                {t("contacts")}
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </>
-  );
+    </div>
+  </>;
 };
 
 export default Navigation;
