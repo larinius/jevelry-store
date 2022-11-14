@@ -92,6 +92,9 @@ const ProductArea = ({ product }) => {
                         {t("g")}
                       </span>
                     </div>
+                    <div className="characteristics-box">
+                      <span className="weight">{t("weight")}: {product?.weight}{t("g")}</span>
+                    </div>
 
                     <div className="availability">
                       <i className="fa fa-check-circle"></i>
