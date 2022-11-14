@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { current } from "@reduxjs/toolkit";
 import { CheckLg } from "react-bootstrap-icons";
 
-const initialState = { cart: [], showCart: false };
+const initialState = {
+  cart: [],
+  wishlist: [],
+  showCart: false,
+  showWishlist: false,
+};
 
 const cartSlice = createSlice({
   name: "cart",
@@ -56,6 +61,33 @@ const cartSlice = createSlice({
       // return(newstate);
       // state.cart={...state.cart, showCart}
     },
+    addToWishlist: (state, action) => {
+      console.log("WL", action.payload);
+
+      const itemInWishlist = state.wishlist.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (!itemInWishlist) {
+        state.wishlist.push({
+          ...action.payload,
+        });
+      }
+    },
+    removeFromWishlist: (state, action) => {
+      const removeItem = state.wishlist.filter(
+        (item) => item.id !== action.payload.id
+      );
+      state.wishlist = removeItem;
+    },
+    setShowWishlist: (state, action) => {
+      // console.log("SHOW CART", action.payload);
+      // const showCart = action.payload;
+
+      state.showWishlist = action.payload;
+      // return(newstate);
+      // state.cart={...state.cart, showCart}
+    },
   },
 });
 
@@ -67,4 +99,7 @@ export const {
   updateQuantity,
   removeItem,
   setShowCart,
+  addToWishlist,
+  removeFromWishlist,
+  setShowWishlist,
 } = cartSlice.actions;

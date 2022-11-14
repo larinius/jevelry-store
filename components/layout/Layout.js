@@ -8,6 +8,12 @@ import dynamic from "next/dynamic";
 const OffcanvasCartNoSSR = dynamic(() => import("../ui/OffcanvasCart"), {
   ssr: false,
 });
+const OffcanvasWishlistNoSSR = dynamic(
+  () => import("../ui/OffcanvasWishlist"),
+  {
+    ssr: false,
+  }
+);
 
 const Layout = ({ children }) => {
 
@@ -24,7 +30,8 @@ const Layout = ({ children }) => {
 
         </main>
         <Footer />
-        <OffcanvasCartNoSSR/>
+        <OffcanvasCartNoSSR />
+        <OffcanvasWishlistNoSSR />
       </>
     </>
   );

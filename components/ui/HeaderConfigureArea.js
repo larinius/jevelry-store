@@ -5,12 +5,7 @@ import React from "react";
 import useUser from "/lib/useUser";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import {
-  incrementQuantity,
-  decrementQuantity,
-  removeItem,
-  setShowCart,
-} from "../../redux/cartSlice";
+import { setShowCart, setShowWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const HeaderConfigureArea = () => {
@@ -18,10 +13,13 @@ const HeaderConfigureArea = () => {
   const { user } = useUser();
 
   const cart = useSelector((state) => state.cart);
+  const wishlist = useSelector((state) => state.wishlist);
+
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch(setShowCart(false));
-  const handleShow = () => dispatch(setShowCart(true));
+  const handleShowCart = () => dispatch(setShowCart(true));
+  const handleShowWishlist = () => dispatch(setShowWishlist(true));
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -30,28 +28,32 @@ const HeaderConfigureArea = () => {
   };
 
   const LoginLink = () => {
-    return <>
-      <li>
-        <Link href="/login" passHref>
-          login / register
-        </Link>
-      </li>
-    </>;
+    return (
+      <>
+        <li>
+          <Link href="/login" passHref>
+            login / register
+          </Link>
+        </li>
+      </>
+    );
   };
 
   const LogoutLink = () => {
-    return <>
-      <li>
-        <Link href="/account" passHref>
-          my account
-        </Link>
-      </li>
-      <li>
-        <Link href="/logout" passHref onClick={handleLogout}>
-          Logout
-        </Link>
-      </li>
-    </>;
+    return (
+      <>
+        <li>
+          <Link href="/account" passHref>
+            my account
+          </Link>
+        </li>
+        <li>
+          <Link href="/logout" passHref onClick={handleLogout}>
+            Logout
+          </Link>
+        </li>
+      </>
+    );
   };
 
   const getTotal = () => {
@@ -70,11 +72,23 @@ const HeaderConfigureArea = () => {
 
   const total = getTotal();
 
+  const getWishlist = () => {
+    let quantity = 0;
+
+    wishlist.forEach((item) => {
+      quantity += 1;
+    });
+
+    return { quantity };
+  };
+
+  const wish = getWishlist();
+
   const CartButton = () => {
     if (total.quantity > 0) {
       return (
         <>
-          <a onClick={handleShow} className="minicart-btn">
+          <a onClick={handleShowCart} className="minicart-btn">
             <Icon.Bag size={22} />
             <div className="notification">{total.quantity}</div>
           </a>
@@ -83,7 +97,7 @@ const HeaderConfigureArea = () => {
     } else {
       return (
         <>
-          <a onClick={handleShow} className="minicart-btn">
+          <a onClick={handleShowCart} className="minicart-btn">
             <Icon.Bag size={22} />
           </a>
         </>
@@ -91,31 +105,49 @@ const HeaderConfigureArea = () => {
     }
   };
 
-
-  return <>
-    <div className="header-configure-area">
-      <ul className="nav justify-content-end">
-        <li className="user-hover">
-          <a href="#">
-            <Icon.Person size={22} />
-          </a>
-          <ul className="dropdown-list">
-            {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
-          </ul>
-        </li>
-        <li>
-          <Link href={"/wishlist"} passHref>
-
+  const WishlistButton = () => {
+    if (wish.quantity > 0) {
+      return (
+        <>
+          <a onClick={handleShowWishlist} className="wishlist-btn">
             <Icon.Heart size={22} />
+            <div className="notification">{wish.quantity}</div>
+          </a>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <a onClick={handleShowWishlist} className="wishlist-btn">
+            <Icon.Heart size={22} />
+          </a>
+        </>
+      );
+    }
+  };
 
-          </Link>
-        </li>
-        <li>
-          <CartButton />
-        </li>
-      </ul>
-    </div>
-  </>;
+  return (
+    <>
+      <div className="header-configure-area">
+        <ul className="nav justify-content-end">
+          <li className="user-hover">
+            <a href="#">
+              <Icon.Person size={22} />
+            </a>
+            <ul className="dropdown-list">
+              {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
+            </ul>
+          </li>
+          <li>
+            <WishlistButton />
+          </li>
+          <li>
+            <CartButton />
+          </li>
+        </ul>
+      </div>
+    </>
+  );
 };
 
 export default HeaderConfigureArea;

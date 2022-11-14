@@ -22,8 +22,18 @@ function ProductCard({ product }) {
     });
   });
 
-  const [thumb, setThumb] = useState(product.image[0].path || Dummy);
+  const [thumb, setThumb] = useState(Dummy);
   const [thumbClass, setClass] = useState("pri-img");
+
+  useEffect(() => {
+    if (product?.image[0]?.path !== undefined) {
+      setThumb(product?.image[0]?.path);
+    }
+  }, [product]);
+
+  const handleImageError = () => {
+    setThumb(Dummy);
+  };
 
   const showSecThumb = () => {
     setThumb(product.image[1].path || Dummy);
@@ -39,52 +49,56 @@ function ProductCard({ product }) {
     if (product.image.length > 1) {
       return (
         <Image
-          className={thumbClass}
-          src={thumb || Dummy}
+          // className={thumbClass}
+          src={thumb}
           alt={product.title}
           width={255}
           height={255}
-          onMouseOver={showSecThumb}
-          onMouseLeave={showPriThumb}
+          // onMouseOver={showSecThumb}
+          // onMouseLeave={showPriThumb}
+          onError={handleImageError}
         />
       );
     } else {
       return (
         <Image
-          src={thumb || Dummy}
+          src={thumb}
           alt={product.title}
           width={255}
           height={255}
+          onError={handleImageError}
         />
       );
     }
   };
 
-  return <>
-    <div className="col-md-4 col-sm-6">
-      <div className="product-item">
-        <figure className="product-thumb">
-          <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`}>
+  return (
+    <>
+      <div className="col-md-4 col-sm-6">
+        <div className="product-item">
+          <figure className="product-thumb">
+            <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`}>
+              <ProdThumb />
+            </Link>
+          </figure>
+          <div className="product-caption text-center">
+            <div className="product-identity">
+              <p className="manufacturer-name">
+                <a>{product.brand.title}</a>
+              </p>
+            </div>
 
-            <ProdThumb />
-
-          </Link>
-        </figure>
-        <div className="product-caption text-center">
-          <div className="product-identity">
-            <p className="manufacturer-name">
-              <a>{product.brand.title}</a>
-            </p>
-          </div>
-
-          <h6 className="product-name">
-            <a>{product.title}</a>
-          </h6>
-          <div className="price-box">
-            <span className="price-regular">${product.price}</span>
-            <span className="price-old">
-            <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
-            </span>
+            <h6 className="product-name">
+              <a>{product.title}</a>
+            </h6>
+            <div className="price-box">
+              <span className="price-regular">${product.price}</span>
+              <span className="price-old">
+                <del>
+                  {product?.priceBefore ? `$${product?.priceBefore}` : null}
+                </del>
+              </span>
+            </div>
           </div>
         </div>
       </div>
