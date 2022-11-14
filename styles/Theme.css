@@ -126,6 +126,7 @@ body {
   
   img {
     max-width: 100%;
+    height: auto;
     -webkit-transition: 0.4s;
     -o-transition: 0.4s;
     transition: 0.4s;
@@ -2882,6 +2883,7 @@ body {
   }
   .product-thumb img {
     width: 100%;
+    height: auto;
   }
   .product-thumb .sec-img {
     top: 0;
@@ -4336,6 +4338,7 @@ body {
   }
   .pro-large-img img {
     width: 100%;
+    height: auto;
     -webkit-transition: none;
     -o-transition: none;
     transition: none;

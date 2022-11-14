@@ -5,14 +5,25 @@ import Image from "next/image";
 import ImageGallery from "react-image-gallery";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Dummy from "../../public/static/img/dummy.jpg";
 
-const CarouselItem = ( {product} ) => {
+const CarouselItem = ({ product }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [thumb, setThumb] = useState(product.image[0].path);
+  const [thumb, setThumb] = useState(Dummy);
   const [thumbClass, setClass] = useState("pri-img");
+
+  useEffect(() => {
+    if (product?.image[0]?.path !== undefined) {
+      setThumb(product?.image[0]?.path);
+    }
+  }, [product]);
+
+  const handleImageError = () => {
+    setThumb(Dummy);
+  };
 
   let images = [];
 
@@ -38,17 +49,26 @@ const CarouselItem = ( {product} ) => {
       return (
         <Image
           draggable={false}
-          className={thumbClass}
+          // className={thumbClass}
           src={thumb}
           alt={product.title}
           width={350}
           height={350}
-          onMouseOver={showSecThumb}
-          onMouseLeave={showPriThumb}
+          // onMouseOver={showSecThumb}
+          // onMouseLeave={showPriThumb}
+          onError={handleImageError}
         />
       );
     } else {
-      return <Image src={thumb} alt={product.title} width={350} height={350} />;
+      return (
+        <Image
+          src={thumb}
+          alt={product.title}
+          width={350}
+          height={350}
+          onError={handleImageError}
+        />
+      );
     }
   };
 

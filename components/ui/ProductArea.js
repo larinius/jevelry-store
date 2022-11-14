@@ -11,7 +11,7 @@ import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
 import PaginationBox from "../../components/ui/PaginationBox";
 import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
-import Dummy from "../../public/static/img/dummy.jpg";
+import Dummy from "../../public/static/img/dummy2.jpg";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaBalanceScaleLeft } from "react-icons/fa";
 import { addToCart } from "../../redux/cartSlice";
@@ -25,9 +25,21 @@ const ProductArea = ({ product }) => {
   const { t } = useTranslation("common");
   const [quantity, setQuantity] = useState(1);
 
+  const [photo, setPhoto] = useState(Dummy);
+
   const dispatch = useDispatch();
   const cart = useSelector((state) => state);
   const qntRef = useRef(null);
+
+  useEffect(() => {
+    if (product?.image[0]?.path !== undefined) {
+      setPhoto(product?.image[0]?.path);
+    }
+  }, [product]);
+
+  const handleImageError = () => {
+    setPhoto(Dummy);
+  };
 
   const handleAddToCart = (product, quantity) => {
     let prod = product;
@@ -41,13 +53,13 @@ const ProductArea = ({ product }) => {
   };
 
   const handlePlus = (e) => {
-    qntRef.current.value = (+qntRef.current.value+1);
+    qntRef.current.value = +qntRef.current.value + 1;
     // setQuantity(quantity++);
   };
 
   const handleMinus = (e) => {
     if (qntRef.current.value > 1) {
-      qntRef.current.value = (+qntRef.current.value-1);
+      qntRef.current.value = +qntRef.current.value - 1;
     }
   };
 
@@ -62,10 +74,11 @@ const ProductArea = ({ product }) => {
                   <div className="product-large-slider">
                     <div className="pro-large-img img-zoom">
                       <Image
-                        src={product?.image[0].path || Dummy}
+                        src={photo}
                         alt="product-details"
                         width={660}
                         height={660}
+                        onError={handleImageError}
                       />
                     </div>
                   </div>
@@ -93,7 +106,10 @@ const ProductArea = ({ product }) => {
                       </span>
                     </div>
                     <div className="characteristics-box">
-                      <span className="weight">{t("weight")}: {product?.weight}{t("g")}</span>
+                      <span className="weight">
+                        {t("weight")}: {product?.weight}
+                        {t("g")}
+                      </span>
                     </div>
 
                     <div className="availability">
@@ -122,7 +138,9 @@ const ProductArea = ({ product }) => {
                       </div>
                       <div className="action_link">
                         <a
-                          onClick={() => handleAddToCart(product, qntRef.current.value)}
+                          onClick={() =>
+                            handleAddToCart(product, qntRef.current.value)
+                          }
                           className="btn btn-cart2"
                           href="#"
                         >
