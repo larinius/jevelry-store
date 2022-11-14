@@ -125,41 +125,37 @@ const OffcanvasCart = () => {
     );
   };
 
-  return (
-    <>
-      <Offcanvas
-        show={showCart}
-        onHide={handleClose}
-        placement={"end"}
-        scroll={false}
-        className="offcanvas-minicart-wrapper"
-      >
-        <Container>
-          <div className="minicart-inner-content">
-            <div className="mt-3 minicart-close">
-              <Button onClick={handleClose} variant={"light"}>
-                <GrClose size={32} />
-              </Button>
+  return <>
+    <Offcanvas
+      show={showCart}
+      onHide={handleClose}
+      placement={"end"}
+      scroll={false}
+      className="offcanvas-minicart-wrapper"
+    >
+      <Container>
+        <div className="minicart-inner-content">
+          <div className="mt-3 minicart-close">
+            <Button onClick={handleClose} variant={"light"}>
+              <GrClose size={32} />
+            </Button>
+          </div>
+          <div className="minicart-content-box">
+            <div className="minicart-item-wrapper">
+              <MinicartList cart={cart} />
             </div>
-            <div className="minicart-content-box">
-              <div className="minicart-item-wrapper">
-                <MinicartList cart={cart} />
-              </div>
-              <MinicartPriceBox cart={cart} />
-              <div className="minicart-button">
-                <Link href="/cart" passHref>
-                  <a onClick={handleClose}>
-                    <FaShoppingCart className="me-2" size={18} />
-                    Open Cart
-                  </a>
-                </Link>
-              </div>
+            <MinicartPriceBox cart={cart} />
+            <div className="minicart-button">
+              <Link href="/cart" passHref onClick={handleClose}>
+
+                <FaShoppingCart className="me-2" size={18} />Open Cart
+              </Link>
             </div>
           </div>
-        </Container>
-      </Offcanvas>
-    </>
-  );
+        </div>
+      </Container>
+    </Offcanvas>
+  </>;
 };
 
 export default OffcanvasCart;

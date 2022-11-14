@@ -60,57 +60,55 @@ function ProductCard({ product }) {
     }
   };
 
-  return (
-    <>
-      <div className="col-md-4 col-sm-6">
-        <div className="product-item">
-          <figure className="product-thumb">
-            <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`}>
-              <a>
-                <ProdThumb />
-              </a>
-            </Link>
-          </figure>
-          <div className="product-caption text-center">
-            <div className="product-identity">
-              <p className="manufacturer-name">
-                <a>{product.brand.title}</a>
-              </p>
-            </div>
+  return <>
+    <div className="col-md-4 col-sm-6">
+      <div className="product-item">
+        <figure className="product-thumb">
+          <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`}>
 
-            <h6 className="product-name">
-              <a>{product.title}</a>
-            </h6>
-            <div className="price-box">
-              <span className="price-regular">${product.price}</span>
-              <span className="price-old">
-              <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
-              </span>
-            </div>
+            <ProdThumb />
+
+          </Link>
+        </figure>
+        <div className="product-caption text-center">
+          <div className="product-identity">
+            <p className="manufacturer-name">
+              <a>{product.brand.title}</a>
+            </p>
+          </div>
+
+          <h6 className="product-name">
+            <a>{product.title}</a>
+          </h6>
+          <div className="price-box">
+            <span className="price-regular">${product.price}</span>
+            <span className="price-old">
+            <del>{product?.priceBefore?`$${product?.priceBefore}`:null}</del>
+            </span>
           </div>
         </div>
       </div>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        animation={true}
-        size="lg"
-        centered
-        className={show ? "show" : ""}
-      >
-        <Modal.Header closeButton>{product.title}</Modal.Header>
-        <Modal.Body>
-          <ImageGallery
-            items={images}
-            lazyLoad={false}
-            showPlayButton={false}
-            isRTL={false}
-            showIndex={false}
-          />
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+    </div>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      animation={true}
+      size="lg"
+      centered
+      className={show ? "show" : ""}
+    >
+      <Modal.Header closeButton>{product.title}</Modal.Header>
+      <Modal.Body>
+        <ImageGallery
+          items={images}
+          lazyLoad={false}
+          showPlayButton={false}
+          isRTL={false}
+          showIndex={false}
+        />
+      </Modal.Body>
+    </Modal>
+  </>;
 }
 
 ProductCard.propTypes = {

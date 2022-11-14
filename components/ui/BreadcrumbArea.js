@@ -47,54 +47,52 @@ const BreadcrumbArea = () => {
   }
 
   if (router.pathname !== "/") {
-    return (
-      <>
-        <div className="breadcrumb-area">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="breadcrumb-wrap">
-                  <nav aria-label="breadcrumb">
-                    <ul className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <a href="/">
-                          <Icon.House />
-                        </a>
-                      </li>
-                      {breadcrumbs.map((breadcrumb, i) => {
-                        if (!isLoading && data?.data?.category?.title) {
-                          const cat = data?.data?.category.title.toLowerCase();
-                          breadcrumb.breadcrumb = breadcrumb.breadcrumb.replace(
-                            "product",
-                            t(cat)
-                          );
-                          breadcrumb.href = breadcrumb.href.replace(
-                            "/product",
-                            `/store/${cat}`
-                          );
-                        }
-
-                        return (
-                          <li
-                            key={breadcrumb.href}
-                            className="breadcrumb-item active"
-                            aria-current={t(breadcrumb.breadcrumb)}
-                          >
-                            <Link href={breadcrumb.href}>
-                              <a>{t(breadcrumb.breadcrumb)}</a>
-                            </Link>
-                          </li>
+    return <>
+      <div className="breadcrumb-area">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="breadcrumb-wrap">
+                <nav aria-label="breadcrumb">
+                  <ul className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <a href="/">
+                        <Icon.House />
+                      </a>
+                    </li>
+                    {breadcrumbs.map((breadcrumb, i) => {
+                      if (!isLoading && data?.data?.category?.title) {
+                        const cat = data?.data?.category.title.toLowerCase();
+                        breadcrumb.breadcrumb = breadcrumb.breadcrumb.replace(
+                          "product",
+                          t(cat)
                         );
-                      })}
-                    </ul>
-                  </nav>
-                </div>
+                        breadcrumb.href = breadcrumb.href.replace(
+                          "/product",
+                          `/store/${cat}`
+                        );
+                      }
+
+                      return (
+                        <li
+                          key={breadcrumb.href}
+                          className="breadcrumb-item active"
+                          aria-current={t(breadcrumb.breadcrumb)}
+                        >
+                          <Link href={breadcrumb.href}>
+                            {t(breadcrumb.breadcrumb)}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>
         </div>
-      </>
-    );
+      </div>
+    </>;
   } else {
     return <></>;
   }

@@ -30,32 +30,28 @@ const HeaderConfigureArea = () => {
   };
 
   const LoginLink = () => {
-    return (
-      <>
-        <li>
-          <Link href="/login" passHref>
-            <a>login / register</a>
-          </Link>
-        </li>
-      </>
-    );
+    return <>
+      <li>
+        <Link href="/login" passHref>
+          login / register
+        </Link>
+      </li>
+    </>;
   };
 
   const LogoutLink = () => {
-    return (
-      <>
-        <li>
-          <Link href="/account" passHref>
-            <a>my account</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/logout" passHref>
-            <a onClick={handleLogout}>Logout</a>
-          </Link>
-        </li>
-      </>
-    );
+    return <>
+      <li>
+        <Link href="/account" passHref>
+          my account
+        </Link>
+      </li>
+      <li>
+        <Link href="/logout" passHref onClick={handleLogout}>
+          Logout
+        </Link>
+      </li>
+    </>;
   };
 
   const getTotal = () => {
@@ -96,32 +92,30 @@ const HeaderConfigureArea = () => {
   };
 
 
-  return (
-    <>
-      <div className="header-configure-area">
-        <ul className="nav justify-content-end">
-          <li className="user-hover">
-            <a href="#">
-              <Icon.Person size={22} />
-            </a>
-            <ul className="dropdown-list">
-              {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
-            </ul>
-          </li>
-          <li>
-            <Link href={"/wishlist"} passHref>
-              <a>
-                <Icon.Heart size={22} />
-              </a>
-            </Link>
-          </li>
-          <li>
-            <CartButton />
-          </li>
-        </ul>
-      </div>
-    </>
-  );
+  return <>
+    <div className="header-configure-area">
+      <ul className="nav justify-content-end">
+        <li className="user-hover">
+          <a href="#">
+            <Icon.Person size={22} />
+          </a>
+          <ul className="dropdown-list">
+            {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
+          </ul>
+        </li>
+        <li>
+          <Link href={"/wishlist"} passHref>
+
+            <Icon.Heart size={22} />
+
+          </Link>
+        </li>
+        <li>
+          <CartButton />
+        </li>
+      </ul>
+    </div>
+  </>;
 };
 
 export default HeaderConfigureArea;
