@@ -26,6 +26,7 @@ function ProductCard({ product }) {
   const [thumbClass, setClass] = useState("pri-img");
 
   useEffect(() => {
+
     if (product?.image[0]?.path !== undefined) {
       setThumb(product?.image[0]?.path);
     }

@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as Icon from "react-bootstrap-icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useTranslation, Trans } from "next-i18next";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import ProductContext from "../../components/context/ProductContext";
 
 const BreadcrumbArea = () => {
   const router = useRouter();
+  const { category, setCategory, products, meta } = useContext(ProductContext);
   const [breadcrumbs, setBreadcrumbs] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [query, setQuery] = useState("/api/product");
   const { t } = useTranslation("common");
-
-  const { isLoading, error, data } = useQuery([query], () => axios.get(query));
 
   useEffect(() => {
     if (router) {
@@ -34,12 +30,8 @@ const BreadcrumbArea = () => {
 
   useEffect(() => {
     const linkPath = router.asPath.split("/");
-
     const page = "" + linkPath.slice(-1);
 
-    if (page.startsWith("sku-")) {
-      setQuery(`/api/product/${page}`);
-    }
   }, [breadcrumbs]);
 
   if (!breadcrumbs) {
@@ -61,8 +53,8 @@ const BreadcrumbArea = () => {
                       </a>
                     </li>
                     {breadcrumbs.map((breadcrumb, i) => {
-                      if (!isLoading && data?.data?.category?.title) {
-                        const cat = data?.data?.category.title.toLowerCase();
+                      if (products[0]?.category.title) {
+                        const cat = products[0]?.category.title.toLowerCase();
                         breadcrumb.breadcrumb = breadcrumb.breadcrumb.replace(
                           "product",
                           t(cat)

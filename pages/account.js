@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
-import { withIronSessionSsr } from "iron-session/next";
 import Link from "next/link";
 import useUser from "/lib/useUser";
 
@@ -34,11 +32,7 @@ export default function Account() {
 //   };
 // }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  locale,
-  req,
-  res,
-}) {
+export async function  getServerSideProps ({ locale,  req,  res,}) {
   const user = req.session.user;
 
   // if (user === undefined) {
@@ -60,5 +54,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...getCookies({ req, res }),
     },
   };
-},
-sessionOptions);
+};

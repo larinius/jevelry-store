@@ -1,9 +1,7 @@
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { Container, Row } from "react-bootstrap";
-import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
-import { withIronSessionSsr } from "iron-session/next";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import BreadcrumbArea from "../../components/ui/BreadcrumbArea";

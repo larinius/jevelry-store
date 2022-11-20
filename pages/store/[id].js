@@ -12,10 +12,14 @@ import ProductContext from "../../components/context/ProductContext";
 import ProductGrid from "../../components/ui/ProductGrid";
 
 const Category = ({ category }) => {
-  const { setCategory } = useContext(ProductContext);
+  const { setCategory, setSku } = useContext(ProductContext);
+
+  useEffect(() => {
+  }, []);
 
   useEffect(() => {
     setCategory(category);
+    setSku("");  
   }, []);
 
   return (

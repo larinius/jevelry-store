@@ -1,55 +1,63 @@
 import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [currentProducts, setCurrentProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
-  const pageCount = Math.ceil(products.length / productsLimit);
-  const [category, setCategory] = useState("all");
+  const [meta, setMeta] = useState();
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24);
+  const pageCount = Math.ceil(products?.length / limit);
+  const [category, setCategory] = useState("");
+  const [sku, setSku] = useState("");
   const [categories, setCategories] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState({});
 
+  let query = `/api/product/?limit=${limit}&page=${page}`;
+
+  if(category){
+    query += `&category=${category}`;
+  }
+  if(sku){
+    query += `&sku=${sku}`;
+  }
+
+
+  const {
+    isLoading,
+    error,
+    data = [],
+  } = useQuery([query], () => axios.get(query));
 
   useEffect(() => {
-    if (products != null && products.length > 0) {
-      const pp = splitByPages(products, productsLimit, 1);
-      setCurrentProducts(pp);
-    }
-  }, [products]);
+    
+    if(!isLoading && !error){
 
-  useEffect(() => {
-    const limit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
-
-    const items = splitByPages(products, limit, currentPage);
-
-    setCurrentProducts(items);
-  }, [currentPage]);
-
-  const splitByPages = (arr, limit, page) => {
-    let pProducts = [];
-
-    for (let i = 0; i < arr.length; i += limit) {
-      let tempArray;
-      tempArray = arr.slice(i, i + limit);
-      pProducts.push(tempArray);
+      console.log(data.data);
+      setProducts(data.data.products);
+      setMeta(data.data.meta);
+      setCategories(data.data.meta?.categories);
     }
 
-    return pProducts[page - 1];
-  };
+
+  }, [isLoading, error, data, page, category, limit, sku]);
 
 
   return (
     <ProductContext.Provider
       value={{
         products,
-        currentProducts,
-        currentPage,
-        currentCategory,
-        setCurrentPage,
         category,
+        categories,
+        sku,
+        limit,
+        page,
+        pageCount,
+        meta,
+        setSku,
+        setLimit,
+        setPage,
         setCategory,
       }}
     >

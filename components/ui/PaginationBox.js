@@ -4,31 +4,27 @@ import * as Icon from "react-bootstrap-icons";
 import ProductContext from "../context/ProductContext";
 
 const PaginationBox = () => {
-  const [page, setPage] = useState(1);
-  const { products } = useContext(ProductContext);
-  const { setCurrentPage } = useContext(ProductContext);
-
-  const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
-  const pageCount = Math.ceil(products.length / productsLimit);
+  const [newPage, setNewPage] = useState(0);
+  const { page, setPage, pageCount } = useContext(ProductContext);  
 
   useEffect(() => {
-    setCurrentPage(1);
+    setPage(0);
+    console.log(pageCount);
   }, []);
 
   useEffect(() => {
-    setCurrentPage(page);
-
-  }, [page]);
+    setPage(newPage);
+  }, [newPage]);
 
   let items = [];
 
-  for (let number = 1; number <= pageCount; number++) {
+  for (let number = 0; number <= pageCount; number++) {
     items.push(
       <li
         key={number}
         className={number === page ? "active" : null}
         onClick={() => {
-          setPage(number);
+          setNewPage(number);
         }}
       >
         <a>{number}</a>
@@ -38,31 +34,31 @@ const PaginationBox = () => {
 
   return (
     <div className="paginatoin-area text-center">
-        <ul className="pagination-box">
-          <li
-            onClick={() => {
-              if (page > 1) {
-                setPage(page - 1);
-              }
-            }}
-          >
-            <a className="previous">
-              <Icon.ArrowLeft />
-            </a>
-          </li>
-          {items}
-          <li
-            onClick={() => {
-              if (page < pageCount) {
-                setPage(page + 1);
-              }
-            }}
-          >
-            <a className="next">
-              <Icon.ArrowRight />
-            </a>
-          </li>
-        </ul>
+      <ul className="pagination-box">
+        <li
+          onClick={() => {
+            if (newPage > 1) {
+              setNewPage(newPage - 1);
+            }
+          }}
+        >
+          <a className="previous">
+            <Icon.ArrowLeft />
+          </a>
+        </li>
+        {items}
+        <li
+          onClick={() => {
+            if (newPage < pageCount) {
+              setNewPage(page + 1);
+            }
+          }}
+        >
+          <a className="next">
+            <Icon.ArrowRight />
+          </a>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -6,13 +6,13 @@ import useUser from "/lib/useUser";
 
 const Fingerprint = () => {
 
-    const apiUrl = `/api/session`;
+    const apiUrl = `/api/session/fingerprint`;
     const fingerprint = getBrowserFingerprint();  
 
-    const { isLoading, error, data } = useQuery(
-      [`${apiUrl}/${fingerprint}`],
-      () => axios.post(apiUrl, {fingerprint: fingerprint})
-    );
+    // const { isLoading, error, data } = useQuery(
+    //   [`${apiUrl}/${fingerprint}`],
+    //   () => axios.post(apiUrl, {fingerprint: fingerprint})
+    // );
 
     return (
         <>            
