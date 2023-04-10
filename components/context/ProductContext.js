@@ -8,21 +8,23 @@ export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [meta, setMeta] = useState();
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24);
-  const pageCount = Math.ceil(products?.length / limit);
+  const [limit, setLimit] = useState(
+    process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24
+  );
+  const [pageCount, setPageCount] = useState([]);
+
   const [category, setCategory] = useState("");
   const [sku, setSku] = useState("");
   const [categories, setCategories] = useState([]);
 
   let query = `/api/product/?limit=${limit}&page=${page}`;
 
-  if(category){
+  if (category) {
     query += `&category=${category}`;
   }
-  if(sku){
+  if (sku) {
     query += `&sku=${sku}`;
   }
-
 
   const {
     isLoading,
@@ -31,18 +33,14 @@ export const ProductProvider = ({ children }) => {
   } = useQuery([query], () => axios.get(query));
 
   useEffect(() => {
-    
-    if(!isLoading && !error){
-
+    if (!isLoading && !error) {
       console.log(data.data);
       setProducts(data.data.products);
       setMeta(data.data.meta);
       setCategories(data.data.meta?.categories);
+      setPageCount(Math.ceil(data.data.products?.length / limit));
     }
-
-
   }, [isLoading, error, data, page, category, limit, sku]);
-
 
   return (
     <ProductContext.Provider

@@ -37,7 +37,7 @@ export default function Account() {
 // }
 
 export async function getServerSideProps({ locale, req, res }) {
-  const user = req.session.user;
+  // const user = req.session.user;
 
   // if (user === undefined) {
   //   res.setHeader("location", "/login");
