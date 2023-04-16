@@ -11,7 +11,8 @@ import HomeMediumBanners from "../components/ui/HomeMediumBanners";
 import HomeSlider from "../components/ui/HomeSlider";
 import ProductCarousel from "../components/ui/ProductCarousel";
 
-export default function Home() {
+/** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
+export default function Home(props) {
   const router = useRouter();
   const { t } = useTranslation("common");
 
@@ -32,7 +33,7 @@ useEffect(() => {
       <HomeSlider/>
       <ServicePolicy />
       <HomeMediumBanners/>
-      <ProductCarousel/>
+      {/* <ProductCarousel/> */}
       <HomePageText/>
     </>
   );

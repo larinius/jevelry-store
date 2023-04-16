@@ -6,6 +6,13 @@ const CheckoutArea = () => {
   const { user } = useUser();
   const cart = useSelector((state) => state.cart);
 
+
+  const handleSubmitOrder = () => {
+    console.log(cart);
+  }
+  
+
+
   const getTotal = () => {
     let quantity = 0;
     let price = 0;
@@ -284,7 +291,7 @@ const CheckoutArea = () => {
                           <a href="index.html">terms and conditions.</a>
                         </label>
                       </div>
-                      <button type="submit" className="btn btn-sqr">
+                      <button type="submit" className="btn btn-sqr" onClick={handleSubmitOrder}>
                         Place Order
                       </button>
                     </div>

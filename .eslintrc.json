@@ -1,9 +1,7 @@
 {
-    "plugins": ["@typescript-eslint"],
-    "extends": [
-      "next",
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-  ],
+  "plugins": ["react", "react-hooks"],
+  "extends": ["next", "eslint:recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
+  "rules": {
+    "no-undef": "error"
+  }
 }

@@ -1,6 +1,5 @@
-import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import React, { createContext, useState, useEffect, useCallback } from "react";
+import {useProduct} from "../../lib/apiHooks";
 
 const ProductContext = createContext();
 
@@ -8,39 +7,30 @@ export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [meta, setMeta] = useState();
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(
-    process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24
-  );
+  const [limit, setLimit] = useState(process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24);
   const [pageCount, setPageCount] = useState([]);
 
   const [category, setCategory] = useState("");
   const [sku, setSku] = useState("");
   const [categories, setCategories] = useState([]);
 
-  let query = `/api/product/?limit=${limit}&page=${page}`;
+  const options = `limit=${limit}&page=${page}${category ? `&category=${category}` : ""}${sku ? `&sku=${sku}` : ""}`;
 
-  if (category) {
-    query += `&category=${category}`;
-  }
-  if (sku) {
-    query += `&sku=${sku}`;
-  }
-
-  const {
-    isLoading,
-    error,
-    data = [],
-  } = useQuery([query], () => axios.get(query));
+  const { isLoading, error, product } = useProduct(null, options);
 
   useEffect(() => {
-    if (!isLoading && !error) {
-      console.log(data.data);
-      setProducts(data.data.products);
-      setMeta(data.data.meta);
-      setCategories(data.data.meta?.categories);
-      setPageCount(Math.ceil(data.data.products?.length / limit));
+    if (!isLoading && !error && product) {
+      setProducts(product.products);
+      setMeta(product.meta);
+      setCategories(product.meta?.categories);
+      setPageCount(Math.ceil(product.products?.length / limit));
     }
-  }, [isLoading, error, data, page, category, limit, sku]);
+  }, [isLoading, error, page, category, limit, sku]);
+
+  const setSkuCallback = useCallback(setSku, [setSku]);
+  const setLimitCallback = useCallback(setLimit, [setLimit]);
+  const setPageCallback = useCallback(setPage, [setPage]);
+  const setCategoryCallback = useCallback(setCategory, [setCategory]);
 
   return (
     <ProductContext.Provider
@@ -53,10 +43,10 @@ export const ProductProvider = ({ children }) => {
         page,
         pageCount,
         meta,
-        setSku,
-        setLimit,
-        setPage,
-        setCategory,
+        setSku: setSkuCallback,
+        setLimit: setLimitCallback,
+        setPage: setPageCallback,
+        setCategory: setCategoryCallback,
       }}
     >
       {children}
