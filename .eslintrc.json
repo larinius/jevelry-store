@@ -2,6 +2,9 @@
   "plugins": ["react", "react-hooks"],
   "extends": ["next", "eslint:recommended", "plugin:react/recommended", "plugin:react-hooks/recommended"],
   "rules": {
-    "no-undef": "error"
+    "no-undef": "error",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "off"
   }
 }
