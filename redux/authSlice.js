@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginApi } from "./apiHooks";
-import { setCookie } from 'nookies'; // Import the nookies library for working with cookies
+import { loginApi, logoutApi } from "./apiHooks";
 
 const initialState = {
   isLoggedIn: false,
@@ -36,11 +35,6 @@ const authSlice = createSlice({
       state.token = null;
       state.user = null;
       state.error = null;
-
-      // Remove the cookie with the serviceToken
-      setCookie(null, 'serviceToken', '', {
-        maxAge: -1 // Set the maxAge to a negative value to remove the cookie
-      });
     },
   },
 });
@@ -54,6 +48,15 @@ export const login = (credentials) => async (dispatch) => {
     dispatch(loginSuccess(user));
   } catch (error) {
     dispatch(loginFailure(error.message));
+  }
+};
+
+export const logoutUser = () => async (dispatch) => {
+  try {
+    await logoutApi();
+    dispatch(logout());
+  } catch (error) {
+    console.log(error);
   }
 };
 
