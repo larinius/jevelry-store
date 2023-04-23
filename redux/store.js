@@ -1,23 +1,20 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import { authReducer } from "./authSlice";
 import { cartReducer } from "./cartSlice";
-import storage from 'redux-persist/lib/storage';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist'
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  cart: cartReducer,
+});
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-}
+};
 
-const persistedReducer = persistReducer(persistConfig, cartReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -27,6 +24,6 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-})
+});
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);

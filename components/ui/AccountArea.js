@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useUser from "/lib/useUser";
+import {useUser} from "/lib/apiHooks";
 
 const AccountArea = () => {
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import Link from "next/link";
 import useUser from "/lib/useUser";
+import { useSelector, useDispatch } from "react-redux";
 
 import AccountArea from "../components/ui/AccountArea";
 
@@ -13,14 +14,15 @@ export default function Account() {
   const router = useRouter();
   const { t } = useTranslation("common");
   const { user } = useUser();
-
+  const auth = useSelector((state) => state.auth);
+  
   useEffect(() => {
-    if (!user?.isLoggedIn) {
+    if (!auth?.isLoggedIn) {
       router.push("/login");
     }
   }, []);
 
-  return <>{user?.isLoggedIn && <AccountArea />}</>;
+  return <>{auth?.isLoggedIn && <AccountArea />}</>;
 }
 
 // export async function getServerSideProps({ locale, req, res }) {
@@ -33,7 +35,7 @@ export default function Account() {
 // }
 
 export async function  getServerSideProps ({ locale,  req,  res,}) {
-  const user = req.session.user;
+  // const user = req.session.user;
 
   // if (user === undefined) {
   //   res.setHeader("location", "/login");
@@ -54,4 +56,4 @@ export async function  getServerSideProps ({ locale,  req,  res,}) {
       ...getCookies({ req, res }),
     },
   };
-};
+}

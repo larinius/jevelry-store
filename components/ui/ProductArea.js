@@ -68,8 +68,8 @@ const ProductArea = ({ product }) => {
   };
 
   const isWishlisted = () => {
-    if (wishlist !== null) {
-      const itemInWishlist = wishlist.find((item) => item.id === product?.id);
+    if (cart?.wishlist !== null) {
+      const itemInWishlist = cart?.wishlist.find((item) => item.id === product?.id);
       return itemInWishlist;
     }
     return null;

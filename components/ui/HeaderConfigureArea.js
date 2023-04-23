@@ -14,6 +14,7 @@ const HeaderConfigureArea = () => {
 
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
+  const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -61,7 +62,11 @@ const HeaderConfigureArea = () => {
     let price = 0;
     let weight = 0;
 
-    cart.forEach((item) => {
+    if (cart?.cart.length === 0) {
+      return { price, quantity, weight };
+    }
+
+    cart?.cart.forEach((item) => {
       quantity += parseInt(item.quantity);
       price += item.price * item.quantity;
       weight += item.weight * item.quantity;
@@ -75,7 +80,11 @@ const HeaderConfigureArea = () => {
   const getWishlist = () => {
     let quantity = 0;
 
-    wishlist.forEach((item) => {
+    if (cart?.wishlist.length === 0) {
+      return { quantity };
+    }
+
+    cart?.wishlist.forEach((item) => {
       quantity += 1;
     });
 
@@ -135,7 +144,7 @@ const HeaderConfigureArea = () => {
               <Icon.Person size={22} />
             </a>
             <ul className="dropdown-list">
-              {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
+              {auth?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
             </ul>
           </li>
           <li>
