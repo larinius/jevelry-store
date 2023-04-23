@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import Link from "next/link";
-import useUser from "/lib/useUser";
+import { useUser } from "../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
 
 import AccountArea from "../components/ui/AccountArea";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import getBrowserFingerprint from 'get-browser-fingerprint';
 import { useQuery } from "@tanstack/react-query";
 import axios from 'axios';
-import useUser from "/lib/useUser";
+import { useUser } from '../../lib/apiHooks';
 
 const Fingerprint = () => {
 

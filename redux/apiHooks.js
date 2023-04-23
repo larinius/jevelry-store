@@ -3,11 +3,6 @@ import axios from "axios";
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_ENDPOINT}`;
 
-const axiosInstance = axios.create({
-  baseURL: BASE_URL,
-  withCredentials: true,
-});
-
 export const loginApi = async (credentials) => {
   try {
     const response = await axios.post(`${BASE_URL}/account/login`, credentials);
@@ -19,7 +14,7 @@ export const loginApi = async (credentials) => {
 
 export const logoutApi = () => async (dispatch) => {
   try {
-    const response = await axiosInstance.post("/auth/logout");
+    const response = await axios.post("/auth/logout");
 
     if (response.status === 200) {
       dispatch(logoutSuccess());

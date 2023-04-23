@@ -4,8 +4,7 @@ import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-
-import useUser from "/lib/useUser";
+import { useUser } from "../lib/apiHooks";
 import LoginForm from "../components/ui/LoginForm";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */

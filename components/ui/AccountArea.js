@@ -61,9 +61,9 @@ const AccountArea = () => {
                             <div className="welcome">
                               <p>
                                 Hello, <strong>{user.name}</strong> (If Not{" "}
-                                <strong>Jhonson !</strong>
+                                <strong>{user.name}</strong>
                                 <a
-                                  href="login-register.html"
+                                  href="/logout"
                                   className="logout"
                                 >
                                   {" "}

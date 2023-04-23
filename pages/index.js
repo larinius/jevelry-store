@@ -16,11 +16,6 @@ export default function Home(props) {
   const router = useRouter();
   const { t } = useTranslation("common");
 
-useEffect(() => {
-  console.log(router);
-}, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onToggleLanguageClick = (newLocale) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });

@@ -71,6 +71,8 @@ export const logout = () => async (dispatch) => {
   try {
     await logoutApi();
     dispatch(logoutSuccess());
+    // Clear the cookie
+    document.cookie = "serviceToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
   } catch (error) {
     dispatch(logoutFailure(error.message));
   }

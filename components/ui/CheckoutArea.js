@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import useUser from "/lib/useUser";
+import { useUser } from "../../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
 import { axiosProvider } from "../../lib/axios";
 import { useMutation } from "@tanstack/react-query";

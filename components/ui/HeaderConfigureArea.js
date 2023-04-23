@@ -2,8 +2,7 @@ import { useRouter } from "next/router";
 import * as Icon from "react-bootstrap-icons";
 import Link from "next/link";
 import React from "react";
-import useUser from "/lib/useUser";
-import axios from "axios";
+import { useUser } from "../../lib/apiHooks";
 import Button from "react-bootstrap/Button";
 import { setShowCart, setShowWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -50,7 +49,7 @@ const HeaderConfigureArea = () => {
           </Link>
         </li>
         <li>
-          <Link href="/logout" passHref onClick={handleLogout}>
+          <Link href="#" passHref onClick={handleLogout}>
             Logout
           </Link>
         </li>
