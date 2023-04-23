@@ -1,9 +1,12 @@
 import { logoutSuccess, logoutFailure } from "./authSlice";
-import { axiosProvider } from "../lib/axios";
-
-const { axiosInstance: axios } = axiosProvider();
+import axios from "axios";
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_ENDPOINT}`;
+
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
 export const loginApi = async (credentials) => {
   try {
@@ -14,9 +17,9 @@ export const loginApi = async (credentials) => {
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const logoutApi = () => async (dispatch) => {
   try {
-    const response = await axios.post("/auth/logout");
+    const response = await axiosInstance.post("/auth/logout");
 
     if (response.status === 200) {
       dispatch(logoutSuccess());

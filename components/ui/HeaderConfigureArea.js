@@ -7,6 +7,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { setShowCart, setShowWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "/redux/authSlice";
 
 const HeaderConfigureArea = () => {
   const router = useRouter();
@@ -23,8 +24,8 @@ const HeaderConfigureArea = () => {
   const handleShowWishlist = () => dispatch(setShowWishlist(true));
 
   const handleLogout = async (e) => {
-    e.preventDefault();
-    await axios.post("/api/logout");
+    console.log("LOGOUT");
+    dispatch(logout());
     router.push("/login");
   };
 
