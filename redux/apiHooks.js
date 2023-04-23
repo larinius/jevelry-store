@@ -4,6 +4,8 @@ import axios from "axios";
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_ENDPOINT}`;
 
 export const loginApi = async (credentials) => {
+  axios.defaults.withCredentials = true;
+
   try {
     const response = await axios.post(`${BASE_URL}/account/login`, credentials);
     return response.data;
@@ -13,6 +15,9 @@ export const loginApi = async (credentials) => {
 };
 
 export const logoutApi = () => async (dispatch) => {
+  axios.defaults.withCredentials = true;
+
+
   try {
     const response = await axios.post("/auth/logout");
 
