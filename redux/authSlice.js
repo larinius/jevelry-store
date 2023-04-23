@@ -30,16 +30,31 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
-    logout: (state) => {
+    logoutStart: (state) => {
+      state.isLoading = true;
+    },
+    logoutSuccess: (state) => {
       state.isLoggedIn = false;
       state.token = null;
       state.user = null;
+      state.isLoading = false;
       state.error = null;
+    },
+    logoutFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
+} = authSlice.actions;
 
 export const login = (credentials) => async (dispatch) => {
   dispatch(loginStart());
@@ -51,12 +66,13 @@ export const login = (credentials) => async (dispatch) => {
   }
 };
 
-export const logoutUser = () => async (dispatch) => {
+export const logout = () => async (dispatch) => {
+  dispatch(logoutStart());
   try {
     await logoutApi();
-    dispatch(logout());
+    dispatch(logoutSuccess());
   } catch (error) {
-    console.log(error);
+    dispatch(logoutFailure(error.message));
   }
 };
 

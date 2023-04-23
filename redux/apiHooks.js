@@ -1,6 +1,7 @@
-import { axiosProvider } from '../lib/axios';
-import axios from "axios";
-const { axiosInstance } = axiosProvider();
+import { logoutSuccess, logoutFailure } from "./authSlice";
+import { axiosProvider } from "../lib/axios";
+
+const { axiosInstance: axios } = axiosProvider();
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_ENDPOINT}`;
 
@@ -15,8 +16,13 @@ export const loginApi = async (credentials) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    await axiosInstance.post(`${BASE_URL}/account/logout`);
-    dispatch(logoutSuccess());
+    const response = await axios.post("/auth/logout");
+
+    if (response.status === 200) {
+      dispatch(logoutSuccess());
+    } else {
+      throw new Error("Failed to log out.");
+    }
   } catch (error) {
     dispatch(logoutFailure(error.message));
   }
