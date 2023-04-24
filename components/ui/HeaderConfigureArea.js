@@ -6,7 +6,7 @@ import { useUser } from "../../lib/apiHooks";
 import Button from "react-bootstrap/Button";
 import { setShowCart, setShowWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "/redux/authSlice";
+import { logout } from "../../redux/apiThunks";
 
 const HeaderConfigureArea = () => {
   const router = useRouter();

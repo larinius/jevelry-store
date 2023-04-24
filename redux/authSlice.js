@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginApi, logoutApi } from "./apiHooks";
+import { login, logout } from "./apiThunks";
 
 const initialState = {
   isLoggedIn: false,
-  token: null,
   user: null,
   isLoading: false,
   error: null,
@@ -18,14 +17,12 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
-      state.token = action.payload.serviceToken;
       state.user = action.payload.user;
       state.isLoading = false;
       state.error = null;
     },
     loginFailure: (state, action) => {
       state.isLoggedIn = false;
-      state.token = null;
       state.user = null;
       state.error = action.payload;
       state.isLoading = false;
@@ -35,7 +32,6 @@ const authSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.isLoggedIn = false;
-      state.token = null;
       state.user = null;
       state.isLoading = false;
       state.error = null;
@@ -44,6 +40,38 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      state.isLoggedIn = false;
+      state.user = null;
+      state.isLoading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(logout.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.isLoggedIn = false;
+      state.user = null;
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    });
   },
 });
 
@@ -55,27 +83,5 @@ export const {
   logoutSuccess,
   logoutFailure,
 } = authSlice.actions;
-
-export const login = (credentials) => async (dispatch) => {
-  dispatch(loginStart());
-  try {
-    const user = await loginApi(credentials);
-    dispatch(loginSuccess(user));
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-  }
-};
-
-export const logout = () => async (dispatch) => {
-  dispatch(logoutStart());
-  try {
-    await logoutApi();
-    dispatch(logoutSuccess());
-    // Clear the cookie
-    document.cookie = "serviceToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-  } catch (error) {
-    dispatch(logoutFailure(error.message));
-  }
-};
 
 export const authReducer = authSlice.reducer;

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { FetchError } from "/lib/fetchJson";
 
 import { useDispatch } from "react-redux";
-import { login } from "/redux/authSlice";
+import { login } from "../../redux/apiThunks";
 
 import { Container, Form, Row, Stack } from "react-bootstrap";
 

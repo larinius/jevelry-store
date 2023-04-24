@@ -2,17 +2,11 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import SSRProvider from "react-bootstrap/SSRProvider";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Layout from "../components/layout/Layout";
 
-import ProductContext, {
-  ProductProvider,
-} from "../components/context/ProductContext";
+import ProductContext, { ProductProvider } from "../components/context/ProductContext";
 import { appWithTranslation } from "next-i18next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-image-gallery/styles/scss/image-gallery.scss";
@@ -26,7 +20,7 @@ import dynamic from "next/dynamic";
 
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
-
+import { AxiosProvider } from "../lib/axios";
 const FingerprintNoSSR = dynamic(() => import("../components/ui/Fingerprint"), {
   ssr: false,
 });
@@ -50,21 +44,23 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <SSRProvider>
-          <Provider store={store}>
-            <ThemeProvider dir={dir}>
-              <ProductProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ProductProvider>
-            </ThemeProvider>
-          </Provider>
-        </SSRProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <FingerprintNoSSR />
-      </QueryClientProvider>
+      <AxiosProvider>
+        <QueryClientProvider client={queryClient}>
+          <SSRProvider>
+            <Provider store={store}>
+              <ThemeProvider dir={dir}>
+                <ProductProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ProductProvider>
+              </ThemeProvider>
+            </Provider>
+          </SSRProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <FingerprintNoSSR />
+        </QueryClientProvider>
+      </AxiosProvider>
     </>
   );
 }
