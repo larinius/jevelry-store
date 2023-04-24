@@ -60,16 +60,7 @@ const AccountArea = () => {
                             <h5>Dashboard</h5>
                             <div className="welcome">
                               <p>
-                                Hello, <strong>{user.name}</strong> (If Not{" "}
-                                <strong>{user.name}</strong>
-                                <a
-                                  href="/logout"
-                                  className="logout"
-                                >
-                                  {" "}
-                                  Logout
-                                </a>
-                                )
+                                Hello, <strong>{user.name}</strong>!
                               </p>
                             </div>
                             <p className="mb-0">
