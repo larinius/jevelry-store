@@ -2,18 +2,18 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useUser } from "../../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
-import { axiosProvider } from "../../lib/axios";
+import { axiosInstance } from "../../lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useOrderCode, useCreateOrder, useSettings } from "../../lib/apiHooks";
 import qs from "qs";
 
 const CheckoutArea = () => {
-  const { axiosInstance: axios } = axiosProvider();
+
   const { user } = useUser();
   const { settings } = useSettings();
   const [newUser, setNewUser] = useState({});
   const [newOrder, setNewOrder] = useState({});
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart.cart);
   const { ordercode } = useOrderCode();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const CheckoutArea = () => {
 
   const addOrder = useMutation((payload) => {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/order`;
-    axios.post(apiUrl, qs.stringify(payload)).then((response) => {
+    axiosInstance.post(apiUrl, qs.stringify(payload)).then((response) => {
       console.log(response.status);
       if (response.status === 201) {
         console.log("Order created");

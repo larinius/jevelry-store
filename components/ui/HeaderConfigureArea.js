@@ -58,11 +58,12 @@ const HeaderConfigureArea = () => {
   };
 
   const getTotal = () => {
+    
     let quantity = 0;
     let price = 0;
     let weight = 0;
 
-    if (cart?.cart.length === 0) {
+    if (cart?.cart === undefined || cart?.cart.length === 0) {
       return { price, quantity, weight };
     }
 
@@ -80,7 +81,7 @@ const HeaderConfigureArea = () => {
   const getWishlist = () => {
     let quantity = 0;
 
-    if (cart?.wishlist.length === 0) {
+    if (cart?.wishlist == undefined || cart?.wishlist.length === 0) {
       return { quantity };
     }
 

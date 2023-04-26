@@ -7,7 +7,10 @@ import Link from "next/link";
 import { useUser } from "../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
 
-import AccountArea from "../components/ui/AccountArea";
+import dynamic from "next/dynamic";
+const AccountAreaNoSSR = dynamic(() => import("../components/ui/account/AccountArea"), {
+  ssr: false,
+});
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Account() {
@@ -22,7 +25,7 @@ export default function Account() {
     }
   }, []);
 
-  return <>{auth?.isLoggedIn && <AccountArea />}</>;
+  return <>{auth?.isLoggedIn && <AccountAreaNoSSR />}</>;
 }
 
 // export async function getServerSideProps({ locale, req, res }) {

@@ -6,7 +6,7 @@ import { useTranslation, Trans } from "next-i18next";
 import Link from "next/link";
 import { useUser } from "../lib/apiHooks";
 
-import AccountArea from "../components/ui/AccountArea";
+import AccountArea from "../components/ui/account/AccountArea";
 import dynamic from "next/dynamic";
 const CheckoutAreaNoSSR = dynamic(
   () => import("../components/ui/CheckoutArea"),

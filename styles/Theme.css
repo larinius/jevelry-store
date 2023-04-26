@@ -5437,7 +5437,7 @@ body {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  .myaccount-tab-menu a {
+  .myaccount-tab-menu .nav-item a {
     border: 1px solid #efefef;
     border-bottom: none;
     color: #222222;
@@ -5446,17 +5446,20 @@ body {
     display: block;
     padding: 10px 15px;
     text-transform: capitalize;
+    border-radius: 0;
+    margin-bottom: 5px;
   }
-  .myaccount-tab-menu a:last-child {
+  .myaccount-tab-menu .nav-item a:last-child {
     border-bottom: 1px solid #efefef;
   }
-  .myaccount-tab-menu a:hover,
-  .myaccount-tab-menu a.active {
+  .myaccount-tab-menu .nav-item a:hover,
+  .myaccount-tab-menu .nav-item a.active {
     background-color: #c29958;
     border-color: #c29958;
     color: #fff;
+    border-radius: 0;
   }
-  .myaccount-tab-menu a i.fa {
+  .myaccount-tab-menu .nav-item a i.fa {
     font-size: 14px;
     text-align: center;
     width: 25px;

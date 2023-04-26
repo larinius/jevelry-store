@@ -17,7 +17,7 @@ import Link from "next/link";
 
 const OffcanvasCart = () => {
   // @ts-ignore
-  const showCart = useSelector((state) => state.showCart);
+  const showCart = useSelector((state) => state.cart.showCart);
   // @ts-ignore
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const OffcanvasCart = () => {
     return (
       <>
         <ul>
-          {cart.map((item) => {
+          {cart?.cart.map((item) => {
             return (
                 <li key={item.id} className="minicart-item" >
                   <MinicartItem product={item} />

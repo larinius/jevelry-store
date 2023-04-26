@@ -17,9 +17,9 @@ import Link from "next/link";
 
 const OffcanvasWishlist = () => {
   // @ts-ignore
-  const showWishlist = useSelector((state) => state.showWishlist);
+  const showWishlist = useSelector((state) => state.cart.showWishlist);
   // @ts-ignore
-  const wishlist = useSelector((state) => state.wishlist);
+  const wishlist = useSelector((state) => state.cart.wishlist) || [];
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch(setShowWishlist(false));
@@ -65,6 +65,7 @@ const OffcanvasWishlist = () => {
   };
 
   const MinicartList = ({ wishlist }) => {
+
     return (
       <>
         <ul>
