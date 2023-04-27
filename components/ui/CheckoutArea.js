@@ -6,22 +6,31 @@ import { axiosInstance } from "../../lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useOrderCode, useCreateOrder, useSettings } from "../../lib/apiHooks";
 import qs from "qs";
+import { useRouter } from "next/router";
+import {setOrder} from "../../redux/cartSlice";
 
 const CheckoutArea = () => {
-
+  const dispatch = useDispatch();
+  const router = useRouter();
   const { user } = useUser();
   const { settings } = useSettings();
   const [newUser, setNewUser] = useState({});
   const [newOrder, setNewOrder] = useState({});
   const cart = useSelector((state) => state.cart.cart);
   const { ordercode } = useOrderCode();
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   useEffect(() => {
     console.log(settings);
   }, [settings]);
 
   const handleSubmitOrder = () => {
-    const { firstName, lastName, email, phone } = newUser;
+
+    const { firstName, lastName, email, phone } = auth.isLoggedIn ? user : newUser;
     const { weight } = getSubTotal();
     const order = {
       ...newOrder,
@@ -33,8 +42,8 @@ const CheckoutArea = () => {
       deliveryPrice: 0,
       code: ordercode,
     };
+    dispatch(setOrder(order));
     addOrder.mutate(order);
-    console.log(order);
   };
 
   const addOrder = useMutation((payload) => {
@@ -42,7 +51,10 @@ const CheckoutArea = () => {
     axiosInstance.post(apiUrl, qs.stringify(payload)).then((response) => {
       console.log(response.status);
       if (response.status === 201) {
-        console.log("Order created");
+        console.log("Order created", response.data);
+        router.push({
+          pathname: "/thank-you",
+        });
       } else {
         console.log("Order not created. Error");
       }
@@ -106,13 +118,175 @@ const CheckoutArea = () => {
     );
   };
 
-  return (
-    <>
-      <div className="checkout-page-wrapper section-padding">
-        <Container>
-          <Row>
-            <Col xs={12}>
-              <div className="checkoutaccordion" id="checkOutAccordion">
+  const NewUserForm = () => {
+    return (
+      <>
+        <Col lg={6}>
+          <div className="checkout-billing-details-wrap">
+            <h5 className="checkout-title">Billing Details</h5>
+            <div className="billing-form-wrap">
+              <form action="#">
+                <Row>
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="f_name" className="required">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        id="f_name"
+                        placeholder="First Name"
+                        onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+                      />
+                    </div>
+                  </Col>
+
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="l_name" className="required">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        id="l_name"
+                        placeholder="Last Name"
+                        onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+
+                <div className="single-input-item">
+                  <label htmlFor="email" className="required">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Email Address"
+                    required
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="phone">Phone</label>
+                  <input type="text" id="phone" placeholder="Phone" onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })} />
+                </div>
+
+                <div className="checkout-box-wrap">
+                  <div className="single-input-item">
+                    <div className="custom-control custom-checkbox">
+                      <input type="checkbox" className="custom-control-input" id="create_pwd" />
+                      <label className="custom-control-label" htmlFor="create_pwd">
+                        Create an account?
+                      </label>
+                    </div>
+                  </div>
+                  <div className="account-create single-form-row">
+                    <p>
+                      Create an account by entering the information below. If you are a returning customer please login at the top of the
+                      page.
+                    </p>
+                    <div className="single-input-item">
+                      <label htmlFor="pwd" className="required">
+                        Account Password
+                      </label>
+                      <input type="password" id="pwd" placeholder="Account Password" required />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="checkout-box-wrap"></div>
+
+                <div className="single-input-item">
+                  <label htmlFor="ordernote">Order Note</label>
+                  <textarea
+                    name="ordernote"
+                    id="ordernote"
+                    cols="30"
+                    rows="3"
+                    placeholder="Notes about your order, e.g. special notes for delivery."
+                    onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Col>
+      </>
+    );
+  };
+
+  const LoggedInUserForm = () => {
+    return (
+      <>
+        <Col lg={6}>
+          <div className="checkout-billing-details-wrap">
+            <h5 className="checkout-title">Billing Details</h5>
+            <div className="billing-form-wrap">
+              <form action="#">
+                <Row>
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="f_name">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="f_name"
+                        readOnly
+                        value={user.name}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+
+                <div className="single-input-item">
+                  <label htmlFor="email">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    readOnly
+                    value={user.email}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="phone">Phone</label>
+                  <input type="text" id="phone" 
+                  readOnly
+                  value={user.phone}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="ordernote">Order Note</label>
+                  <textarea
+                    name="ordernote"
+                    id="ordernote"
+                    cols="30"
+                    rows="3"
+                    placeholder="Notes about your order, e.g. special notes for delivery."
+                    onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Col>
+      </>
+    );
+  };
+
+  const QuickLoginForm = () => {
+
+    return(<>
+                  <div className="checkoutaccordion" id="checkOutAccordion">
                 <div className="card">
                   <h6>
                     Returning Customer?{" "}
@@ -173,109 +347,23 @@ const CheckoutArea = () => {
                   </div>
                 </div>
               </div>
+    
+    </>);
+    
+  }
+  
+
+  return (
+    <>
+      <div className="checkout-page-wrapper section-padding">
+        <Container>
+          <Row>
+            <Col xs={12}>
+            {!auth.isLoggedIn ? <QuickLoginForm/> : null}
             </Col>
           </Row>
           <Row>
-            <Col lg={6}>
-              <div className="checkout-billing-details-wrap">
-                <h5 className="checkout-title">Billing Details</h5>
-                <div className="billing-form-wrap">
-                  <form action="#">
-                    <Row>
-                      <Col className="md-6">
-                        <div className="single-input-item">
-                          <label htmlFor="f_name" className="required">
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            id="f_name"
-                            placeholder="First Name"
-                            onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
-                          />
-                        </div>
-                      </Col>
-
-                      <Col className="md-6">
-                        <div className="single-input-item">
-                          <label htmlFor="l_name" className="required">
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            id="l_name"
-                            placeholder="Last Name"
-                            onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-
-                    <div className="single-input-item">
-                      <label htmlFor="email" className="required">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        placeholder="Email Address"
-                        required
-                        onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                      />
-                    </div>
-
-                    <div className="single-input-item">
-                      <label htmlFor="phone">Phone</label>
-                      <input
-                        type="text"
-                        id="phone"
-                        placeholder="Phone"
-                        onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })}
-                      />
-                    </div>
-
-                    <div className="checkout-box-wrap">
-                      <div className="single-input-item">
-                        <div className="custom-control custom-checkbox">
-                          <input type="checkbox" className="custom-control-input" id="create_pwd" />
-                          <label className="custom-control-label" htmlFor="create_pwd">
-                            Create an account?
-                          </label>
-                        </div>
-                      </div>
-                      <div className="account-create single-form-row">
-                        <p>
-                          Create an account by entering the information below. If you are a returning customer please login at the top of
-                          the page.
-                        </p>
-                        <div className="single-input-item">
-                          <label htmlFor="pwd" className="required">
-                            Account Password
-                          </label>
-                          <input type="password" id="pwd" placeholder="Account Password" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="checkout-box-wrap"></div>
-
-                    <div className="single-input-item">
-                      <label htmlFor="ordernote">Order Note</label>
-                      <textarea
-                        name="ordernote"
-                        id="ordernote"
-                        cols="30"
-                        rows="3"
-                        placeholder="Notes about your order, e.g. special notes for delivery."
-                        onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
-                      ></textarea>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </Col>
+            {auth.isLoggedIn ? <LoggedInUserForm/> : <NewUserForm/>}
 
             <Col lg={6}>
               <div className="order-summary-details">

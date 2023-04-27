@@ -5,6 +5,7 @@
     "no-undef": "error",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "@next/next/no-img-element": "off"
   }
 }

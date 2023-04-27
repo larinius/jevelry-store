@@ -5,6 +5,7 @@ import { CheckLg } from "react-bootstrap-icons";
 const initialState = {
   cart: [],
   wishlist: [],
+  order: {},
   showCart: false,
   showWishlist: false,
 };
@@ -85,6 +86,9 @@ const cartSlice = createSlice({
     setShowWishlist: (state, action) => {
       state.showWishlist = action.payload;
     },
+    setOrder: (state, action) => {
+      state.order = action.payload;
+    },
   },
 });
 
@@ -99,4 +103,5 @@ export const {
   addToWishlist,
   removeFromWishlist,
   setShowWishlist,
+  setOrder,
 } = cartSlice.actions;
