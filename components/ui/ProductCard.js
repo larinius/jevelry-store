@@ -102,7 +102,6 @@ function ProductCard({ product }) {
           </div>
         </div>
       </div>
-    </div>
     <Modal
       show={show}
       onHide={handleClose}
@@ -122,7 +121,7 @@ function ProductCard({ product }) {
         />
       </Modal.Body>
     </Modal>
-  </>;
+  </>
 }
 
 ProductCard.propTypes = {
