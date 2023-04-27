@@ -121,7 +121,7 @@ function ProductCard({ product }) {
         />
       </Modal.Body>
     </Modal>
-  </>
+  </>);
 }
 
 ProductCard.propTypes = {
