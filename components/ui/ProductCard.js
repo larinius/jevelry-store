@@ -103,27 +103,26 @@ function ProductCard({ product }) {
           </div>
         </div>
       </div>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        animation={true}
-        size="lg"
-        centered
-        className={show ? "show" : ""}
-      >
-        <Modal.Header closeButton>{product.title}</Modal.Header>
-        <Modal.Body>
-          <ImageGallery
-            items={images}
-            lazyLoad={false}
-            showPlayButton={false}
-            isRTL={false}
-            showIndex={false}
-          />
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+    <Modal
+      show={show}
+      onHide={handleClose}
+      animation={true}
+      size="lg"
+      centered
+      className={show ? "show" : ""}
+    >
+      <Modal.Header closeButton>{product.title}</Modal.Header>
+      <Modal.Body>
+        <ImageGallery
+          items={images}
+          lazyLoad={false}
+          showPlayButton={false}
+          isRTL={false}
+          showIndex={false}
+        />
+      </Modal.Body>
+    </Modal>
+  </>);
 }
 
 ProductCard.propTypes = {
