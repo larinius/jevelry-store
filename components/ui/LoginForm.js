@@ -62,10 +62,8 @@ const LoginForm = () => {
     e.preventDefault();
 
     const payload = {
-      // email: e.currentTarget.email.value,
-      // password: e.currentTarget.password.value,
-      email: "Alicia19@gmail.com",
-      password: "1234567",
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
     };
 
     dispatch(login(payload));
