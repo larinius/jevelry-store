@@ -17,7 +17,7 @@ import Link from "next/link";
 
 const OffcanvasCart = () => {
   // @ts-ignore
-  const showCart = useSelector((state) => state.showCart);
+  const showCart = useSelector((state) => state.cart.showCart);
   // @ts-ignore
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -31,7 +31,9 @@ const OffcanvasCart = () => {
     let price = 0;
     let weight = 0;
 
-    cart.forEach((item) => {
+    if (!cart?.cart) return { price, quantity, weight };
+
+    cart?.cart.forEach((item) => {
       quantity += parseInt(item.quantity);
       price += item.price * item.quantity;
       weight += item.weight * item.quantity;
@@ -77,7 +79,7 @@ const OffcanvasCart = () => {
     return (
       <>
         <ul>
-          {cart.map((item) => {
+          {cart?.cart.map((item) => {
             return (
                 <li key={item.id} className="minicart-item" >
                   <MinicartItem product={item} />

@@ -3,7 +3,8 @@
   border-radius: 0 !important;
 }
 
-img, svg {
+img,
+svg {
   vertical-align: text-bottom;
 }
 
@@ -18,29 +19,29 @@ img, svg {
 }
 
 .language .form-select:focus {
-
   box-shadow: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-#google-map .mapboxgl-control-container{
+#google-map .mapboxgl-control-container {
   display: none;
 }
 
-#map-section .section-padding{
+#map-section .section-padding {
   padding-bottom: 40px;
 }
 
 #map-section #google-map {
-  height: 430px;  
+  height: 430px;
 }
 
-.slick-prev:before, .slick-next:before {
-  font-family: 'slick';
+.slick-prev:before,
+.slick-next:before {
+  font-family: "slick";
   font-size: 25px;
   line-height: 1;
-  opacity: .75;
+  opacity: 0.75;
   color: #c29958;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,22 +50,20 @@ img, svg {
 .react-multiple-carousel__arrow {
   position: absolute;
   outline: 0;
-  transition: all .5s;
+  transition: all 0.5s;
   border-radius: 25px;
   z-index: 1000;
   border: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   min-width: 35px;
   min-height: 35px;
-  opacity:0.3;
+  opacity: 0.3;
   cursor: pointer;
 }
-
 
 .react-multiple-carousel__arrow:hover {
   background: #c29958;
 }
-
 
 /*----- product tab menu start -----*/
 .nav-tabs {
@@ -82,37 +81,39 @@ img, svg {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
   text-decoration: none;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.2;
   color: #777777;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
   color: #222222;
   background-color: var(--bs-nav-tabs-link-active-bg);
   border: none;
-
 }
 
-.nav-link:focus, .nav-link:hover {
+.nav-link:focus,
+.nav-link:hover {
   color: #222222;
 }
 
-.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
   isolation: isolate;
-  border:none;
+  border: none;
 }
 /*----- product tab menu start -----*/
-
 
 .form-check-input:checked {
   background-color: #dee2e6;
   border-color: #999;
 }
 
-.shop-product-wrapper{
+.shop-product-wrapper {
   min-height: 1000px;
 }
 
@@ -128,4 +129,8 @@ img, svg {
 
 .wishlist-item a:hover {
   color: #c29958;
+}
+
+.cart-main-wrapper {
+  min-height: 650px;
 }

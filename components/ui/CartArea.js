@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const CartArea = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart?.cart);
 
   const handleRemove = (product) => dispatch(removeItem(product));
   const handleUpdate = (e, product) => {

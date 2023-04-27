@@ -1,56 +1,52 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
+import {useProduct} from "../../lib/apiHooks";
 
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [currentProducts, setCurrentProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsLimit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
-  const pageCount = Math.ceil(products.length / productsLimit);
-  const [category, setCategory] = useState("all");
+  const [meta, setMeta] = useState();
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(process.env.NEXT_PUBLIC_PRODUCTS_LIMIT || 24);
+  const [pageCount, setPageCount] = useState([]);
+
+  const [category, setCategory] = useState("");
+  const [sku, setSku] = useState("");
   const [categories, setCategories] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState({});
 
+  const options = `limit=${limit}&page=${page}${category ? `&category=${category}` : ""}${sku ? `&sku=${sku}` : ""}`;
 
-  useEffect(() => {
-    if (products != null && products.length > 0) {
-      const pp = splitByPages(products, productsLimit, 1);
-      setCurrentProducts(pp);
-    }
-  }, [products]);
+  const { isLoading, error, product } = useProduct(null, options);
 
   useEffect(() => {
-    const limit = parseInt(process.env.NEXT_PUBLIC_PAGINATION_LIMIT);
-
-    const items = splitByPages(products, limit, currentPage);
-
-    setCurrentProducts(items);
-  }, [currentPage]);
-
-  const splitByPages = (arr, limit, page) => {
-    let pProducts = [];
-
-    for (let i = 0; i < arr.length; i += limit) {
-      let tempArray;
-      tempArray = arr.slice(i, i + limit);
-      pProducts.push(tempArray);
+    if (!isLoading && !error && product) {
+      setProducts(product.products);
+      setMeta(product.meta);
+      setCategories(product.meta?.categories);
+      setPageCount(Math.ceil(product.products?.length / limit));
     }
+  }, [isLoading, error, page, category, limit, sku]);
 
-    return pProducts[page - 1];
-  };
-
+  const setSkuCallback = useCallback(setSku, [setSku]);
+  const setLimitCallback = useCallback(setLimit, [setLimit]);
+  const setPageCallback = useCallback(setPage, [setPage]);
+  const setCategoryCallback = useCallback(setCategory, [setCategory]);
 
   return (
     <ProductContext.Provider
       value={{
         products,
-        currentProducts,
-        currentPage,
-        currentCategory,
-        setCurrentPage,
         category,
-        setCategory,
+        categories,
+        sku,
+        limit,
+        page,
+        pageCount,
+        meta,
+        setSku: setSkuCallback,
+        setLimit: setLimitCallback,
+        setPage: setPageCallback,
+        setCategory: setCategoryCallback,
       }}
     >
       {children}

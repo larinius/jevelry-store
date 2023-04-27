@@ -2,11 +2,11 @@ import { useRouter } from "next/router";
 import * as Icon from "react-bootstrap-icons";
 import Link from "next/link";
 import React from "react";
-import useUser from "/lib/useUser";
-import axios from "axios";
+import { useUser } from "../../lib/apiHooks";
 import Button from "react-bootstrap/Button";
 import { setShowCart, setShowWishlist } from "../../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/apiThunks";
 
 const HeaderConfigureArea = () => {
   const router = useRouter();
@@ -14,6 +14,7 @@ const HeaderConfigureArea = () => {
 
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist);
+  const auth = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -22,8 +23,8 @@ const HeaderConfigureArea = () => {
   const handleShowWishlist = () => dispatch(setShowWishlist(true));
 
   const handleLogout = async (e) => {
-    e.preventDefault();
-    await axios.post("/api/logout");
+    console.log("LOGOUT");
+    dispatch(logout());
     router.push("/login");
   };
 
@@ -48,7 +49,7 @@ const HeaderConfigureArea = () => {
           </Link>
         </li>
         <li>
-          <Link href="/logout" passHref onClick={handleLogout}>
+          <Link href="#" passHref onClick={handleLogout}>
             Logout
           </Link>
         </li>
@@ -57,11 +58,16 @@ const HeaderConfigureArea = () => {
   };
 
   const getTotal = () => {
+    
     let quantity = 0;
     let price = 0;
     let weight = 0;
 
-    cart.forEach((item) => {
+    if (cart?.cart === undefined || cart?.cart.length === 0) {
+      return { price, quantity, weight };
+    }
+
+    cart?.cart.forEach((item) => {
       quantity += parseInt(item.quantity);
       price += item.price * item.quantity;
       weight += item.weight * item.quantity;
@@ -75,7 +81,11 @@ const HeaderConfigureArea = () => {
   const getWishlist = () => {
     let quantity = 0;
 
-    wishlist.forEach((item) => {
+    if (cart?.wishlist == undefined || cart?.wishlist.length === 0) {
+      return { quantity };
+    }
+
+    cart?.wishlist.forEach((item) => {
       quantity += 1;
     });
 
@@ -135,7 +145,7 @@ const HeaderConfigureArea = () => {
               <Icon.Person size={22} />
             </a>
             <ul className="dropdown-list">
-              {user?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
+              {auth?.isLoggedIn ? <LogoutLink /> : <LoginLink />}
             </ul>
           </li>
           <li>

@@ -1,9 +1,7 @@
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { Container, Row } from "react-bootstrap";
-import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
-import { withIronSessionSsr } from "iron-session/next";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import BreadcrumbArea from "../../components/ui/BreadcrumbArea";
@@ -28,8 +26,8 @@ const ProductArea = ({ product }) => {
   const [photo, setPhoto] = useState(Dummy);
 
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const wishlist = useSelector((state) => state.wishlist);
+  const cart = useSelector((state) => state.cart.cart);
+  const wishlist = useSelector((state) => state.cart.wishlist);
   const qntRef = useRef(null);
 
   useEffect(() => {
@@ -70,8 +68,11 @@ const ProductArea = ({ product }) => {
   };
 
   const isWishlisted = () => {
-    const itemInWishlist = wishlist.find((item) => item.id === product.id);
-    return itemInWishlist;
+    if (cart != undefined && cart.cart?.wishlist.length != 0) {
+      return wishlist.find((item) => item.id == product?.id);
+    }
+
+    return true;
   };
 
   return (
@@ -84,13 +85,7 @@ const ProductArea = ({ product }) => {
                 <div className="col-lg-5">
                   <div className="product-large-slider">
                     <div className="pro-large-img img-zoom">
-                      <Image
-                        src={photo}
-                        alt="product-details"
-                        width={660}
-                        height={660}
-                        onError={handleImageError}
-                      />
+                      <Image src={photo} alt="product-details" width={660} height={660} onError={handleImageError} />
                     </div>
                   </div>
                 </div>
@@ -103,17 +98,7 @@ const ProductArea = ({ product }) => {
                     <div className="price-box">
                       <span className="price-regular">${product?.price}</span>
                       <span className="price-old">
-                        <del>
-                          {product?.priceBefore
-                            ? `$${product?.priceBefore}`
-                            : null}
-                        </del>
-                      </span>
-                    </div>
-                    <div className="characteristics-box">
-                      <span className="weight">
-                        {t("weight")}: {product?.weight}
-                        {t("g")}
+                        <del>{product?.priceBefore ? `$${product?.priceBefore}` : null}</del>
                       </span>
                     </div>
                     <div className="characteristics-box">
@@ -151,34 +136,15 @@ const ProductArea = ({ product }) => {
                         </InputGroup>
                       </div>
                       <div className="action_link">
-                        <a
-                          onClick={() =>
-                            handleAddToCart(product, qntRef.current.value)
-                          }
-                          className="btn btn-cart2"
-                          href="#"
-                        >
+                        <a onClick={() => handleAddToCart(product, qntRef.current.value)} className="btn btn-cart2" href="#">
                           Add to cart
                         </a>
                       </div>
                     </div>
 
                     <div className="useful-links">
-                      <a href="#" data-bs-toggle="tooltip" title="Compare">
-                        <FaBalanceScaleLeft size={22} /> compare
-                      </a>
-                      <a
-                        href="#"
-                        data-bs-toggle="tooltip"
-                        title="Wishlist"
-                        onClick={() => handleAddToWishlist(product)}
-                      >
-                        {isWishlisted() ? (
-                          <MdFavorite size={22} color={"#f71f34"} />
-                        ) : (
-                          <MdFavoriteBorder size={22} />
-                        )}{" "}
-                        Wishlist
+                      <a href="#" data-bs-toggle="tooltip" title="Wishlist" onClick={() => handleAddToWishlist(product)}>
+                        {isWishlisted() ? <MdFavorite size={22} color={"#f71f34"} /> : <MdFavoriteBorder size={22} />} Wishlist
                       </a>
                     </div>
                   </div>

@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
-import { withIronSessionSsr } from "iron-session/next";
 import Link from "next/link";
-import useUser from "/lib/useUser";
+import { useUser } from "../lib/apiHooks";
+import { useSelector, useDispatch } from "react-redux";
 
-import AccountArea from "../components/ui/AccountArea";
+import dynamic from "next/dynamic";
+const AccountAreaNoSSR = dynamic(() => import("../components/ui/account/AccountArea"), {
+  ssr: false,
+});
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Account() {
   const router = useRouter();
   const { t } = useTranslation("common");
   const { user } = useUser();
-
+  const auth = useSelector((state) => state.auth);
+  
   useEffect(() => {
-    if (!user?.isLoggedIn) {
+    if (!auth?.isLoggedIn) {
       router.push("/login");
     }
   }, []);
 
-  return <>{user?.isLoggedIn && <AccountArea />}</>;
+  return <>{auth?.isLoggedIn && <AccountAreaNoSSR />}</>;
 }
 
 // export async function getServerSideProps({ locale, req, res }) {
@@ -34,12 +37,8 @@ export default function Account() {
 //   };
 // }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  locale,
-  req,
-  res,
-}) {
-  const user = req.session.user;
+export async function  getServerSideProps ({ locale,  req,  res,}) {
+  // const user = req.session.user;
 
   // if (user === undefined) {
   //   res.setHeader("location", "/login");
@@ -60,5 +59,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...getCookies({ req, res }),
     },
   };
-},
-sessionOptions);
+}

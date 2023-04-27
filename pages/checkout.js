@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { sessionOptions } from "/lib/session";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
-import { withIronSessionSsr } from "iron-session/next";
 import Link from "next/link";
-import useUser from "/lib/useUser";
+import { useUser } from "../lib/apiHooks";
 
-import AccountArea from "../components/ui/AccountArea";
+import AccountArea from "../components/ui/account/AccountArea";
 import dynamic from "next/dynamic";
-const CheckoutAreaNoSSR = dynamic(() => import("../components/ui/CheckoutArea"), {
-  ssr: false,
-});
+const CheckoutAreaNoSSR = dynamic(
+  () => import("../components/ui/CheckoutArea"),
+  {
+    ssr: false,
+  }
+);
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
 export default function Account() {
   const router = useRouter();
   const { t } = useTranslation("common");
   const { user } = useUser();
-
 
   return (
     <>
@@ -36,12 +36,8 @@ export default function Account() {
 //   };
 // }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  locale,
-  req,
-  res,
-}) {
-  const user = req.session.user;
+export async function getServerSideProps({ locale, req, res }) {
+  // const user = req.session.user;
 
   // if (user === undefined) {
   //   res.setHeader("location", "/login");
@@ -62,5 +58,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...getCookies({ req, res }),
     },
   };
-},
-sessionOptions);
+}

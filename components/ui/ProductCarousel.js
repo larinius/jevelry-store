@@ -1,39 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
-import ProductContext from "../context/ProductContext";
-import Slider from "@ant-design/react-slick";
-import { FaChevronLeft, FaChevronRight } from "react-icons";
-import CarouselItem from "./CarouselItem";
-import Carousel from "react-multi-carousel";
+import { useQueries } from "@tanstack/react-query";
+import axios from "axios";
+import { useTranslation } from "next-i18next";
+import React, { useEffect } from "react";
+import { Container, Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { Container, Row } from "react-bootstrap";
-import { useTranslation, Trans } from "next-i18next";
-import { useQuery, useQueries } from "@tanstack/react-query";
-import axios from "axios";
+import Carousel from "react-multi-carousel";
+import CarouselItem from "./CarouselItem";
 
 const ProductCarousel = () => {
-  const [products, setProducts] = useState([]);
-  const [productsRings, setProductsRings] = useState([]);
-  const [productsEarrings, setProductsEarrings] = useState([]);
-  const [productsChains, setProductsChains] = useState([]);
-  const [productsPendants, setProductsPendants] = useState([]);
-
   const { t } = useTranslation("common");
 
   const categories = ["rings", "earrings", "chains", "bracelets", "necklaces"];
   const toApiUrl = (key) => {
-    return(`/api/product?category=${key}&limit=12`);
+    return `/api/product?category=${key}&limit=12`;
   };
 
-    const productQueries = useQueries({
-      queries: categories.map((cat) => {
-        return {
-          queryKey: [toApiUrl(cat)],
-          queryFn: () => axios.get(toApiUrl(cat)),
-        };
-      }),
-    });
-
+  const productQueries = useQueries({
+    queries: categories.map((cat) => {
+      return {
+        queryKey: [toApiUrl(cat)],
+        queryFn: () => axios.get(toApiUrl(cat)),
+      };
+    }),
+  });
 
   const rings = productQueries[0].data?.data || [];
   const earrings = productQueries[1].data?.data || [];
@@ -41,53 +31,27 @@ const ProductCarousel = () => {
   const bracelets = productQueries[3].data?.data || [];
   const necklaces = productQueries[4].data?.data || [];
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const response = await fetch(`/api/product`);
-  //     const data = await response.json();
-  //     setProducts(data);
-  //   };
-
-  //   getData();
-  // }, []);
-
-  // useEffect(() => {
-  //   const rings = products
-  //     .filter((item) => item.category.name.toLowerCase() === "rings")
-  //     .slice(0, 12);
-  //   const earrings = products
-  //     .filter((item) => item.category.name.toLowerCase() === "earrings")
-  //     .slice(0, 12);
-  //   const chains = products
-  //     .filter((item) => item.category.name.toLowerCase() === "chains")
-  //     .slice(0, 12);
-  //   const pendants = products
-  //     .filter((item) => item.category.name.toLowerCase() === "pendants")
-  //     .slice(0, 12);
-
-  //   setProductsRings(rings);
-  //   setProductsEarrings(earrings);
-  //   setProductsChains(chains);
-  //   setProductsPendants(pendants);
-  // }, [products]);
+  useEffect(() => {
+    console.log(rings, earrings, chains, bracelets, necklaces);
+  }, [rings, earrings, chains, bracelets, necklaces]);
 
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
       items: 4,
-      paritialVisibilityGutter: 60,
+      partialVisibilityGutter: 60,
       partialVisible: true,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 3,
-      paritialVisibilityGutter: 50,
+      partialVisibilityGutter: 50,
       partialVisible: true,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
       items: 1,
-      paritialVisibilityGutter: 0,
+      partialVisibilityGutter: 0,
       partialVisible: false,
       centerMode: true,
     },
@@ -121,7 +85,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {rings?.map((x, i) => {
+                        {rings.products?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -138,7 +102,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {earrings?.map((x, i) => {
+                        {earrings.products?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -155,7 +119,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {bracelets?.map((x, i) => {
+                        {bracelets.products?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />
@@ -172,7 +136,7 @@ const ProductCarousel = () => {
                         responsive={responsive}
                         className="product-carousel-4 slick-row-10 slick-arrow-style"
                       >
-                        {chains?.map((x, i) => {
+                        {chains.products?.map((x, i) => {
                           return (
                             <div key={i} className="img-card">
                               <CarouselItem product={x} />

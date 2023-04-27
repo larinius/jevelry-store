@@ -1,12 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import useUser from "/lib/useUser";
+import { useUser } from "../../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
-const CheckoutArea = () => {
-  const { user } = useUser();
-  const cart = useSelector((state) => state.cart);
+import { axiosInstance } from "../../lib/axios";
+import { useMutation } from "@tanstack/react-query";
+import { useOrderCode, useCreateOrder, useSettings } from "../../lib/apiHooks";
+import qs from "qs";
+import { useRouter } from "next/router";
+import {setOrder} from "../../redux/cartSlice";
 
-  const getTotal = () => {
+const CheckoutArea = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { user } = useUser();
+  const { settings } = useSettings();
+  const [newUser, setNewUser] = useState({});
+  const [newOrder, setNewOrder] = useState({});
+  const cart = useSelector((state) => state.cart.cart);
+  const { ordercode } = useOrderCode();
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log(settings);
+  }, [settings]);
+
+  const handleSubmitOrder = () => {
+
+    const { firstName, lastName, email, phone } = auth.isLoggedIn ? user : newUser;
+    const { weight } = getSubTotal();
+    const order = {
+      ...newOrder,
+      user: { name: `${firstName} ${lastName}`, email, phone },
+      products: cart,
+      total: Number(total),
+      weight,
+      discount: 0,
+      deliveryPrice: 0,
+      code: ordercode,
+    };
+    dispatch(setOrder(order));
+    addOrder.mutate(order);
+  };
+
+  const addOrder = useMutation((payload) => {
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/order`;
+    axiosInstance.post(apiUrl, qs.stringify(payload)).then((response) => {
+      console.log(response.status);
+      if (response.status === 201) {
+        console.log("Order created", response.data);
+        router.push({
+          pathname: "/thank-you",
+        });
+      } else {
+        console.log("Order not created. Error");
+      }
+      return response;
+    });
+  });
+
+  const getSubTotal = () => {
     let quantity = 0;
     let price = 0;
     let weight = 0;
@@ -20,7 +76,27 @@ const CheckoutArea = () => {
     return { price, quantity, weight };
   };
 
-  const total = getTotal();
+  const subtotal = useMemo(() => {
+    const { price } = getSubTotal();
+    return Number(price).toFixed(2);
+  }, [cart]);
+
+  const weight = useMemo(() => {
+    const { weight } = getSubTotal();
+    return Number(weight).toFixed(2);
+  }, [cart]);
+
+  const vat = useMemo(() => {
+    if (!settings || settings.length == 0) return 0;
+    const vatValue = Number(settings.find((setting) => setting.title === "vat").value) / 100;
+
+    return Number(vatValue * subtotal).toFixed(2);
+  }, [settings, subtotal]);
+
+  const total = useMemo(() => {
+    console.log(subtotal, vat);
+    return Number(Number(subtotal) + Number(vat)).toFixed(2);
+  }, [vat, subtotal]);
 
   const ProductList = () => {
     return (
@@ -29,7 +105,10 @@ const CheckoutArea = () => {
           return (
             <tr key={item.id}>
               <td>
-              <strong>{item.title} - {item.sku}</strong> x  {item.quantity}
+                <strong>
+                  {item.title} - {item.sku}
+                </strong>{" "}
+                x {item.quantity}
               </td>
               <td>${(item.price * item.quantity).toFixed(2)}</td>
             </tr>
@@ -39,34 +118,188 @@ const CheckoutArea = () => {
     );
   };
 
-  return (
-    <>
-      <div className="checkout-page-wrapper section-padding">
-        <Container>
-          <Row>
-            <Col xs={12}>
-              <div className="checkoutaccordion" id="checkOutAccordion">
+  const NewUserForm = () => {
+    return (
+      <>
+        <Col lg={6}>
+          <div className="checkout-billing-details-wrap">
+            <h5 className="checkout-title">Billing Details</h5>
+            <div className="billing-form-wrap">
+              <form action="#">
+                <Row>
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="f_name" className="required">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        id="f_name"
+                        placeholder="First Name"
+                        onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+                      />
+                    </div>
+                  </Col>
+
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="l_name" className="required">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        id="l_name"
+                        placeholder="Last Name"
+                        onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+
+                <div className="single-input-item">
+                  <label htmlFor="email" className="required">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Email Address"
+                    required
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="phone">Phone</label>
+                  <input type="text" id="phone" placeholder="Phone" onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })} />
+                </div>
+
+                <div className="checkout-box-wrap">
+                  <div className="single-input-item">
+                    <div className="custom-control custom-checkbox">
+                      <input type="checkbox" className="custom-control-input" id="create_pwd" />
+                      <label className="custom-control-label" htmlFor="create_pwd">
+                        Create an account?
+                      </label>
+                    </div>
+                  </div>
+                  <div className="account-create single-form-row">
+                    <p>
+                      Create an account by entering the information below. If you are a returning customer please login at the top of the
+                      page.
+                    </p>
+                    <div className="single-input-item">
+                      <label htmlFor="pwd" className="required">
+                        Account Password
+                      </label>
+                      <input type="password" id="pwd" placeholder="Account Password" required />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="checkout-box-wrap"></div>
+
+                <div className="single-input-item">
+                  <label htmlFor="ordernote">Order Note</label>
+                  <textarea
+                    name="ordernote"
+                    id="ordernote"
+                    cols="30"
+                    rows="3"
+                    placeholder="Notes about your order, e.g. special notes for delivery."
+                    onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Col>
+      </>
+    );
+  };
+
+  const LoggedInUserForm = () => {
+    return (
+      <>
+        <Col lg={6}>
+          <div className="checkout-billing-details-wrap">
+            <h5 className="checkout-title">Billing Details</h5>
+            <div className="billing-form-wrap">
+              <form action="#">
+                <Row>
+                  <Col className="md-6">
+                    <div className="single-input-item">
+                      <label htmlFor="f_name">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="f_name"
+                        readOnly
+                        value={user.name}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+
+                <div className="single-input-item">
+                  <label htmlFor="email">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    readOnly
+                    value={user.email}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="phone">Phone</label>
+                  <input type="text" id="phone" 
+                  readOnly
+                  value={user.phone}
+                  />
+                </div>
+
+                <div className="single-input-item">
+                  <label htmlFor="ordernote">Order Note</label>
+                  <textarea
+                    name="ordernote"
+                    id="ordernote"
+                    cols="30"
+                    rows="3"
+                    placeholder="Notes about your order, e.g. special notes for delivery."
+                    onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Col>
+      </>
+    );
+  };
+
+  const QuickLoginForm = () => {
+
+    return(<>
+                  <div className="checkoutaccordion" id="checkOutAccordion">
                 <div className="card">
                   <h6>
                     Returning Customer?{" "}
-                    <span
-                      data-bs-toggle="collapse"
-                      data-bs-target="#logInaccordion"
-                    >
+                    <span data-bs-toggle="collapse" data-bs-target="#logInaccordion">
                       Click Here To Login
                     </span>
                   </h6>
 
-                  <div
-                    id="logInaccordion"
-                    className="collapse"
-                    data-parent="#checkOutAccordion"
-                  >
+                  <div id="logInaccordion" className="collapse" data-parent="#checkOutAccordion">
                     <div className="card-body">
                       <p>
-                        If you have shopped with us before, please enter your
-                        details in the boxes below. If you are a new customer,
-                        please proceed to the Billing &amp; Shipping section.
+                        If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please
+                        proceed to the Billing &amp; Shipping section.
                       </p>
                       <div className="login-reg-form-wrap mt-20">
                         <Row>
@@ -75,21 +308,13 @@ const CheckoutArea = () => {
                               <Row>
                                 <Col className="md-12">
                                   <div className="single-input-item">
-                                    <input
-                                      type="email"
-                                      placeholder="Enter your Email"
-                                      required
-                                    />
+                                    <input type="email" placeholder="Enter your Email" required />
                                   </div>
                                 </Col>
 
                                 <Col className="md-12">
                                   <div className="single-input-item">
-                                    <input
-                                      type="password"
-                                      placeholder="Enter your Password"
-                                      required
-                                    />
+                                    <input type="password" placeholder="Enter your Password" required />
                                   </div>
                                 </Col>
                               </Row>
@@ -98,16 +323,8 @@ const CheckoutArea = () => {
                                 <div className="login-reg-form-meta d-flex align-items-center justify-content-between">
                                   <div className="remember-meta">
                                     <div className="custom-control custom-checkbox">
-                                      <input
-                                        type="checkbox"
-                                        className="custom-control-input"
-                                        id="rememberMe"
-                                        required
-                                      />
-                                      <label
-                                        className="custom-control-label"
-                                        htmlFor="rememberMe"
-                                      >
+                                      <input type="checkbox" className="custom-control-input" id="rememberMe" required />
+                                      <label className="custom-control-label" htmlFor="rememberMe">
                                         Remember Me
                                       </label>
                                     </div>
@@ -130,113 +347,23 @@ const CheckoutArea = () => {
                   </div>
                 </div>
               </div>
+    
+    </>);
+    
+  }
+  
+
+  return (
+    <>
+      <div className="checkout-page-wrapper section-padding">
+        <Container>
+          <Row>
+            <Col xs={12}>
+            {!auth.isLoggedIn ? <QuickLoginForm/> : null}
             </Col>
           </Row>
           <Row>
-            <Col lg={6}>
-              <div className="checkout-billing-details-wrap">
-                <h5 className="checkout-title">Billing Details</h5>
-                <div className="billing-form-wrap">
-                  <form action="#">
-                    <Row>
-                      <Col className="md-6">
-                        <div className="single-input-item">
-                          <label htmlFor="f_name" className="required">
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            id="f_name"
-                            placeholder="First Name"
-                            required
-                          />
-                        </div>
-                      </Col>
-
-                      <Col className="md-6">
-                        <div className="single-input-item">
-                          <label htmlFor="l_name" className="required">
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            id="l_name"
-                            placeholder="Last Name"
-                            required
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-
-                    <div className="single-input-item">
-                      <label htmlFor="email" className="required">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        placeholder="Email Address"
-                        required
-                      />
-                    </div>
-
-                    <div className="single-input-item">
-                      <label htmlFor="phone">Phone</label>
-                      <input type="text" id="phone" placeholder="Phone" />
-                    </div>
-
-                    <div className="checkout-box-wrap">
-                      <div className="single-input-item">
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="create_pwd"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="create_pwd"
-                          >
-                            Create an account?
-                          </label>
-                        </div>
-                      </div>
-                      <div className="account-create single-form-row">
-                        <p>
-                          Create an account by entering the information below.
-                          If you are a returning customer please login at the
-                          top of the page.
-                        </p>
-                        <div className="single-input-item">
-                          <label htmlFor="pwd" className="required">
-                            Account Password
-                          </label>
-                          <input
-                            type="password"
-                            id="pwd"
-                            placeholder="Account Password"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="checkout-box-wrap"></div>
-
-                    <div className="single-input-item">
-                      <label htmlFor="ordernote">Order Note</label>
-                      <textarea
-                        name="ordernote"
-                        id="ordernote"
-                        cols="30"
-                        rows="3"
-                        placeholder="Notes about your order, e.g. special notes for delivery."
-                      ></textarea>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </Col>
+            {auth.isLoggedIn ? <LoggedInUserForm/> : <NewUserForm/>}
 
             <Col lg={6}>
               <div className="order-summary-details">
@@ -258,13 +385,25 @@ const CheckoutArea = () => {
                         <tr>
                           <td>Sub Total</td>
                           <td>
-                            <strong>${total.price.toFixed(2)}</strong>
+                            <strong>${subtotal}</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Weight</td>
+                          <td>
+                            <strong>{weight}g</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>VAT</td>
+                          <td>
+                            <strong>${vat}</strong>
                           </td>
                         </tr>
                         <tr>
                           <td>Total Amount</td>
                           <td>
-                            <strong>${total.price.toFixed(2)}</strong>
+                            <strong>${total}</strong>
                           </td>
                         </tr>
                       </tfoot>
@@ -273,18 +412,12 @@ const CheckoutArea = () => {
                   <div className="order-payment-method">
                     <div className="summary-footer-area">
                       <div className="custom-control custom-checkbox mb-20">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="terms"
-                          required
-                        />
+                        <input type="checkbox" className="custom-control-input" id="terms" required />
                         <label className="custom-control-label" htmlFor="terms">
-                          I have read and agree to the website{" "}
-                          <a href="index.html">terms and conditions.</a>
+                          I have read and agree to the website <a href="index.html">terms and conditions.</a>
                         </label>
                       </div>
-                      <button type="submit" className="btn btn-sqr">
+                      <button type="submit" className="btn btn-sqr" onClick={handleSubmitOrder}>
                         Place Order
                       </button>
                     </div>

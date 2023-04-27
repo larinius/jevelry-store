@@ -5,6 +5,7 @@ import { CheckLg } from "react-bootstrap-icons";
 const initialState = {
   cart: [],
   wishlist: [],
+  order: {},
   showCart: false,
   showWishlist: false,
 };
@@ -15,6 +16,10 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       console.log(action.payload);
+
+      if(state.cart === undefined ){
+        state.cart = [];
+      }
 
       const itemInCart = state.cart.find(
         (item) => item.id === action.payload.id
@@ -54,16 +59,14 @@ const cartSlice = createSlice({
       state.cart = removeItem;
     },
     setShowCart: (state, action) => {
-      // console.log("SHOW CART", action.payload);
-      // const showCart = action.payload;
-
       state.showCart = action.payload;
-      // return(newstate);
-      // state.cart={...state.cart, showCart}
     },
     addToWishlist: (state, action) => {
-      console.log("WL", action.payload);
 
+      if(state.wishlist === undefined ){
+        state.wishlist = [];
+      }
+       
       const itemInWishlist = state.wishlist.find(
         (item) => item.id === action.payload.id
       );
@@ -81,12 +84,10 @@ const cartSlice = createSlice({
       state.wishlist = removeItem;
     },
     setShowWishlist: (state, action) => {
-      // console.log("SHOW CART", action.payload);
-      // const showCart = action.payload;
-
       state.showWishlist = action.payload;
-      // return(newstate);
-      // state.cart={...state.cart, showCart}
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload;
     },
   },
 });
@@ -102,4 +103,5 @@ export const {
   addToWishlist,
   removeFromWishlist,
   setShowWishlist,
+  setOrder,
 } = cartSlice.actions;

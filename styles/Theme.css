@@ -5007,15 +5007,29 @@ body {
     font-size: 15px;
     white-space: nowrap;
   }
-  .order-summary-table .table tr td,
+  .order-summary-table .table tr td:nth-child,
   .order-summary-table .table tr th,
-  .order-summary-table table tr td,
+  .order-summary-table table tr td:nth-child,
   .order-summary-table table tr th {
     font-weight: 400;
     vertical-align: middle;
     padding: 15px 10px;
     border-width: 1px;
   }
+
+  .order-summary-table .table tr td:nth-child(1),
+  .order-summary-table table tr td:nth-child(1)
+ {
+    text-align: start;
+  }
+
+  .order-summary-table .table tr td:nth-child(2),
+  .order-summary-table table tr td:nth-child(2)
+ {
+    text-align: end;
+  }
+
+
   .order-summary-table .table tr td a,
   .order-summary-table .table tr th a,
   .order-summary-table table tr td a,
@@ -5423,7 +5437,7 @@ body {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-  .myaccount-tab-menu a {
+  .myaccount-tab-menu .nav-item a {
     border: 1px solid #efefef;
     border-bottom: none;
     color: #222222;
@@ -5432,17 +5446,20 @@ body {
     display: block;
     padding: 10px 15px;
     text-transform: capitalize;
+    border-radius: 0;
+    margin-bottom: 5px;
   }
-  .myaccount-tab-menu a:last-child {
+  .myaccount-tab-menu .nav-item a:last-child {
     border-bottom: 1px solid #efefef;
   }
-  .myaccount-tab-menu a:hover,
-  .myaccount-tab-menu a.active {
+  .myaccount-tab-menu .nav-item a:hover,
+  .myaccount-tab-menu .nav-item a.active {
     background-color: #c29958;
     border-color: #c29958;
     color: #fff;
+    border-radius: 0;
   }
-  .myaccount-tab-menu a i.fa {
+  .myaccount-tab-menu .nav-item a i.fa {
     font-size: 14px;
     text-align: center;
     width: 25px;
