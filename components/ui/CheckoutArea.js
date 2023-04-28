@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Form, InputGroup, Container, Row, Col } from "react-bootstrap";
+
 import { useUser } from "../../lib/apiHooks";
 import { useSelector, useDispatch } from "react-redux";
 import { axiosInstance } from "../../lib/axios";
@@ -7,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useOrderCode, useCreateOrder, useSettings } from "../../lib/apiHooks";
 import qs from "qs";
 import { useRouter } from "next/router";
-import {setOrder} from "../../redux/cartSlice";
+import { setOrder } from "../../redux/cartSlice";
 
 const CheckoutArea = () => {
   const dispatch = useDispatch();
@@ -19,18 +20,24 @@ const CheckoutArea = () => {
   const cart = useSelector((state) => state.cart.cart);
   const { ordercode } = useOrderCode();
   const auth = useSelector((state) => state.auth);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    LastName: "",
+    email: "",
+    phone: "",
+    ordernote: "",
+  });
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
-  useEffect(() => {
-    console.log(settings);
-  }, [settings]);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmitOrder = () => {
-
-    const { firstName, lastName, email, phone } = auth.isLoggedIn ? user : newUser;
+    const { firstName, lastName, email, phone } = auth.isLoggedIn ? user : formData;
     const { weight } = getSubTotal();
     const order = {
       ...newOrder,
@@ -118,7 +125,7 @@ const CheckoutArea = () => {
     );
   };
 
-  const NewUserForm = () => {
+  function NewUserForm () {
     return (
       <>
         <Col lg={6}>
@@ -133,11 +140,14 @@ const CheckoutArea = () => {
                         First Name
                       </label>
                       <input
+                        id="f_name"
+                        name="firstName"
                         type="text"
                         required
-                        id="f_name"
                         placeholder="First Name"
-                        onChange={(e) => setNewUser({ ...newUser, firstName: e.target.value })}
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        
                       />
                     </div>
                   </Col>
@@ -148,11 +158,14 @@ const CheckoutArea = () => {
                         Last Name
                       </label>
                       <input
+                        id="l_name"
+                        name="lastName"
                         type="text"
                         required
-                        id="l_name"
                         placeholder="Last Name"
-                        onChange={(e) => setNewUser({ ...newUser, lastName: e.target.value })}
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        
                       />
                     </div>
                   </Col>
@@ -163,17 +176,26 @@ const CheckoutArea = () => {
                     Email Address
                   </label>
                   <input
-                    type="email"
                     id="email"
+                    name="email"
+                    type="email"
                     placeholder="Email Address"
                     required
-                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                 </div>
 
                 <div className="single-input-item">
                   <label htmlFor="phone">Phone</label>
-                  <input type="text" id="phone" placeholder="Phone" onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })} />
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="text"
+                    placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="checkout-box-wrap">
@@ -204,12 +226,13 @@ const CheckoutArea = () => {
                 <div className="single-input-item">
                   <label htmlFor="ordernote">Order Note</label>
                   <textarea
-                    name="ordernote"
                     id="ordernote"
+                    name="ordernote"
                     cols="30"
                     rows="3"
                     placeholder="Notes about your order, e.g. special notes for delivery."
-                    onChange={(e) => setNewOrder({ ...newOrder, note: e.target.value })}
+                    value={formData.ordernote}
+                    onChange={handleChange}
                   ></textarea>
                 </div>
               </form>
@@ -218,9 +241,9 @@ const CheckoutArea = () => {
         </Col>
       </>
     );
-  };
+  }
 
-  const LoggedInUserForm = () => {
+  function LoggedInUserForm () {
     return (
       <>
         <Col lg={6}>
@@ -231,37 +254,20 @@ const CheckoutArea = () => {
                 <Row>
                   <Col className="md-6">
                     <div className="single-input-item">
-                      <label htmlFor="f_name">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="f_name"
-                        readOnly
-                        value={user.name}
-                      />
+                      <label htmlFor="f_name">Name</label>
+                      <input type="text" id="f_name" readOnly value={user.name} />
                     </div>
                   </Col>
                 </Row>
 
                 <div className="single-input-item">
-                  <label htmlFor="email">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    readOnly
-                    value={user.email}
-                  />
+                  <label htmlFor="email">Email Address</label>
+                  <input type="email" id="email" readOnly value={user.email} />
                 </div>
 
                 <div className="single-input-item">
                   <label htmlFor="phone">Phone</label>
-                  <input type="text" id="phone" 
-                  readOnly
-                  value={user.phone}
-                  />
+                  <input type="text" id="phone" readOnly value={user.phone} />
                 </div>
 
                 <div className="single-input-item">
@@ -281,75 +287,82 @@ const CheckoutArea = () => {
         </Col>
       </>
     );
-  };
+  }
 
   const QuickLoginForm = () => {
+    return (
+      <>
+        <div className="checkoutaccordion" id="checkOutAccordion">
+          <div className="card">
+            <h6>
+              Returning Customer?{" "}
+              <span data-bs-toggle="collapse" data-bs-target="#logInaccordion">
+                Click Here To Login
+              </span>
+            </h6>
 
-    return(<>
-                  <div className="checkoutaccordion" id="checkOutAccordion">
-                <div className="card">
-                  <h6>
-                    Returning Customer?{" "}
-                    <span data-bs-toggle="collapse" data-bs-target="#logInaccordion">
-                      Click Here To Login
-                    </span>
-                  </h6>
-
-                  <div id="logInaccordion" className="collapse" data-parent="#checkOutAccordion">
-                    <div className="card-body">
-                      <p>
-                        If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please
-                        proceed to the Billing &amp; Shipping section.
-                      </p>
-                      <div className="login-reg-form-wrap mt-20">
+            <div id="logInaccordion" className="collapse" data-parent="#checkOutAccordion">
+              <div className="card-body">
+                <p>
+                  If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please
+                  proceed to the Billing &amp; Shipping section.
+                </p>
+                <div className="login-reg-form-wrap mt-20">
+                  <Row>
+                    <Col className="lg-7 m-auto">
+                      <form action="#" method="post">
                         <Row>
-                          <Col className="lg-7 m-auto">
-                            <form action="#" method="post">
-                              <Row>
-                                <Col className="md-12">
-                                  <div className="single-input-item">
-                                    <input type="email" placeholder="Enter your Email" required />
-                                  </div>
-                                </Col>
+                          <Col className="md-12">
+                            <div className="single-input-item">
+                              <input type="email" placeholder="Enter your Email" required />
+                            </div>
+                          </Col>
 
-                                <Col className="md-12">
-                                  <div className="single-input-item">
-                                    <input type="password" placeholder="Enter your Password" required />
-                                  </div>
-                                </Col>
-                              </Row>
-
-                              <div className="single-input-item">
-                                <div className="login-reg-form-meta d-flex align-items-center justify-content-between">
-                                  <div className="remember-meta">
-                                    <div className="custom-control custom-checkbox">
-                                      <input type="checkbox" className="custom-control-input" id="rememberMe" required />
-                                      <label className="custom-control-label" htmlFor="rememberMe">
-                                        Remember Me
-                                      </label>
-                                    </div>
-                                  </div>
-
-                                  <a href="#" className="forget-pwd">
-                                    Forget Password?
-                                  </a>
-                                </div>
-                              </div>
-
-                              <div className="single-input-item">
-                                <button className="btn btn-sqr">Login</button>
-                              </div>
-                            </form>
+                          <Col className="md-12">
+                            <div className="single-input-item">
+                              <input type="password" placeholder="Enter your Password" required />
+                            </div>
                           </Col>
                         </Row>
-                      </div>
-                    </div>
-                  </div>
+
+                        <div className="single-input-item">
+                          <div className="login-reg-form-meta d-flex align-items-center justify-content-between">
+                            <div className="remember-meta">
+                              <div className="custom-control custom-checkbox">
+                                <input type="checkbox" className="custom-control-input" id="rememberMe" required />
+                                <label className="custom-control-label" htmlFor="rememberMe">
+                                  Remember Me
+                                </label>
+                              </div>
+                            </div>
+
+                            <a href="#" className="forget-pwd">
+                              Forget Password?
+                            </a>
+                          </div>
+                        </div>
+
+                        <div className="single-input-item">
+                          <button className="btn btn-sqr">Login</button>
+                        </div>
+                      </form>
+                    </Col>
+                  </Row>
                 </div>
               </div>
-    
-    </>);
-    
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  function UserForm({ auth }) {
+    if (auth != undefined && auth.isLoggedIn) {
+      return LoggedInUserForm();
+    } else {
+      return NewUserForm();
+    }
   }
   
 
@@ -358,12 +371,11 @@ const CheckoutArea = () => {
       <div className="checkout-page-wrapper section-padding">
         <Container>
           <Row>
-            <Col xs={12}>
-            {!auth.isLoggedIn ? <QuickLoginForm/> : null}
-            </Col>
+            <Col xs={12}>{!auth.isLoggedIn ? <QuickLoginForm /> : null}</Col>
           </Row>
           <Row>
-            {auth.isLoggedIn ? <LoggedInUserForm/> : <NewUserForm/>}
+
+            {UserForm(auth)}
 
             <Col lg={6}>
               <div className="order-summary-details">
