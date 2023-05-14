@@ -1,5 +1,5 @@
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
 import React, { useState, useEffect, useContext, useRef } from "react";
@@ -79,17 +79,17 @@ const ProductArea = ({ product }) => {
     <>
       <Container>
         <Row>
-          <div className="col-lg-12 order-1 order-lg-2">
+          <Col lg={12} className="order-1 order-lg-2">
             <div className="product-details-inner">
               <Row>
-                <div className="col-lg-5">
+                <Col  lg={5}>
                   <div className="product-large-slider">
                     <div className="pro-large-img img-zoom">
                       <Image src={photo} alt="product-details" width={660} height={660} onError={handleImageError} />
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-7">
+                </Col>
+                <Col lg={7}>
                   <div className="product-details-des">
                     <div className="manufacturer-name">
                       <a href="product-details.html">{product?.brand?.title}</a>
@@ -148,7 +148,7 @@ const ProductArea = ({ product }) => {
                       </a>
                     </div>
                   </div>
-                </div>
+                </Col>
               </Row>
             </div>
 
@@ -157,7 +157,7 @@ const ProductArea = ({ product }) => {
                 <div className="col-lg-12"></div>
               </div>
             </div>
-          </div>
+          </Col>
         </Row>
       </Container>
     </>

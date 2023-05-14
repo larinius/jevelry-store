@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
-
-import Image from "next/image";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import React, { useState } from "react";
+import { Container, Row, Col, Image, Offcanvas } from "react-bootstrap";
 import OffCanvasArea from "../ui/OffCanvasArea";
+import Link from "next/link";
+
+import dynamic from "next/dynamic";
+const HeaderConfigureAreaNoSSR = dynamic(() => import("./HeaderConfigureArea"), {
+  ssr: false,
+});
 
 const HeaderMobile = () => {
   const [show, setShow] = useState(false);
@@ -12,22 +16,19 @@ const HeaderMobile = () => {
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="row align-items-center">
-          <div className="col-12">
+      <Container fluid>
+        <Row className="align-items-center">
+          <Col xs={12}>
             <div className="mobile-main-header">
               <div className="mobile-logo">
-                <a href="/">
-                  <Image
-                    src="/static/img/logo/logo.png"
-                    alt="Site logo"
-                    width={120}
-                    height={35}
-                  />
-                </a>
+                <Link href="/">
+                  <Image src="/static/img/logo/logo.png" alt="Site logo" width={120} height={35} />
+                </Link>
               </div>
               <div className="mobile-menu-toggler">
-                <div className="mini-cart-wrap"></div>
+                <div className="mini-cart-wrap">
+                  <HeaderConfigureAreaNoSSR />
+                </div>
                 <button className="mobile-menu-btn" onClick={handleShow}>
                   <span></span>
                   <span></span>
@@ -35,19 +36,13 @@ const HeaderMobile = () => {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            {" "}
-            <Image
-              src="/static/img/logo/logo.png"
-              alt="Site logo"
-              width={120}
-              height={35}
-            />
+            <Image src="/static/img/logo/logo.png" alt="Site logo" width={120} height={35} />
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
