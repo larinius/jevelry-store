@@ -7,19 +7,24 @@ import Carousel from "react-multi-carousel";
 import CarouselItem from "./CarouselItem";
 import LoadingSpinner from "./LoadingSpinner";
 
+export const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  withCredentials: true, // Enable sending cookies with the request
+});
+
 const ProductCarousel = () => {
   const { t } = useTranslation("common");
 
   const categories = ["rings", "earrings", "chains", "bracelets", "necklaces"];
   const toApiUrl = (key) => {
-    return `/api/product?category=${key}&limit=12`;
+    return `/product?category=${key}&limit=12`;
   };
 
   const productQueries = useQueries({
     queries: categories.map((cat) => {
       return {
         queryKey: [toApiUrl(cat)],
-        queryFn: () => axios.get(toApiUrl(cat)),
+        queryFn: () => axiosInstance.get(toApiUrl(cat)),
       };
     }),
   });
