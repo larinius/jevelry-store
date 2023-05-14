@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import * as Icon from "react-bootstrap-icons";
 
 const ServicePolicy = () => {
   return (
     <>
       <div className="service-policy">
-        <div className="container">
+        <Container>
           <div className="policy-block section-padding">
-            <div className="row mtn-30">
-              <div className="col-sm-6 col-lg-3">
+            <Row style={{ marginTop: '-30px' }}>
+              <Col xs={6} lg={3}>
                 <div className="policy-item">
                   <div className="policy-icon">
                     <Icon.Truck size={22} />
@@ -18,8 +19,8 @@ const ServicePolicy = () => {
                     <p>Free shipping all order</p>
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-6 col-lg-3">
+              </Col>
+              <Col xs={6} lg={3}>
                 <div className="policy-item">
                   <div className="policy-icon">
                     <Icon.LifePreserver size={22} />
@@ -29,8 +30,8 @@ const ServicePolicy = () => {
                     <p>Support 24 hours a day</p>
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-6 col-lg-3">
+              </Col>
+              <Col xs={6} lg={3}>
                 <div className="policy-item">
                   <div className="policy-icon">
                     <Icon.ArrowReturnLeft size={22} />
@@ -40,8 +41,8 @@ const ServicePolicy = () => {
                     <p>30 days for free return</p>
                   </div>
                 </div>
-              </div>
-              <div className="col-sm-6 col-lg-3">
+              </Col>
+              <Col xs={6} lg={3}>
                 <div className="policy-item">
                   <div className="policy-icon">
                     <Icon.CreditCard size={22} />
@@ -51,10 +52,10 @@ const ServicePolicy = () => {
                     <p>We ensure secure payment</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </div>
-        </div>
+        </Container>
       </div>
     </>
   );

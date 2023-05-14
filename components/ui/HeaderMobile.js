@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Image, Offcanvas } from "react-bootstrap";
 import OffCanvasArea from "../ui/OffCanvasArea";
 import Link from "next/link";
+import Logo from "./Logo";
 
 import dynamic from "next/dynamic";
 const HeaderConfigureAreaNoSSR = dynamic(() => import("./HeaderConfigureArea"), {
@@ -22,7 +23,7 @@ const HeaderMobile = () => {
             <div className="mobile-main-header">
               <div className="mobile-logo">
                 <Link href="/">
-                  <Image src="/static/img/logo/logo.png" alt="Site logo" width={120} height={35} />
+                  <Image src="/static/img/logo/logo.svg" alt="Site logo" width={120} height={35} />
                 </Link>
               </div>
               <div className="mobile-menu-toggler">
