@@ -1,5 +1,5 @@
 import { getCookies, getCookie, setCookie, deleteCookie } from "cookies-next";
-import { Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useTranslation, Trans } from "next-i18next";
@@ -27,13 +27,13 @@ const Category = ({ category }) => {
       <div className="shop-main-wrapper section-padding">
         <Container>
           <Row>
-            <div className="col-lg-3 order-2 order-lg-1">
+            <Col lg={3} className="order-2 order-lg-1">
               <CatalogSideMenu />
-            </div>
-            <div className="col-lg-9 order-1 order-lg-2">
+            </Col>
+            <Col lg={9} className=" order-1 order-lg-2">
               <ProductGrid />
               <PaginationBox />
-            </div>
+            </Col>
           </Row>
         </Container>
       </div>

@@ -1,14 +1,10 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "next/image";
+import { Col, Container, Row } from "react-bootstrap";
 
 import Navigation from "../ui/Navigation";
 import SearchBox from "../ui/SearchBox";
-// import HeaderConfigureArea from "HeaderConfigureArea";
-import Logo from "./Logo";
 import dynamic from "next/dynamic";
+import Logo from "./Logo";
 const HeaderConfigureAreaNoSSR = dynamic(() => import("./HeaderConfigureArea"), {
   ssr: false,
 });
@@ -18,18 +14,18 @@ const HeaderMain = () => {
     <div className="header-main-area sticky">
       <Container>
         <Row className="align-items-center position-relative">
-          <div className="col-lg-2">
+          <Col lg={2}>
             <Logo />
-          </div>
-          <div className="col-lg-5 position-static">
+          </Col>
+          <Col lg={5} className="position-static">
             <Navigation />
-          </div>
-          <div className="col-lg-5">
+          </Col>
+          <Col lg={5}>
             <div className="header-right d-flex align-items-center justify-content-xl-between justify-content-lg-end">
               <SearchBox />
               <HeaderConfigureAreaNoSSR />
             </div>
-          </div>
+          </Col>
         </Row>
       </Container>
     </div>

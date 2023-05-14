@@ -5,6 +5,7 @@ import ImageGallery from "react-image-gallery";
 import PropTypes from "prop-types";
 import React, { useContext, useState, useEffect } from "react";
 import Dummy from "../../public/static/img/dummy.jpg";
+import {Row, Col} from "react-bootstrap";
 
 import ProductContext from "../context/ProductContext";
 
@@ -75,7 +76,7 @@ function ProductCard({ product }) {
 
   return (
     <>
-      <div className="col-md-4 col-sm-6">
+      <Col xs={6} sm={4}>
         <div className="product-item">
           <figure className="product-thumb">
             <Link passHref href={`/product/sku-${product.sku.toLowerCase()}`}>
@@ -102,7 +103,7 @@ function ProductCard({ product }) {
             </div>
           </div>
         </div>
-      </div>
+      </Col>
     <Modal
       show={show}
       onHide={handleClose}
