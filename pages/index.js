@@ -28,7 +28,7 @@ export default function Home(props) {
       <HomeSlider/>
       <ServicePolicy />
       <HomeMediumBanners/>
-      {/* <ProductCarousel/> */}
+      <ProductCarousel/>
       <HomePageText/>
     </>
   );
