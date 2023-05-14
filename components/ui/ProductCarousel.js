@@ -1,16 +1,108 @@
 import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "next-i18next";
-import React, { useMemo } from "react";
-import { Col, Container, Row, Spinner, Tab, Tabs } from "react-bootstrap";
+import Image from "next/image";
+import PropTypes from "prop-types";
+import { default as React, useEffect, useMemo, useState } from "react";
+import { Container, Row, Tab, Tabs } from "react-bootstrap";
 import Carousel from "react-multi-carousel";
-import CarouselItem from "./CarouselItem";
+import Dummy from "../../public/static/img/dummy.jpg";
 import LoadingSpinner from "./LoadingSpinner";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
   withCredentials: true, // Enable sending cookies with the request
 });
+
+
+const CarouselItem = ({ product }) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [thumb, setThumb] = useState(Dummy);
+  const [thumbClass, setClass] = useState("pri-img");
+
+  useEffect(() => {
+    if (product?.image[0]?.path !== undefined) {
+      setThumb(product?.image[0]?.path);
+    }
+  }, [product]);
+
+  const handleImageError = () => {
+    setThumb(Dummy);
+  };
+
+  let images = [];
+
+  product.image.forEach((item) => {
+    images.push({
+      original: item.path,
+      thumbnail: item.path.replace("/product/", "/thumb/"),
+    });
+  });
+
+  const showSecThumb = () => {
+    setThumb(product.image[1].path);
+    setClass("sec-img");
+  };
+
+  const showPriThumb = () => {
+    setThumb(product.image[0].path);
+    setClass("pri-img");
+  };
+
+  const prodThumb = () => {
+    if (product.image.length > 1) {
+      return (
+        <Image
+          draggable={false}
+          // className={thumbClass}
+          src={thumb}
+          alt={product.title}
+          width={350}
+          height={350}
+          // onMouseOver={showSecThumb}
+          // onMouseLeave={showPriThumb}
+          onError={handleImageError}
+        />
+      );
+    } else {
+      return (
+        <Image
+          src={thumb}
+          alt={product.title}
+          width={350}
+          height={350}
+          onError={handleImageError}
+        />
+      );
+    }
+  };
+
+  return (
+    <>
+      <div className="product-item">
+        <figure className="product-thumb">
+          <a href="#" onClick={handleShow}>
+            {prodThumb()}
+          </a>
+        </figure>
+        <div className="product-caption text-center">
+          <div className="product-identity"></div>
+          <h6 className="product-name">
+            <a href="#">{product.title}</a>
+          </h6>
+        </div>
+      </div>
+    </>
+  );
+};
+
+CarouselItem.propTypes = {
+  product: PropTypes.object,
+};
+
 
 const ProductCarousel = () => {
   const { t } = useTranslation("common");
@@ -55,7 +147,7 @@ const ProductCarousel = () => {
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 1,
+      items: 3,
       partialVisibilityGutter: 0,
       partialVisible: false,
       centerMode: true,
@@ -90,7 +182,7 @@ const ProductCarousel = () => {
                         >
                           {rings.map((x, i) => {
                             return (
-                              <div key={i} className="img-card col-12 col-md-4">
+                              <div key={i} className="img-card">
                                 <CarouselItem product={x} />
                               </div>
                             );
@@ -111,7 +203,7 @@ const ProductCarousel = () => {
                         >
                           {earrings.map((x, i) => {
                             return (
-                              <div key={i} className="img-card col-12 col-md-4">
+                              <div key={i} className="img-card">
                                 <CarouselItem product={x} />
                               </div>
                             );
@@ -132,7 +224,7 @@ const ProductCarousel = () => {
                         >
                           {bracelets.map((x, i) => {
                             return (
-                              <div key={i} className="img-card col-12 col-md-4">
+                              <div key={i} className="img-card">
                                 <CarouselItem product={x} />
                               </div>
                             );
@@ -153,7 +245,7 @@ const ProductCarousel = () => {
                         >
                           {chains.map((x, i) => {
                             return (
-                              <div key={i} className="img-card col-12 col-md-4">
+                              <div key={i} className="img-card">
                                 <CarouselItem product={x} />
                               </div>
                             );
