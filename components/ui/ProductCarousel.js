@@ -1,39 +1,44 @@
 import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "next-i18next";
-import React, { useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import React, { useMemo } from "react";
+import { Col, Container, Row, Spinner, Tab, Tabs } from "react-bootstrap";
 import Carousel from "react-multi-carousel";
 import CarouselItem from "./CarouselItem";
+import LoadingSpinner from "./LoadingSpinner";
+
+export const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  withCredentials: true, // Enable sending cookies with the request
+});
 
 const ProductCarousel = () => {
   const { t } = useTranslation("common");
 
   const categories = ["rings", "earrings", "chains", "bracelets", "necklaces"];
   const toApiUrl = (key) => {
-    return `/api/product?category=${key}&limit=12`;
+    return `/product?category=${key}&limit=12`;
   };
 
   const productQueries = useQueries({
     queries: categories.map((cat) => {
       return {
         queryKey: [toApiUrl(cat)],
-        queryFn: () => axios.get(toApiUrl(cat)),
+        queryFn: () => axiosInstance.get(toApiUrl(cat)),
       };
     }),
   });
 
-  const rings = productQueries[0].data?.data || [];
-  const earrings = productQueries[1].data?.data || [];
-  const chains = productQueries[2].data?.data || [];
-  const bracelets = productQueries[3].data?.data || [];
-  const necklaces = productQueries[4].data?.data || [];
-
-  useEffect(() => {
-    console.log(rings, earrings, chains, bracelets, necklaces);
-  }, [rings, earrings, chains, bracelets, necklaces]);
+  const { rings, earrings, chains, bracelets, necklaces } = useMemo(() => {
+    const data = productQueries.map((query) => query || {});
+    return {
+      rings: data[0].isSuccess ? data[0].data.data.products : [],
+      earrings: data[1].isSuccess ? data[1].data.data.products : [],
+      chains: data[2].isSuccess ? data[2].data.data.products : [],
+      bracelets: data[3].isSuccess ? data[3].data.data.products : [],
+      necklaces: data[4].isSuccess ? data[4].data.data.products : [],
+    };
+  }, [productQueries]);
 
   const responsive = {
     desktop: {
@@ -73,77 +78,90 @@ const ProductCarousel = () => {
             <div className="col-12">
               <div className="product-container">
                 <div className="product-tab-menu">
-                  <Tabs
-                    className="justify-content-center pb-5"
-                    defaultActiveKey="rings"
-                  >
+                  <Tabs className="justify-content-center pb-5" defaultActiveKey="rings">
                     <Tab eventKey="rings" title={t("rings")}>
-                      <Carousel
-                        ssr
-                        partialVisibile
-                        itemClass="image-item"
-                        responsive={responsive}
-                        className="product-carousel-4 slick-row-10 slick-arrow-style"
-                      >
-                        {rings.products?.map((x, i) => {
-                          return (
-                            <div key={i} className="img-card">
-                              <CarouselItem product={x} />
-                            </div>
-                          );
-                        })}
-                      </Carousel>
+                      {rings && rings.length > 0 ? (
+                        <Carousel
+                          ssr
+                          partialVisibile
+                          itemClass="image-item"
+                          responsive={responsive}
+                          className="product-carousel-4 slick-row-10 slick-arrow-style"
+                        >
+                          {rings.map((x, i) => {
+                            return (
+                              <div key={i} className="img-card col-12 col-md-4">
+                                <CarouselItem product={x} />
+                              </div>
+                            );
+                          })}
+                        </Carousel>
+                      ) : (
+                        <LoadingSpinner height={200} />
+                      )}
                     </Tab>
                     <Tab eventKey="earrings" title={t("earrings")}>
-                      <Carousel
-                        ssr
-                        partialVisibile
-                        itemClass="image-item"
-                        responsive={responsive}
-                        className="product-carousel-4 slick-row-10 slick-arrow-style"
-                      >
-                        {earrings.products?.map((x, i) => {
-                          return (
-                            <div key={i} className="img-card">
-                              <CarouselItem product={x} />
-                            </div>
-                          );
-                        })}
-                      </Carousel>
+                      {earrings && earrings.length > 0 ? (
+                        <Carousel
+                          ssr
+                          partialVisibile
+                          itemClass="image-item"
+                          responsive={responsive}
+                          className="product-carousel-4 slick-row-10 slick-arrow-style"
+                        >
+                          {earrings.map((x, i) => {
+                            return (
+                              <div key={i} className="img-card col-12 col-md-4">
+                                <CarouselItem product={x} />
+                              </div>
+                            );
+                          })}
+                        </Carousel>
+                      ) : (
+                        <LoadingSpinner height={200} />
+                      )}
                     </Tab>
-                    <Tab eventKey="pendants" title={t("pendants")}>
-                      <Carousel
-                        ssr
-                        partialVisibile
-                        itemClass="image-item"
-                        responsive={responsive}
-                        className="product-carousel-4 slick-row-10 slick-arrow-style"
-                      >
-                        {bracelets.products?.map((x, i) => {
-                          return (
-                            <div key={i} className="img-card">
-                              <CarouselItem product={x} />
-                            </div>
-                          );
-                        })}
-                      </Carousel>
+                    <Tab eventKey="bracelets" title={t("bracelets")}>
+                      {bracelets && bracelets.length > 0 ? (
+                        <Carousel
+                          ssr
+                          partialVisibile
+                          itemClass="image-item"
+                          responsive={responsive}
+                          className="product-carousel-4 slick-row-10 slick-arrow-style"
+                        >
+                          {bracelets.map((x, i) => {
+                            return (
+                              <div key={i} className="img-card col-12 col-md-4">
+                                <CarouselItem product={x} />
+                              </div>
+                            );
+                          })}
+                        </Carousel>
+                      ) : (
+                        <LoadingSpinner height={200} />
+                      )}
                     </Tab>
                     <Tab eventKey="chains" title={t("chains")}>
-                      <Carousel
-                        ssr
-                        partialVisibile
-                        itemClass="image-item"
-                        responsive={responsive}
-                        className="product-carousel-4 slick-row-10 slick-arrow-style"
-                      >
-                        {chains.products?.map((x, i) => {
-                          return (
-                            <div key={i} className="img-card">
-                              <CarouselItem product={x} />
-                            </div>
-                          );
-                        })}
-                      </Carousel>
+                      {chains && chains.length > 0 ? (
+                        <Carousel
+                          ssr
+                          partialVisibile
+                          itemClass="image-item"
+                          responsive={responsive}
+                          className="product-carousel-4 slick-row-10 slick-arrow-style"
+                        >
+                          {chains.map((x, i) => {
+                            return (
+                              <div key={i} className="img-card col-12 col-md-4">
+                                <CarouselItem product={x} />
+                              </div>
+                            );
+                          })}
+                        </Carousel>
+                      ) : (
+                        <LoadingSpinner height={200} />
+                      )}
                     </Tab>
                   </Tabs>
                 </div>
