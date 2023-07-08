@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
-import {useProduct} from "../../lib/apiHooks";
+import { useProduct } from "../../lib/apiHooks";
+import { getCookie } from "cookies-next";
 
 const ProductContext = createContext();
 
@@ -13,8 +14,13 @@ export const ProductProvider = ({ children }) => {
   const [category, setCategory] = useState("");
   const [sku, setSku] = useState("");
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const options = `limit=${limit}&page=${page}${category ? `&category=${category}` : ""}${sku ? `&sku=${sku}` : ""}`;
+  const options = `limit=${limit}&page=${page}
+  ${category ? `&category=${category}` : ""}
+  ${sku ? `&sku=${sku}` : ""}
+  ${searchQuery ? `&q=${searchQuery}` : ""}
+  `;
 
   const { isLoading, error, product } = useProduct(null, options);
 
@@ -25,12 +31,17 @@ export const ProductProvider = ({ children }) => {
       setCategories(product.meta?.categories);
       setPageCount(Math.ceil(product.products?.length / limit));
     }
-  }, [isLoading, error, page, category, limit, sku]);
+  }, [isLoading, error, page, category, limit, sku, searchQuery]);
 
   const setSkuCallback = useCallback(setSku, [setSku]);
   const setLimitCallback = useCallback(setLimit, [setLimit]);
   const setPageCallback = useCallback(setPage, [setPage]);
   const setCategoryCallback = useCallback(setCategory, [setCategory]);
+  const setSearchQueryCallback = useCallback(setSearchQuery, [setSearchQuery]);
+
+  const selectedLanguageCookie = getCookie("language");
+  const defaultLanguage = selectedLanguageCookie || "en";
+  const [selectedLanguage, setSelectedLanguage] = useState(defaultLanguage);
 
   return (
     <ProductContext.Provider
@@ -43,10 +54,14 @@ export const ProductProvider = ({ children }) => {
         page,
         pageCount,
         meta,
+        selectedLanguage,
         setSku: setSkuCallback,
         setLimit: setLimitCallback,
         setPage: setPageCallback,
         setCategory: setCategoryCallback,
+        setSelectedLanguage,
+        searchQuery,
+        setSearchQuery: setSearchQueryCallback,
       }}
     >
       {children}

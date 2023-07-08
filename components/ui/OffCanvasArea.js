@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation, Trans } from "next-i18next";
 import Link from "next/link";
+import SearchBox from "./SearchBox";
 
 import * as Icon from "react-bootstrap-icons";
 
@@ -11,12 +12,7 @@ const OffCanvasArea = () => {
     <div className="off-canvas-inner-content">
       <div className="off-canvas-inner">
         <div className="search-box-offcanvas">
-          <form>
-            <input type="text" placeholder="Search Here..." />
-            <button className="search-btn">
-              <i className="pe-7s-search"></i>
-            </button>
-          </form>
+          <SearchBox/>
         </div>
 
         <div className="mobile-navigation">

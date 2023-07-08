@@ -5,14 +5,14 @@ import ProductCatalog from "../../components/ui/ProductCatalog";
 import ProductContext from "../../components/context/ProductContext";
 
 /** @param {import('next').InferGetServerSidePropsType<typeof getServerSideProps> } props */
-function store(props) {
+function CatalogueArea(props) {
   const { t } = useTranslation("common");
-  const { setCategory } = useContext(ProductContext);
-  const { setSku } = useContext(ProductContext);
+  const { setCategory, setSku, setSearchQuery } = useContext(ProductContext);
 
   useEffect(() => {
     setCategory("");
     setSku("");
+    setSearchQuery("");
   }, []);
 
 
@@ -23,7 +23,7 @@ function store(props) {
   );
 }
 
-export default store;
+export default CatalogueArea;
 
 export async function getServerSideProps({ locale }) {
   return {
