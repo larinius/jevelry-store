@@ -6,22 +6,19 @@ import { useTranslation, Trans } from "next-i18next";
 import Container from "react-bootstrap/Container";
 import React, { useState, useEffect, useContext } from "react";
 
-import CatalogSideMenu from "../../components/ui/CatalogSideMenu";
-import PaginationBox from "../../components/ui/PaginationBox";
-import ProductContext from "../../components/context/ProductContext";
-import ProductGrid from "../../components/ui/ProductGrid";
+import CatalogSideMenu from "../../../components/ui/CatalogSideMenu";
+import PaginationBox from "../../../components/ui/PaginationBox";
+import ProductContext from "../../../components/context/ProductContext";
+import ProductGrid from "../../../components/ui/ProductGrid";
 
-const Category = ({ category }) => {
-  const { setCategory, setSku, setSearchQuery } = useContext(ProductContext);
-
-  useEffect(() => {
-  }, []);
+const SearchArea = ({ query }) => {
+  const { searchQuery, setSearchQuery, setSku, setCategory } = useContext(ProductContext);
 
   useEffect(() => {
-    setCategory(category);
+    setSearchQuery(query);
     setSku("");
-    setSearchQuery("");
-  }, [category]);
+    setCategory("");
+  }, [query]);
 
   return (
     <div>
@@ -42,18 +39,17 @@ const Category = ({ category }) => {
   );
 };
 
-export default Category;
+export default SearchArea;
 
 export async function getServerSideProps(context) {
   const { locale, req, res } = context;
-  const category = context.params.id;
+  const query = context.params.query;
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       ...getCookies({ req, res }),
-      ...deleteCookie("test", { req, res }),
-      category,
+      query,
     },
   };
 }

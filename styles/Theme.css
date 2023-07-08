@@ -873,6 +873,9 @@ body {
   /*------- header search area start -------*/
   .header-search-container {
     position: relative;
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   .header-search-box {
     position: relative;
@@ -883,7 +886,6 @@ body {
   .header-search-btn {
     font-size: 25px;
     line-height: 1;
-    left: 10px;
     top: 50%;
     width: 30px;
     position: absolute;
@@ -891,11 +893,20 @@ body {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+
+  .ltr .header-search-btn {
+    right: 10px;
+  }
+
+  .rtl .header-search-btn {
+    left: 10px;
+  }
+
   .header-search-field {
     border: none;
     background-color: #f7f7f7;
     border-radius: 30px;
-    padding: 10px 20px 10px 50px;
+    padding: 10px 10px 10px 10px;
     width: 100%;
   }
   

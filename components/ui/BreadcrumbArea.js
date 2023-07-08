@@ -21,7 +21,7 @@ const BreadcrumbArea = () => {
         const href = "/" + linkPath.slice(0, i + 1).join("/");
 
         return {
-          breadcrumb,
+          breadcrumb: decodeURIComponent(breadcrumb), // Decode the URL-encoded text
           href: path === "product" ? href.replace("/product", `/store/${breadcrumb}`) : href,
         };
       });

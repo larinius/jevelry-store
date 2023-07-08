@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation, Trans } from "next-i18next";
+import Link from "next/link";
 
 const CategoryFilter = () => {
   const { t } = useTranslation("common");
@@ -11,19 +12,29 @@ const CategoryFilter = () => {
       <div className="sidebar-body">
         <ul className="shop-categories">
           <li>
-            <a href="/store/rings">{t("rings")}</a>
+            <Link href="/store/rings">
+              {t("rings")}
+            </Link>
           </li>
           <li>
-            <a href="/store/earrings">{t("earrings")}</a>
+            <Link href="/store/earrings">
+              {t("earrings")}
+            </Link>
           </li>
           {/* <li>
-            <a href="/store/pendants">{t("pendants")}</a>
+            <Link href="/store/pendants">
+              {t("pendants")}
+            </Link>
           </li> */}
           <li>
-            <a href="/store/chains">{t("chains")}</a>
+            <Link href="/store/chains">
+              {t("chains")}
+            </Link>
           </li>
           <li>
-            <a href="/store/bracelets">{t("bracelets")}</a>
+            <Link href="/store/bracelets">
+              {t("bracelets")}
+            </Link>
           </li>
         </ul>
       </div>

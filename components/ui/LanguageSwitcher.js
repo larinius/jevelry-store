@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { useTranslation, Trans } from "next-i18next";
 import { Form } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { getCookie, getCookies, setCookie, deleteCookie } from "cookies-next";
+import ProductContext from "../context/ProductContext";
 
 function LanguageSwitcher() {
   const router = useRouter();
   const { t } = useTranslation("common");
+  const { setSelectedLanguage } = useContext(ProductContext);
 
   const options = [
     { value: "", text: t("language") },
@@ -15,24 +18,26 @@ function LanguageSwitcher() {
     { value: "ru", text: "Рус" },
   ];
 
+  const [language, setLanguage] = useState(options[0].value);
+
   useEffect(() => {
     const lang = getCookie("language");
     if (lang) {
-      setlanguage(lang);
+      setLanguage(lang);
+      setSelectedLanguage(lang);
       const { pathname, asPath, query } = router;
       router.push({ pathname, query }, asPath, { locale: lang });
     }
-    console.log(lang);
   }, []);
 
-  const [language, setlanguage] = useState(options[0].value);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const switchLang = (e) => {
     e.preventDefault();
+    const lang = e.target.value;
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: e.target.value });
-    setCookie("language", e.target.value);
+    router.push({ pathname, query }, asPath, { locale: lang });
+    setLanguage(lang);
+    setCookie("language", lang);
+    setSelectedLanguage(lang); // Update selected language in context
   };
 
   return (
