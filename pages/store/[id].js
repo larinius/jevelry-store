@@ -20,7 +20,7 @@ const Category = ({ category }) => {
   useEffect(() => {
     setCategory(category);
     setSku("");  
-  }, []);
+  }, [category]);
 
   return (
     <div>
